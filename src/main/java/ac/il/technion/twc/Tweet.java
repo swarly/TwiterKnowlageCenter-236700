@@ -1,18 +1,34 @@
 package ac.il.technion.twc;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Tweet
 {
-	private String id;
-	private Date originalDate;
-	private boolean isOriginal;
 
-	public Tweet(String id, Date originalDate)
+	private final String id;
+	private Date originalDate;
+	private final boolean isOriginal;
+	private String originalTweet;
+
+	public Tweet(String line)
 	{
 		super();
-		this.id = id;
-		this.originalDate = originalDate;
+		final String[] args = line.split(",");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"dd/MM/yyyy hh:mm:ss");
+		try
+		{
+			this.originalDate = dateFormat.parse(args[0]);
+		} catch (final ParseException e)
+		{
+		}
+		this.id = args[1].replace(" ", "");
+		if (args.length == 3)
+			this.setOriginalTweet(args[2].replace(" ", ""));
+		this.isOriginal = args.length != 3;
+
 	}
 
 	public String getId()
@@ -20,19 +36,9 @@ public class Tweet
 		return id;
 	}
 
-	public void setId(String id)
-	{
-		this.id = id;
-	}
-
 	public Date getOriginalDate()
 	{
 		return originalDate;
-	}
-
-	public void setOriginalDate(Date originalDate)
-	{
-		this.originalDate = originalDate;
 	}
 
 	public boolean isOriginal()
@@ -40,9 +46,14 @@ public class Tweet
 		return isOriginal;
 	}
 
-	public void setOriginal(boolean isOriginal)
+	public String getOriginalTweet()
 	{
-		this.isOriginal = isOriginal;
+		return originalTweet;
+	}
+
+	public void setOriginalTweet(String originalTweet)
+	{
+		this.originalTweet = originalTweet;
 	}
 
 }
