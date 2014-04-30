@@ -2,6 +2,7 @@ package ac.il.technion.twc;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Tweet
@@ -12,6 +13,7 @@ public class Tweet
 	private final boolean isOriginal;
 	private String originalTweet;
 
+	// TODO check if tweet can be declared twice
 	public Tweet(String line)
 	{
 		super();
@@ -56,4 +58,10 @@ public class Tweet
 		this.originalTweet = originalTweet;
 	}
 
+	public int getTweetedDay()
+	{
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(originalDate);
+		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
 }
