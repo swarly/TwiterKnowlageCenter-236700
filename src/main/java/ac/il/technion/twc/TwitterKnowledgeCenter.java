@@ -1,8 +1,10 @@
 package ac.il.technion.twc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is meant to act as a wrapper to test your functionality. You
@@ -26,10 +28,14 @@ public class TwitterKnowledgeCenter
 	private final List<MutableDailyTweetData> weekHistogram;
 	private final TweetLifeTimeProccesor lifeTimeProccesor;
 
+	private final Map<String, StoreAbleTweet> finalTweets;
+
 	public TwitterKnowledgeCenter()
 	{
 		super();
 		// implementation for NON persistent
+
+		finalTweets = new HashMap<String, StoreAbleTweet>();
 		weekHistogram = new ArrayList<MutableDailyTweetData>();
 		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
 		for (int i = 0; i < 8; i++)
@@ -41,11 +47,15 @@ public class TwitterKnowledgeCenter
 		final List<Tweet> tweets = new LinkedList<Tweet>();
 		for (final String line : lines)
 		{
-			final Tweet tweet = new Tweet(line);
+			final Tweet tweet = new RawTweet(line);
 			tweets.add(tweet);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			lifeTimeProccesor.addTweet(tweet);
+			tweets.add(tweet);
 		}
+		for (final Tweet tweet : tweets)
+			finalTweets.put(tweet.getId(), new StoreAbleTweet(tweet,
+					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 	}
 
 	/**
@@ -73,7 +83,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public String getLifetimeOfTweets(String tweetId) throws Exception
 	{
-		return String.valueOf(lifeTimeProccesor.getTweetLifeTime(tweetId));
+		return String.valueOf(finalTweets.get(tweetId).getLifeTime());
 	}
 
 	/**

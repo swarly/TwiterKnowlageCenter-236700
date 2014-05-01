@@ -19,10 +19,10 @@ public class DailyTweetDataTest
 	public void testAddRetweeted()
 	{
 		final MutableDailyTweetData $ = new MutableDailyTweetData();
-		$.addTweet(new Tweet("06/04/2014 11:00:00, 40624256"));
+		$.addTweet(new RawTweet("06/04/2014 11:00:00, 40624256"));
 		assertEquals(1, $.getTotalTweets());
-		$.addTweet(new Tweet("06/04/2014 11:05:00, 40624257, 40624256"));
-		$.addTweet(new Tweet("06/04/2014 11:07:00, 40624256, 40624257"));
+		$.addTweet(new RawTweet("06/04/2014 11:05:00, 40624257, 40624256"));
+		$.addTweet(new RawTweet("06/04/2014 11:07:00, 40624256, 40624257"));
 		assertEquals(2, $.getRetweeted());
 		assertEquals(3, $.getTotalTweets());
 	}
@@ -32,8 +32,8 @@ public class DailyTweetDataTest
 	{
 		final MutableDailyTweetData $ = new MutableDailyTweetData();
 		assertEquals(0, $.getTotalTweets());
-		$.addTweet(new Tweet("06/04/2014 11:00:00, 40624256"));
-		$.addTweet(new Tweet("06/04/2014 11:01:00, 40624257,40624256"));
+		$.addTweet(new RawTweet("06/04/2014 11:00:00, 40624256"));
+		$.addTweet(new RawTweet("06/04/2014 11:01:00, 40624257,40624256"));
 		assertEquals(1, $.getRetweeted());
 		assertEquals(2, $.getTotalTweets());
 	}

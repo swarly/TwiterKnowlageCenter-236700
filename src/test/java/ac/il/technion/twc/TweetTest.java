@@ -17,7 +17,7 @@ public class TweetTest
 		final SimpleDateFormat format = new SimpleDateFormat(
 				"dd/MM/yyyy hh:mm:ss");
 		final Date date = new Date(1000 * (System.currentTimeMillis() / 1000));
-		final Tweet tweet = new Tweet(format.format(date) + ", 123");
+		final Tweet tweet = new RawTweet(format.format(date) + ", 123");
 		final Calendar now = Calendar.getInstance();
 		now.setTime(date);
 		final Calendar recievedDate = Calendar.getInstance();
@@ -37,7 +37,7 @@ public class TweetTest
 	@Test
 	public void testGetOriginalTweet()
 	{
-		final Tweet tweet = new Tweet("01/01/2014 00:00:00,123,234");
+		final Tweet tweet = new RawTweet("01/01/2014 00:00:00,123,234");
 		assertEquals(tweet.getOriginalTweet(), "234");
 	}
 
@@ -49,7 +49,7 @@ public class TweetTest
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
-		final Tweet tweet = new Tweet(format.format(calendar.getTime())
+		final Tweet tweet = new RawTweet(format.format(calendar.getTime())
 				+ ", 123");
 		assertEquals(tweet.getTweetedDay(), 1);
 	}

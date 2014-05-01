@@ -1,6 +1,7 @@
 package ac.il.technion.twc;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * ac.il.technion.twc.TweetLifeTimeProccesor#addTweet(ac.il.technion.twc
 	 * .Tweet)
@@ -37,7 +38,7 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * ac.il.technion.twc.TweetLifeTimeProccesor#getTweetLifeTime(ac.il.technion
 	 * .twc.Tweet)
@@ -57,15 +58,16 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 		if (!map.containsKey(tweet.getId()))
 			return tweet.getOriginalDate().getTime();
 		final Collection<Tweet> childs = map.get(tweet.getId());
-		final Tweet max = MathHelper.max(childs, new Comparator<Tweet>()
-				{
+
+		final Tweet max = Collections.max(childs, new Comparator<Tweet>()
+		{
 
 			@Override
 			public int compare(Tweet o1, Tweet o2)
 			{
-				return (int) (getLatestRetweetedTime(o2) - getLatestRetweetedTime(o1));
+				return (int) (getLatestRetweetedTime(o1) - getLatestRetweetedTime(o2));
 			}
-				});
+		});
 		return getLatestRetweetedTime(max);
 
 	}
