@@ -10,7 +10,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testDailyTweetData()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final AbstractDailyTweetData $ = new MutableDailyTweetData();
 		assertEquals(0, $.getRetweeted());
 		assertEquals(0, $.getTotalTweets());
 	}
@@ -18,7 +18,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testAddRetweeted()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final MutableDailyTweetData $ = new MutableDailyTweetData();
 		$.addTweet(new Tweet("06/04/2014 11:00:00, 40624256"));
 		assertEquals(1, $.getTotalTweets());
 		$.addTweet(new Tweet("06/04/2014 11:05:00, 40624257, 40624256"));
@@ -30,7 +30,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testAddOriginalTweet()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final MutableDailyTweetData $ = new MutableDailyTweetData();
 		assertEquals(0, $.getTotalTweets());
 		$.addTweet(new Tweet("06/04/2014 11:00:00, 40624256"));
 		$.addTweet(new Tweet("06/04/2014 11:01:00, 40624257,40624256"));
@@ -41,18 +41,15 @@ public class DailyTweetDataTest
 	@Test
 	public void testImutableDailyData()
 	{
-		final DailyTweetData $ = new DailyTweetData(4, 3);
+		final AbstractDailyTweetData $ = new ImutableDailyTweenData(4, 3);
 		assertEquals($.getRetweeted(), 3);
 		assertEquals($.getTotalTweets(), 4);
-		$.addTweet(new Tweet("06/04/2014 11:00:00, 40624256"));
-		assertEquals($.getTotalTweets(), 4);
-		$.addTweet(new Tweet("06/04/2014 11:05:00, 40624256"));
-		assertEquals($.getRetweeted(), 3);
+
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void testInconsistentValues()
 	{
-		new DailyTweetData(2, 3);
+		new ImutableDailyTweenData(2, 3);
 	}
 }

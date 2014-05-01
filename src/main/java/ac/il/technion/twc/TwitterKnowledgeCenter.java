@@ -23,15 +23,17 @@ public class TwitterKnowledgeCenter
 	 *             If for any reason, handling the data failed
 	 */
 
-	private final List<DailyTweetData> weekHistogram;
+	private final List<MutableDailyTweetData> weekHistogram;
+	private final TweetLifeTimeProccesor lifeTimeProccesor;
 
 	public TwitterKnowledgeCenter()
 	{
 		super();
 		// implementation for NON persistent
-		weekHistogram = new ArrayList<DailyTweetData>();
+		weekHistogram = new ArrayList<MutableDailyTweetData>();
+		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
 		for (int i = 0; i < 8; i++)
-			weekHistogram.add(new DailyTweetData());
+			weekHistogram.add(new MutableDailyTweetData());
 	}
 
 	public void importData(String[] lines) throws Exception
@@ -42,6 +44,7 @@ public class TwitterKnowledgeCenter
 			final Tweet tweet = new Tweet(line);
 			tweets.add(tweet);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
+			lifeTimeProccesor.addTweet(tweet);
 		}
 	}
 
@@ -70,7 +73,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public String getLifetimeOfTweets(String tweetId) throws Exception
 	{
-		throw new UnsupportedOperationException("Not implemented");
+		return String.valueOf(lifeTimeProccesor.getTweetLifeTime(tweetId));
 	}
 
 	/**

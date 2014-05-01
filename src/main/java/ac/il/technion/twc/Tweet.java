@@ -28,7 +28,7 @@ public class Tweet
 		}
 		this.id = args[1].replace(" ", "");
 		if (args.length == 3)
-			this.setOriginalTweet(args[2].replace(" ", ""));
+			originalTweet = args[2].replace(" ", "");
 		this.isOriginal = args.length != 3;
 
 	}
@@ -51,11 +51,6 @@ public class Tweet
 	public String getOriginalTweet()
 	{
 		return originalTweet;
-	}
-
-	public void setOriginalTweet(String originalTweet)
-	{
-		this.originalTweet = originalTweet;
 	}
 
 	public int getTweetedDay()
