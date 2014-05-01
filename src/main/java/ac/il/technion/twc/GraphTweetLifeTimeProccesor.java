@@ -63,10 +63,10 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 			@Override
 			public int compare(Tweet o1, Tweet o2)
 			{
-				return (int) (getLatestRetweetedTime(o1) - getLatestRetweetedTime(o2));
+				return (int) (getLatestRetweetedTime(o2) - getLatestRetweetedTime(o1));
 			}
 				});
-		return max.getOriginalDate().getTime();
+		return getLatestRetweetedTime(max);
 
 	}
 }

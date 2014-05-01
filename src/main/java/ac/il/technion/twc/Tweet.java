@@ -33,6 +33,13 @@ public class Tweet
 
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Tweet [id=" + id + ", originalDate=" + originalDate
+				+ ", originalTweet=" + originalTweet + "]";
+	}
+
 	public String getId()
 	{
 		return id;
