@@ -21,7 +21,7 @@ public class RawTweet extends Tweet
 		}
 		this.id = args[1].replace(" ", "");
 		if (args.length == 3)
-			originalTweet = args[2].replace(" ", "");
+			originalTweetID = args[2].replace(" ", "");
 		this.isOriginal = args.length != 3;
 
 	}
