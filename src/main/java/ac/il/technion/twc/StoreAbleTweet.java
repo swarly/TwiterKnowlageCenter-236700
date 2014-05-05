@@ -18,7 +18,7 @@ public class StoreAbleTweet extends Tweet implements Serializable
 		this.id = tweet.getId();
 		this.originalDate = tweet.getOriginalDate();
 		this.isOriginal = tweet.isOriginal();
-		this.originalTweet = tweet.getOriginalTweet();
+		this.originalTweetID = tweet.getOriginalTweet();
 	}
 
 	public StoreAbleTweet(String id, Date originalDate, boolean isOriginal,
@@ -29,7 +29,7 @@ public class StoreAbleTweet extends Tweet implements Serializable
 		this.id = id;
 		this.originalDate = originalDate;
 		this.isOriginal = isOriginal;
-		this.originalTweet = originalTweet;
+		this.originalTweetID = originalTweet;
 	}
 
 	public long getLifeTime()

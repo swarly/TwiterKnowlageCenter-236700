@@ -3,13 +3,13 @@ package ac.il.technion.twc;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Tweet
+public abstract class Tweet
 {
 
 	protected String id;
 	protected Date originalDate;
 	protected boolean isOriginal;
-	protected String originalTweet;
+	protected String originalTweetID;
 
 	public Tweet()
 	{
@@ -20,7 +20,7 @@ public class Tweet
 	public String toString()
 	{
 		return "Tweet [id=" + id + ", originalDate=" + originalDate
-				+ ", originalTweet=" + originalTweet + "]";
+				+ ", originalTweet=" + originalTweetID + "]";
 	}
 
 	public String getId()
@@ -40,7 +40,7 @@ public class Tweet
 
 	public String getOriginalTweet()
 	{
-		return originalTweet;
+		return originalTweetID;
 	}
 
 	public int getTweetedDay()

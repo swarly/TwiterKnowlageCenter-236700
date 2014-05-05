@@ -45,7 +45,11 @@ public class TwitterKnowledgeCenter
 
 	public void importData(String[] lines) throws Exception
 	{
+		// TODO load from DB
 		final List<Tweet> tweets = new LinkedList<Tweet>();
+		for (final StoreAbleTweet storeAbleTweet : finalTweets.values())
+			lifeTimeProccesor.addTweet(storeAbleTweet);
+
 		for (final String line : lines)
 		{
 			final Tweet tweet = new RawTweet(line);
@@ -57,7 +61,12 @@ public class TwitterKnowledgeCenter
 		for (final Tweet tweet : tweets)
 			finalTweets.put(tweet.getId(), new StoreAbleTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
+<<<<<<< HEAD
 		dataHandler.saveToData(finalTweets);
+=======
+
+		// TODO save to DB
+>>>>>>> 795237cef929ad70cc892f1544e78bf07f496b81
 	}
 
 	/**
@@ -70,11 +79,15 @@ public class TwitterKnowledgeCenter
 	 */
 	public void setupIndex() throws Exception
 	{
+<<<<<<< HEAD
 		finalTweets = dataHandler.loadFromData();
 		if (finalTweets == null)
 		{
 			throw new UnsupportedOperationException("Not implemented"); //TODO: make sure this is want to do in that case.	
 		}
+=======
+		// TODO load from DB
+>>>>>>> 795237cef929ad70cc892f1544e78bf07f496b81
 	}
 
 	/**
