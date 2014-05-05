@@ -1,9 +1,14 @@
 package ac.il.technion.twc;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class StoreAbleTweet extends Tweet
+public class StoreAbleTweet extends Tweet implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final long lifeTime;
 
 	public StoreAbleTweet(Tweet tweet, long lifeTime)
