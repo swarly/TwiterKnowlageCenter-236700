@@ -45,7 +45,9 @@ public class TwitterKnowledgeCenter
 
 	public void importData(String[] lines) throws Exception
 	{
-		// TODO load from DB
+		// load from DB
+		finalTweets = dataHandler.loadFromData();
+
 		final List<Tweet> tweets = new LinkedList<Tweet>();
 		for (final StoreAbleTweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
@@ -61,12 +63,9 @@ public class TwitterKnowledgeCenter
 		for (final Tweet tweet : tweets)
 			finalTweets.put(tweet.getId(), new StoreAbleTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
-<<<<<<< HEAD
-		dataHandler.saveToData(finalTweets);
-=======
 
-		// TODO save to DB
->>>>>>> 795237cef929ad70cc892f1544e78bf07f496b81
+		// save to DB
+		dataHandler.saveToData(finalTweets);
 	}
 
 	/**
@@ -79,15 +78,12 @@ public class TwitterKnowledgeCenter
 	 */
 	public void setupIndex() throws Exception
 	{
-<<<<<<< HEAD
+		// load from DB
 		finalTweets = dataHandler.loadFromData();
 		if (finalTweets == null)
-		{
-			throw new UnsupportedOperationException("Not implemented"); //TODO: make sure this is want to do in that case.	
-		}
-=======
-		// TODO load from DB
->>>>>>> 795237cef929ad70cc892f1544e78bf07f496b81
+			throw new UnsupportedOperationException("Not implemented");
+		// TODO make sure this is what we want to do in this case.
+
 	}
 
 	/**
@@ -110,8 +106,8 @@ public class TwitterKnowledgeCenter
 	 * 
 	 * @return An array of strings, each string in the format of
 	 *         ("<number of tweets (including retweets), number of retweets only>"
-	 *         ), for example: ["100, 10","250,20",...,"587,0"]. The 0th index
-	 *         of the array is Sunday.
+	 *         adsdasasadas ), for example: ["100, 10","250,20",...,"587,0"].
+	 *         The 0th index of the array is Sunday.
 	 * @throws Exception
 	 *             If it is not possible to complete the operation
 	 */

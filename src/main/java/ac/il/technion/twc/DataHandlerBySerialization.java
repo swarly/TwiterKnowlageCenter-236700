@@ -18,10 +18,10 @@ public class DataHandlerBySerialization implements IDataHandler
 	{
 		try
 		{
-			myFile.getParentFile().mkdirs(); // create parent directories, if
-												// doesn't exists.
+			// create parent directories, if doesn't exists.
+			myFile.getParentFile().mkdirs();
 			final FileOutputStream fileOut = new FileOutputStream(myFile);
-			// TODO: replace with new FileOutputStream(file, true) , for
+			// TODO: replace with new FileOutputStream(file, true) for
 			// appending = true;
 
 			final ObjectOutputStream out = new ObjectOutputStream(fileOut);
