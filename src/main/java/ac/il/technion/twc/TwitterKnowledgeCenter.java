@@ -47,7 +47,9 @@ public class TwitterKnowledgeCenter
 	{
 		// load from DB
 		finalTweets = dataHandler.loadFromData();
-
+		if (finalTweets == null)
+			// no previous data available on disc.
+			finalTweets = new HashMap<String, StoreAbleTweet>();
 		final List<Tweet> tweets = new LinkedList<Tweet>();
 		for (final StoreAbleTweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
@@ -118,5 +120,11 @@ public class TwitterKnowledgeCenter
 			histogram[i - 1] = weekHistogram.get(i).getTotalTweets() + ","
 					+ weekHistogram.get(i).getRetweeted();
 		return histogram;
+	}
+
+	// TODO remove this method. only for tests.
+	public Map<String, StoreAbleTweet> getFinalTweets()
+	{
+		return finalTweets;
 	}
 }

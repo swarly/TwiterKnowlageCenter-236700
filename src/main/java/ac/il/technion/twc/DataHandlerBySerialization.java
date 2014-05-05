@@ -11,15 +11,18 @@ import java.util.Map;
 
 public class DataHandlerBySerialization implements IDataHandler
 {
-	private final File myFile = new File("tmp/myMap.ser");
+	private final File myFile = new File("data/myMap.ser");
 
 	@Override
 	public void saveToData(Map<String, StoreAbleTweet> myMap)
 	{
 		try
 		{
+			clearData(); // delete previous data saved on disc.
+
 			// create parent directories, if doesn't exists.
 			myFile.getParentFile().mkdirs();
+
 			final FileOutputStream fileOut = new FileOutputStream(myFile);
 			// TODO: replace with new FileOutputStream(file, true) for
 			// appending = true;
