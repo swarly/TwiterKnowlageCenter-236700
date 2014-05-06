@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.tweet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ public class RawTweet extends AbstractTweet
 {
 
 	// TODO check if tweet can be declared twice
-	public RawTweet(String line)
+	RawTweet(String line)
 	{
 		super();
 		final String[] args = line.split(",");

@@ -10,6 +10,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.tweet.StoreAbleTweet;
+
 public class DataHandlerByJSON implements IDataHandler
 {
 	private final File myFile = new File("src/main/resources/myMap.ser");

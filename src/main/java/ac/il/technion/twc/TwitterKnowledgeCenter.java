@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.tweet.StoreAbleTweet;
+import ac.il.technion.twc.tweet.TweetFactory;
+
 /**
  * This class is meant to act as a wrapper to test your functionality. You
  * should implement all its methods and not change any of their signatures. You
@@ -56,14 +60,16 @@ public class TwitterKnowledgeCenter
 
 		for (final String line : lines)
 		{
-			final ITweet tweet = new RawTweet(line);
+			final ITweet tweet = TweetFactory.getTweetFromLine(line);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			lifeTimeProccesor.addTweet(tweet);
 			tweets.add(tweet);
 		}
 		for (final ITweet tweet : tweets)
-			finalTweets.put(tweet.getId(), new StoreAbleTweet(tweet,
-					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
+			finalTweets.put(
+					tweet.getId(),
+					TweetFactory.getTweetPersistable(tweet,
+							lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 
 		// save to DB
 		dataHandler.saveToData(finalTweets);

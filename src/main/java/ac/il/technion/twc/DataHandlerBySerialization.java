@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ac.il.technion.twc.tweet.ITweet;
+
 public class DataHandlerBySerialization implements IDataHandler
 {
 	private final File myFile = new File("Resource/myMap.ser");

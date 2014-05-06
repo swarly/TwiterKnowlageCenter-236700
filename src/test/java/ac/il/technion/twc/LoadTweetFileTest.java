@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import ac.il.technion.twc.tweet.ITweet;
+
 public class LoadTweetFileTest
 {
 

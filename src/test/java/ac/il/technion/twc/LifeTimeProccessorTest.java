@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import ac.il.technion.twc.tweet.TweetFactory;
+
 public class LifeTimeProccessorTest
 {
 
@@ -21,7 +23,8 @@ public class LifeTimeProccessorTest
 	public void testAddTweet()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 0);
 	}
 
@@ -29,7 +32,8 @@ public class LifeTimeProccessorTest
 	public void testsingleTweet()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 0);
 	}
 
@@ -38,8 +42,10 @@ public class LifeTimeProccessorTest
 	public void TwoTweetTestRetweet()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,234"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,123,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,123,234"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 0);
 	}
 
@@ -48,8 +54,10 @@ public class LifeTimeProccessorTest
 	public void TwoTweetTestOriginal()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,234"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,123,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,123,234"));
 		assertEquals(proccesor.getTweetLifeTime("234"), 1000);
 	}
 
@@ -58,9 +66,12 @@ public class LifeTimeProccessorTest
 	public void ThreeTweetsTestOriginal()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:02,321,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,234,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:02,321,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 2000);
 
 	}
@@ -69,9 +80,12 @@ public class LifeTimeProccessorTest
 	public void ThreeTweetTestChainTweeting()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:02,321,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,234,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:02,321,234"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 2000);
 		assertEquals(proccesor.getTweetLifeTime("234"), 1000);
 		assertEquals(proccesor.getTweetLifeTime("321"), 0);
@@ -81,10 +95,14 @@ public class LifeTimeProccessorTest
 	public void FourTweetTestChainTweetingLongerPath()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:03,321,234"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:02,664,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,234,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:03,321,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:02,664,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 3000);
 		assertEquals(proccesor.getTweetLifeTime("234"), 2000);
 		assertEquals(proccesor.getTweetLifeTime("321"), 0);
@@ -94,10 +112,14 @@ public class LifeTimeProccessorTest
 	public void FourTweetTestChainTweetingShorterPath()
 	{
 		assertNotNull(proccesor);
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:02,321,234"));
-		proccesor.addTweet(new RawTweet("01/01/2014 00:00:03,664,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:00,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:01,234,123"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:02,321,234"));
+		proccesor.addTweet(TweetFactory
+				.getTweetFromLine("01/01/2014 00:00:03,664,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 3000);
 		assertEquals(proccesor.getTweetLifeTime("234"), 1000);
 		assertEquals(proccesor.getTweetLifeTime("321"), 0);

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ac.il.technion.twc.tweet.ITweet;
+
 public class JsonDataHandler implements IDataHandler
 {
 

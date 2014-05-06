@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.tweet;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,14 +11,14 @@ public abstract class AbstractTweet implements ITweet
 	protected boolean isOriginal;
 	protected String originalTweetID;
 
-	public AbstractTweet()
+	AbstractTweet()
 	{
 		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -30,7 +30,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	@Override
@@ -41,7 +41,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	@Override
@@ -52,7 +52,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	@Override
@@ -63,7 +63,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	@Override
@@ -74,7 +74,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	@Override

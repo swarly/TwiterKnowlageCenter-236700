@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.tweet;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ public class StoreAbleTweet extends AbstractTweet
 	 */
 	private final long lifeTime;
 
-	public StoreAbleTweet(ITweet tweet, long lifeTime)
+	StoreAbleTweet(ITweet tweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
