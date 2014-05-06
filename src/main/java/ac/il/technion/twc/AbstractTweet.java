@@ -3,7 +3,7 @@ package ac.il.technion.twc;
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class AbstractTweet implements Tweet
+public abstract class AbstractTweet implements ITweet
 {
 
 	protected String id;
@@ -67,7 +67,7 @@ public abstract class AbstractTweet implements Tweet
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	@Override
-	public String getOriginalTweet()
+	public String getOriginalTweetID()
 	{
 		return originalTweetID;
 	}

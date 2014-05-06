@@ -1,26 +1,24 @@
 package ac.il.technion.twc;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.json.JSONObject;
 
-public class StoreAbleTweet extends AbstractTweet implements Serializable
+public class StoreAbleTweet extends AbstractTweet
 {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
 	private final long lifeTime;
 
-	public StoreAbleTweet(Tweet tweet, long lifeTime)
+	public StoreAbleTweet(ITweet tweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
 		this.id = tweet.getId();
 		this.originalDate = tweet.getOriginalDate();
 		this.isOriginal = tweet.isOriginal();
-		this.originalTweetID = tweet.getOriginalTweet();
+		this.originalTweetID = tweet.getOriginalTweetID();
 	}
 
 	public StoreAbleTweet(String id, Date originalDate, boolean isOriginal,
@@ -34,20 +32,21 @@ public class StoreAbleTweet extends AbstractTweet implements Serializable
 		this.originalTweetID = originalTweet;
 	}
 
+	@Override
 	public long getLifeTime()
 	{
 		return lifeTime;
 	}
 
-	public JSONObject getAsJson()
+	public JSONObject getAsJSON()
 	{
 		final JSONObject object = new JSONObject();
 		object.put("id", getId());
-		object.put("original", isOriginal());
-		object.put("originalTweet", getOriginalTweet());
-		object.put("date", getOriginalDate().getTime());
+		object.put("isOriginal", isOriginal());
+		object.put("originalTweetID", getOriginalTweetID());
+		object.put("originalDate", getOriginalDate().getTime());
+		object.put("lifeTime", getLifeTime());
 		return object;
-
 	}
 
 }

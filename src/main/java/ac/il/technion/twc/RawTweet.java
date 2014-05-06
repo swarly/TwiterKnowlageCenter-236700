@@ -25,4 +25,10 @@ public class RawTweet extends AbstractTweet
 		this.isOriginal = args.length != 3;
 
 	}
+
+	@Override
+	public long getLifeTime()
+	{
+		return 0;
+	}
 }

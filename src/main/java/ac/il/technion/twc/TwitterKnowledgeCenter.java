@@ -10,14 +10,14 @@ import java.util.Map;
  * This class is meant to act as a wrapper to test your functionality. You
  * should implement all its methods and not change any of their signatures. You
  * can also implement an argumentless constructor if you wish.
- *
+ * 
  * @author Gal Lalouche
  */
 public class TwitterKnowledgeCenter
 {
 	/**
 	 * Loads the data from an array of lines
-	 *
+	 * 
 	 * @param lines
 	 *            An array of lines, each line formatted as <time (dd/MM/yyyy
 	 *            HH:mm:ss)>,<tweet id>[,original tweet]
@@ -28,15 +28,15 @@ public class TwitterKnowledgeCenter
 	private final List<MutableDailyTweetData> weekHistogram;
 	private final TweetLifeTimeProccesor lifeTimeProccesor;
 
-	private Map<String, Tweet> finalTweets;
-	private final IDataHandler dataHandler = new DataHandlerBySerialization();
+	private Map<String, ITweet> finalTweets;
+	private final IDataHandler dataHandler = new DataHandlerByJSON();
 
 	public TwitterKnowledgeCenter()
 	{
 		super();
 		// implementation for NON persistent
 
-		finalTweets = new HashMap<String, Tweet>();
+		finalTweets = new HashMap<String, ITweet>();
 		weekHistogram = new ArrayList<MutableDailyTweetData>();
 		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
 		for (int i = 0; i < 8; i++)
@@ -49,19 +49,19 @@ public class TwitterKnowledgeCenter
 		finalTweets = dataHandler.loadFromData();
 		if (finalTweets == null)
 			// no previous data available on disc.
-			finalTweets = new HashMap<String, Tweet>();
-		final List<Tweet> tweets = new LinkedList<Tweet>();
-		for (final Tweet storeAbleTweet : finalTweets.values())
+			finalTweets = new HashMap<String, ITweet>();
+		final List<ITweet> tweets = new LinkedList<ITweet>();
+		for (final ITweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
 
 		for (final String line : lines)
 		{
-			final Tweet tweet = new RawTweet(line);
+			final ITweet tweet = new RawTweet(line);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			lifeTimeProccesor.addTweet(tweet);
 			tweets.add(tweet);
 		}
-		for (final Tweet tweet : tweets)
+		for (final ITweet tweet : tweets)
 			finalTweets.put(tweet.getId(), new StoreAbleTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 
@@ -73,7 +73,7 @@ public class TwitterKnowledgeCenter
 	 * Loads the index, allowing for queries on the data that was imported using
 	 * {@link TwitterKnowledgeCenter#importData(String[])}. setupIndex will be
 	 * called before any queries can be run on the system
-	 *
+	 * 
 	 * @throws Exception
 	 *             If for any reason, loading the index failed
 	 */
@@ -89,7 +89,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the lifetime of the tweet, in milliseconds.
-	 *
+	 * 
 	 * @param tweetId
 	 *            The tweet's identifier
 	 * @return A string, counting the number of milliseconds between the tweet's
@@ -105,11 +105,11 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the weekly histogram of all tweet data
-	 *
+	 * 
 	 * @return An array of strings, each string in the format of
 	 *         ("<number of tweets (including retweets), number of retweets only>"
-	 *         adsdasasadas ), for example: ["100, 10","250,20",...,"587,0"].
-	 *         The 0th index of the array is Sunday.
+	 *         ), for example: ["100, 10","250,20",...,"587,0"]. The 0th index
+	 *         of the array is Sunday.
 	 * @throws Exception
 	 *             If it is not possible to complete the operation
 	 */
@@ -122,13 +122,8 @@ public class TwitterKnowledgeCenter
 		return histogram;
 	}
 
-<<<<<<< HEAD
-	// TODO Remove this method. only for tests.
-	public Map<String, StoreAbleTweet> getFinalTweets()
-=======
 	// TODO remove this method. only for tests.
-	public Map<String, Tweet> getFinalTweets()
->>>>>>> ac4d450cfa52604146ef792bb8b3c517d66b3f4f
+	public Map<String, ITweet> getFinalTweets()
 	{
 		return finalTweets;
 	}

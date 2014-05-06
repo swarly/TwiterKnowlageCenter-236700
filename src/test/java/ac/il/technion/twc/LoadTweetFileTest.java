@@ -31,7 +31,7 @@ public class LoadTweetFileTest
 		}
 		br.close();
 
-		final Map<String, Tweet> finalTweetsCopy = $.getFinalTweets();
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
 
 		// compare original file data to new Map created and loaded from disc.
 		br = new BufferedReader(new FileReader(myFile));

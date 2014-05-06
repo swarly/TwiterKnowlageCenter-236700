@@ -9,7 +9,7 @@ public class JsonDataHandler implements IDataHandler
 {
 
 	@Override
-	public void saveToData(Map<String, Tweet> myMap)
+	public void saveToData(Map<String, ITweet> myMap)
 	{
 		final JSONObject jsonObject = new JSONObject();
 		final JSONArray array = new JSONArray();
@@ -18,7 +18,7 @@ public class JsonDataHandler implements IDataHandler
 	}
 
 	@Override
-	public Map<String, Tweet> loadFromData()
+	public Map<String, ITweet> loadFromData()
 	{
 		// TODO Auto-generated method stub
 		return null;
