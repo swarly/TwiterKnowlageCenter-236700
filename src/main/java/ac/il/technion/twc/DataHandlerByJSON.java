@@ -17,6 +17,12 @@ public class DataHandlerByJSON implements IDataHandler
 
 	public DataHandlerByJSON()
 	{
+
+	}
+
+	@Override
+	public void saveToData(Map<String, ITweet> myMap) throws IOException
+	{
 		try
 		{
 			myFileWriter = new FileWriter(myFile.getPath());
@@ -24,11 +30,6 @@ public class DataHandlerByJSON implements IDataHandler
 		{
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void saveToData(Map<String, ITweet> myMap) throws IOException
-	{
 		clearData(); // delete previous data saved on disc.
 
 		// create parent directories, if doesn't exists.
@@ -45,12 +46,13 @@ public class DataHandlerByJSON implements IDataHandler
 
 					currJSON.write(myFileWriter);
 					myFileWriter.flush();
-					myFileWriter.close();
+
 				}
 			} catch (final JSONException e)
 			{
 				e.printStackTrace();
 			}
+		myFileWriter.close();
 	}
 
 	@Override

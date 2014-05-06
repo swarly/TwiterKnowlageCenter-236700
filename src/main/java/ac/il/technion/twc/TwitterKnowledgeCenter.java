@@ -10,14 +10,14 @@ import java.util.Map;
  * This class is meant to act as a wrapper to test your functionality. You
  * should implement all its methods and not change any of their signatures. You
  * can also implement an argumentless constructor if you wish.
- * 
+ *
  * @author Gal Lalouche
  */
 public class TwitterKnowledgeCenter
 {
 	/**
 	 * Loads the data from an array of lines
-	 * 
+	 *
 	 * @param lines
 	 *            An array of lines, each line formatted as <time (dd/MM/yyyy
 	 *            HH:mm:ss)>,<tweet id>[,original tweet]
@@ -35,7 +35,7 @@ public class TwitterKnowledgeCenter
 	{
 		super();
 		// implementation for NON persistent
-
+		finalTweets = new HashMap<String, ITweet>();
 		finalTweets = new HashMap<String, ITweet>();
 		weekHistogram = new ArrayList<MutableDailyTweetData>();
 		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
@@ -46,10 +46,10 @@ public class TwitterKnowledgeCenter
 	public void importData(String[] lines) throws Exception
 	{
 		// load from DB
-		finalTweets = dataHandler.loadFromData();
-		if (finalTweets == null)
-			// no previous data available on disc.
-			finalTweets = new HashMap<String, ITweet>();
+
+		finalTweets.putAll(dataHandler.loadFromData());
+		// no previous data available on disc.
+
 		final List<ITweet> tweets = new LinkedList<ITweet>();
 		for (final ITweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
@@ -73,14 +73,14 @@ public class TwitterKnowledgeCenter
 	 * Loads the index, allowing for queries on the data that was imported using
 	 * {@link TwitterKnowledgeCenter#importData(String[])}. setupIndex will be
 	 * called before any queries can be run on the system
-	 * 
+	 *
 	 * @throws Exception
 	 *             If for any reason, loading the index failed
 	 */
 	public void setupIndex() throws Exception
 	{
 		// load from DB
-		finalTweets = dataHandler.loadFromData();
+		finalTweets.putAll(dataHandler.loadFromData());
 		if (finalTweets == null)
 			throw new UnsupportedOperationException("Not implemented");
 		// TODO make sure this is what we want to do in this case.
@@ -89,7 +89,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the lifetime of the tweet, in milliseconds.
-	 * 
+	 *
 	 * @param tweetId
 	 *            The tweet's identifier
 	 * @return A string, counting the number of milliseconds between the tweet's
@@ -105,7 +105,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the weekly histogram of all tweet data
-	 * 
+	 *
 	 * @return An array of strings, each string in the format of
 	 *         ("<number of tweets (including retweets), number of retweets only>"
 	 *         ), for example: ["100, 10","250,20",...,"587,0"]. The 0th index

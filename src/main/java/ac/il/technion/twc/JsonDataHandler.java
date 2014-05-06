@@ -13,7 +13,6 @@ public class JsonDataHandler implements IDataHandler
 	{
 		final JSONObject jsonObject = new JSONObject();
 		final JSONArray array = new JSONArray();
-		jsonObject.put("dfg", array);
 
 	}
 

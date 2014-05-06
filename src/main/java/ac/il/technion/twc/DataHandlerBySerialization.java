@@ -15,7 +15,7 @@ public class DataHandlerBySerialization implements IDataHandler
 	private final File myFile = new File("Resource/myMap.ser");
 
 	@Override
-	public void saveToData(Map<String, Tweet> myMap)
+	public void saveToData(Map<String, ITweet> myMap)
 	{
 		try
 		{
@@ -26,7 +26,7 @@ public class DataHandlerBySerialization implements IDataHandler
 
 			// TODO remove this foreach loop.. only for debugging.
 			Date tmp;
-			for (final StoreAbleTweet currTweet : myMap.values())
+			for (final ITweet currTweet : myMap.values())
 			{
 				tmp = currTweet.getOriginalDate();
 				final int i = 5;
@@ -55,21 +55,20 @@ public class DataHandlerBySerialization implements IDataHandler
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Tweet> loadFromData()
+	public Map<String, ITweet> loadFromData()
 	{
-		Map<String, Tweet> myMap = new HashMap<String, Tweet>();
+		Map<String, ITweet> myMap = new HashMap<String, ITweet>();
 		try
 		{
 			final FileInputStream fileIn = new FileInputStream(myFile);
 			final ObjectInputStream in = new ObjectInputStream(fileIn);
-<<<<<<< HEAD
-			myMap = (Map<String, StoreAbleTweet>) in.readObject();
+			myMap = (Map<String, ITweet>) in.readObject();
 
 			if (myMap != null)
 			{
 				// TODO remove this foreach loop.. only for debugging.
 				Date tmp;
-				for (final StoreAbleTweet currTweet : myMap.values())
+				for (final ITweet currTweet : myMap.values())
 				{
 					tmp = currTweet.getOriginalDate();
 					final int i = 5;
@@ -77,9 +76,7 @@ public class DataHandlerBySerialization implements IDataHandler
 
 			}
 
-=======
-			myMap = (Map<String, Tweet>) in.readObject();
->>>>>>> ac4d450cfa52604146ef792bb8b3c517d66b3f4f
+			myMap = (Map<String, ITweet>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (final IOException i)
