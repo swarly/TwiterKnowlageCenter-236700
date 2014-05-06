@@ -20,7 +20,7 @@ public class LoadTweetFileTest
 	{
 
 		final File myFile = new File(
-				"D://Technion//Spring2014//236700 Software Design//Hw//Hw 2//samples//small_sample.txt");
+				"D:\\Dropbox\\CS\\236700\\HW2\\small_sample.txt");
 		BufferedReader br = new BufferedReader(new FileReader(myFile));
 		String currentLine;
 		String[] lines;
@@ -31,7 +31,7 @@ public class LoadTweetFileTest
 		}
 		br.close();
 
-		final Map<String, StoreAbleTweet> finalTweetsCopy = $.getFinalTweets();
+		final Map<String, Tweet> finalTweetsCopy = $.getFinalTweets();
 
 		// compare original file data to new Map created and loaded from disc.
 		br = new BufferedReader(new FileReader(myFile));

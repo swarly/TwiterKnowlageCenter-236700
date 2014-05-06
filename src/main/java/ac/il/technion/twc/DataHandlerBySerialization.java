@@ -14,7 +14,7 @@ public class DataHandlerBySerialization implements IDataHandler
 	private final File myFile = new File("data/myMap.ser");
 
 	@Override
-	public void saveToData(Map<String, StoreAbleTweet> myMap)
+	public void saveToData(Map<String, Tweet> myMap)
 	{
 		try
 		{
@@ -46,14 +46,14 @@ public class DataHandlerBySerialization implements IDataHandler
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, StoreAbleTweet> loadFromData()
+	public Map<String, Tweet> loadFromData()
 	{
-		Map<String, StoreAbleTweet> myMap = new HashMap<String, StoreAbleTweet>();
+		Map<String, Tweet> myMap = new HashMap<String, Tweet>();
 		try
 		{
 			final FileInputStream fileIn = new FileInputStream(myFile);
 			final ObjectInputStream in = new ObjectInputStream(fileIn);
-			myMap = (Map<String, StoreAbleTweet>) in.readObject();
+			myMap = (Map<String, Tweet>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (final IOException i)
@@ -63,11 +63,11 @@ public class DataHandlerBySerialization implements IDataHandler
 		} catch (final ClassNotFoundException c)
 		{
 			System.out.println(myFile + "not found"); // TODO: do we want to
-														// return
-														// null? or throw
-														// exception?
-														// or print message or
-														// what?
+			// return
+			// null? or throw
+			// exception?
+			// or print message or
+			// what?
 			c.printStackTrace();
 			return null;
 		}

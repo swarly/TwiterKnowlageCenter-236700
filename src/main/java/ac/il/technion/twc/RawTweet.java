@@ -3,7 +3,7 @@ package ac.il.technion.twc;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class RawTweet extends Tweet
+public class RawTweet extends AbstractTweet
 {
 
 	// TODO check if tweet can be declared twice

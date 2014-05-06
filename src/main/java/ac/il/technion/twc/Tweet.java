@@ -1,53 +1,20 @@
 package ac.il.technion.twc;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public abstract class Tweet
+public interface Tweet
 {
 
-	protected String id;
-	protected Date originalDate;
-	protected boolean isOriginal;
-	protected String originalTweetID;
+	public abstract String toString();
 
-	public Tweet()
-	{
-		super();
-	}
+	public abstract String getId();
 
-	@Override
-	public String toString()
-	{
-		return "Tweet [id=" + id + ", originalDate=" + originalDate
-				+ ", originalTweet=" + originalTweetID + "]";
-	}
+	public abstract Date getOriginalDate();
 
-	public String getId()
-	{
-		return id;
-	}
+	public abstract boolean isOriginal();
 
-	public Date getOriginalDate()
-	{
-		return originalDate;
-	}
+	public abstract String getOriginalTweet();
 
-	public boolean isOriginal()
-	{
-		return isOriginal;
-	}
-
-	public String getOriginalTweet()
-	{
-		return originalTweetID;
-	}
-
-	public int getTweetedDay()
-	{
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(originalDate);
-		return calendar.get(Calendar.DAY_OF_WEEK);
-	}
+	public abstract int getTweetedDay();
 
 }
