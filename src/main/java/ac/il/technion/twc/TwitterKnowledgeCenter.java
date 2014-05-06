@@ -57,7 +57,6 @@ public class TwitterKnowledgeCenter
 		for (final String line : lines)
 		{
 			final Tweet tweet = new RawTweet(line);
-			tweets.add(tweet);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			lifeTimeProccesor.addTweet(tweet);
 			tweets.add(tweet);
@@ -122,9 +121,16 @@ public class TwitterKnowledgeCenter
 		return histogram;
 	}
 
-	// TODO remove this method. only for tests.
+	// TODO Remove this method. only for tests.
 	public Map<String, StoreAbleTweet> getFinalTweets()
 	{
 		return finalTweets;
 	}
+
+	// TODO Remove this method. only for tests.
+	public void clearData()
+	{
+		dataHandler.clearData();
+	}
+
 }

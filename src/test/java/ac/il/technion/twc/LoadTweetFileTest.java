@@ -18,7 +18,7 @@ public class LoadTweetFileTest
 	@Test
 	public void loadTweetFileLineByLineTest() throws Exception
 	{
-
+		$.clearData(); // clear data at beginning of the test.
 		final File myFile = new File(
 				"D://Technion//Spring2014//236700 Software Design//Hw//Hw 2//samples//small_sample.txt");
 		BufferedReader br = new BufferedReader(new FileReader(myFile));

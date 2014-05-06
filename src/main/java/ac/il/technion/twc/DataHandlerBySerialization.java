@@ -6,12 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataHandlerBySerialization implements IDataHandler
 {
-	private final File myFile = new File("data/myMap.ser");
+	private final File myFile = new File("Resource/myMap.ser");
 
 	@Override
 	public void saveToData(Map<String, StoreAbleTweet> myMap)
@@ -22,6 +23,14 @@ public class DataHandlerBySerialization implements IDataHandler
 
 			// create parent directories, if doesn't exists.
 			myFile.getParentFile().mkdirs();
+
+			// TODO remove this foreach loop.. only for debugging.
+			Date tmp;
+			for (final StoreAbleTweet currTweet : myMap.values())
+			{
+				tmp = currTweet.getOriginalDate();
+				final int i = 5;
+			}
 
 			final FileOutputStream fileOut = new FileOutputStream(myFile);
 			// TODO: replace with new FileOutputStream(file, true) for
@@ -54,6 +63,19 @@ public class DataHandlerBySerialization implements IDataHandler
 			final FileInputStream fileIn = new FileInputStream(myFile);
 			final ObjectInputStream in = new ObjectInputStream(fileIn);
 			myMap = (Map<String, StoreAbleTweet>) in.readObject();
+
+			if (myMap != null)
+			{
+				// TODO remove this foreach loop.. only for debugging.
+				Date tmp;
+				for (final StoreAbleTweet currTweet : myMap.values())
+				{
+					tmp = currTweet.getOriginalDate();
+					final int i = 5;
+				}
+
+			}
+
 			in.close();
 			fileIn.close();
 		} catch (final IOException i)
