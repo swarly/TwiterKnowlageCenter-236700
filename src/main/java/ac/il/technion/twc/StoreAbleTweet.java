@@ -3,10 +3,12 @@ package ac.il.technion.twc;
 import java.io.Serializable;
 import java.util.Date;
 
-public class StoreAbleTweet extends Tweet implements Serializable
+import org.json.JSONObject;
+
+public class StoreAbleTweet extends AbstractTweet implements Serializable
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private final long lifeTime;
@@ -35,6 +37,17 @@ public class StoreAbleTweet extends Tweet implements Serializable
 	public long getLifeTime()
 	{
 		return lifeTime;
+	}
+
+	public JSONObject getAsJson()
+	{
+		final JSONObject object = new JSONObject();
+		object.put("id", getId());
+		object.put("original", isOriginal());
+		object.put("originalTweet", getOriginalTweet());
+		object.put("date", getOriginalDate().getTime());
+		return object;
+
 	}
 
 }

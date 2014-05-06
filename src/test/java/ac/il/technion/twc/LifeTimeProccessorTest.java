@@ -8,10 +8,18 @@ import org.junit.Test;
 public class LifeTimeProccessorTest
 {
 
+	private final TweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
+
+	@Test
+	public void testTweetNotExist()
+	{
+		assertNotNull(proccesor);
+		assertEquals(proccesor.getTweetLifeTime("123"), 0);
+	}
+
 	@Test
 	public void testAddTweet()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 0);
@@ -20,7 +28,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void testsingleTweet()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		assertEquals(proccesor.getTweetLifeTime("123"), 0);
@@ -30,7 +37,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void TwoTweetTestRetweet()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,234"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,123,234"));
@@ -41,7 +47,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void TwoTweetTestOriginal()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,234"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,123,234"));
@@ -52,7 +57,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void ThreeTweetsTestOriginal()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
@@ -64,7 +68,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void ThreeTweetTestChainTweeting()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
@@ -77,7 +80,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void FourTweetTestChainTweetingLongerPath()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
@@ -91,7 +93,6 @@ public class LifeTimeProccessorTest
 	@Test
 	public void FourTweetTestChainTweetingShorterPath()
 	{
-		final GraphTweetLifeTimeProccesor proccesor = new GraphTweetLifeTimeProccesor();
 		assertNotNull(proccesor);
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:00,123"));
 		proccesor.addTweet(new RawTweet("01/01/2014 00:00:01,234,123"));
