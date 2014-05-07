@@ -1,6 +1,7 @@
 package ac.il.technion.twc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +21,8 @@ public class LoadTweetFileTest
 	@Test
 	public void loadTweetFileLineByLineTest() throws Exception
 	{
-		$.clearData(); // clear data at beginning of the test.
+		$.cleanPersistentData();
+		; // clear data at beginning of the test.
 		final File myFile = new File(
 				"D:\\Dropbox\\CS\\236700\\HW2\\small_sample.txt");
 		BufferedReader br = new BufferedReader(new FileReader(myFile));
@@ -64,8 +66,8 @@ public class LoadTweetFileTest
 		for (final String currTweetID : alltweetsIDs)
 			if ((currentLine = br.readLine()) != null)
 			{
-				currentLindID = currentLine.split(" ")[2];
-				assertEquals(currTweetID, currentLindID);
+				currentLindID = currentLine.split(" ")[2].replace(",", "");
+				assertTrue(alltweetsIDs.contains(currentLindID));
 			} else
 				assertEquals("0", "1");
 

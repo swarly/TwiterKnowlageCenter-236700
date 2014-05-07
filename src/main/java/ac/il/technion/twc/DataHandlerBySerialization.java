@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ac.il.technion.twc.tweet.ITweet;
@@ -17,7 +18,8 @@ public class DataHandlerBySerialization implements IDataHandler
 	private final File myFile = new File("Resource/myMap.ser");
 
 	@Override
-	public void saveToData(Map<String, ITweet> myMap)
+	public void saveToData(Map<String, ITweet> myMap,
+			List<DailyTweetData> histogram)
 	{
 		try
 		{
@@ -57,7 +59,7 @@ public class DataHandlerBySerialization implements IDataHandler
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, ITweet> loadFromData()
+	public Map<String, ITweet> loadFromFromData()
 	{
 		Map<String, ITweet> myMap = new HashMap<String, ITweet>();
 		try
@@ -105,5 +107,12 @@ public class DataHandlerBySerialization implements IDataHandler
 	{
 		if (myFile.exists())
 			myFile.delete();
+	}
+
+	@Override
+	public List<DailyTweetData> getHistogramFromFile()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

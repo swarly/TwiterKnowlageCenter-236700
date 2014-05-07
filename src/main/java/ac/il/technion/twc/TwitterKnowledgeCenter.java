@@ -29,7 +29,7 @@ public class TwitterKnowledgeCenter
 	 *             If for any reason, handling the data failed
 	 */
 
-	private final List<MutableDailyTweetData> weekHistogram;
+	private final List<DailyTweetData> weekHistogram;
 	private final TweetLifeTimeProccesor lifeTimeProccesor;
 
 	private Map<String, ITweet> finalTweets;
@@ -41,17 +41,17 @@ public class TwitterKnowledgeCenter
 		// implementation for NON persistent
 		finalTweets = new HashMap<String, ITweet>();
 		finalTweets = new HashMap<String, ITweet>();
-		weekHistogram = new ArrayList<MutableDailyTweetData>();
+		weekHistogram = new ArrayList<DailyTweetData>();
 		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
 		for (int i = 0; i < 8; i++)
-			weekHistogram.add(new MutableDailyTweetData());
+			weekHistogram.add(new DailyTweetData());
 	}
 
 	public void importData(String[] lines) throws Exception
 	{
 		// load from DB
 
-		finalTweets.putAll(dataHandler.loadFromData());
+		finalTweets.putAll(dataHandler.loadFromFromData());
 		// no previous data available on disc.
 
 		final List<ITweet> tweets = new LinkedList<ITweet>();
@@ -72,7 +72,7 @@ public class TwitterKnowledgeCenter
 							lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 
 		// save to DB
-		dataHandler.saveToData(finalTweets);
+		dataHandler.saveToData(finalTweets, weekHistogram);
 	}
 
 	/**
@@ -86,10 +86,10 @@ public class TwitterKnowledgeCenter
 	public void setupIndex() throws Exception
 	{
 		// load from DB
-		finalTweets.putAll(dataHandler.loadFromData());
+		if (finalTweets.isEmpty())
+			finalTweets.putAll(dataHandler.loadFromFromData());
 		if (finalTweets == null)
 			throw new UnsupportedOperationException("Not implemented");
-		// TODO make sure this is what we want to do in this case.
 
 	}
 
@@ -128,16 +128,19 @@ public class TwitterKnowledgeCenter
 		return histogram;
 	}
 
+	/**
+	 * Cleans up all persistent data from the system; this method will be called
+	 * before every test, to ensure that all tests are independent.
+	 */
+	public void cleanPersistentData()
+	{
+		dataHandler.clearData();
+	}
+
 	// TODO remove this method. only for tests.
 	public Map<String, ITweet> getFinalTweets()
 	{
 		return finalTweets;
-	}
-
-	// TODO Remove this method. only for tests.
-	public void clearData()
-	{
-		dataHandler.clearData();
 	}
 
 }

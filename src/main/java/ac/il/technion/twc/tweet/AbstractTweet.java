@@ -3,6 +3,8 @@ package ac.il.technion.twc.tweet;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.json.JSONObject;
+
 public abstract class AbstractTweet implements ITweet
 {
 
@@ -18,7 +20,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -28,9 +30,20 @@ public abstract class AbstractTweet implements ITweet
 				+ ", originalTweet=" + originalTweetID + "]";
 	}
 
+	@Override
+	public JSONObject toJson()
+	{
+		final JSONObject object = new JSONObject();
+		object.put(idName, getId());
+		object.put(timeName, getOriginalDate().getTime());
+		object.put(originalName, getOriginalTweetID());
+		object.put(liftimeName, getLifeTime());
+		return object;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	@Override
@@ -41,7 +54,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	@Override
@@ -52,7 +65,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	@Override
@@ -63,7 +76,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	@Override
@@ -74,7 +87,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	@Override
