@@ -26,6 +26,7 @@ public class LargeFileTest
 	public void test() throws Exception
 	{
 		tkc.importData(lines);
+		tkc.cleanPersistentData();
 	}
 
 }

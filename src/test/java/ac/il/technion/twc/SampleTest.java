@@ -3,17 +3,24 @@ package ac.il.technion.twc;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Test;
 
 public class SampleTest
 {
 	TwitterKnowledgeCenter $ = new TwitterKnowledgeCenter();
 
+	@After
+	public void clearData()
+	{
+		$.cleanPersistentData();
+	}
+
 	@Test
 	public void sampleTest() throws Exception
 	{
 		String[] lines = new String[] { "04/04/2014 12:00:00, iddqd",
-				"05/04/2014 12:00:00, idkfa, iddqd" };
+		"05/04/2014 12:00:00, idkfa, iddqd" };
 		$.importData(lines);
 		lines = new String[] { "06/04/2014 13:00:00, 593393706" };
 		$.importData(lines);
@@ -26,5 +33,6 @@ public class SampleTest
 		$.setupIndex();
 		assertArrayEquals(new String[] { "2,0", "0,0", "0,0", "0,0", "0,0",
 				"1,0", "1,1" }, $.getDailyHistogram());
+
 	}
 }

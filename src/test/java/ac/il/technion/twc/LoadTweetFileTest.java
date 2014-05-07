@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,6 +31,12 @@ public class LoadTweetFileTest
 
 	private String[] linesSmall;
 	private String[] linesLarge;
+
+	@After
+	public void clearData()
+	{
+		$.cleanPersistentData();
+	}
 
 	@Before
 	public void initFiles() throws IOException
@@ -50,7 +57,6 @@ public class LoadTweetFileTest
 		final List<String> linesListLarge = Files.readLines(largeFile,
 				Charsets.UTF_8);
 		linesLarge = linesListLarge.toArray(new String[linesListLarge.size()]);
-		$.cleanPersistentData();
 
 	}
 
