@@ -88,6 +88,8 @@ public class TwitterKnowledgeCenter
 		// load from DB
 		if (finalTweets.isEmpty())
 			finalTweets.putAll(dataHandler.loadFromFromData());
+		weekHistogram.clear();
+		weekHistogram.addAll(dataHandler.getHistogramFromFile());
 		if (finalTweets == null)
 			throw new UnsupportedOperationException("Not implemented");
 

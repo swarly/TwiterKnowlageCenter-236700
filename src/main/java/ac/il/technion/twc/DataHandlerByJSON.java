@@ -26,7 +26,15 @@ public class DataHandlerByJSON implements IDataHandler
 
 	public DataHandlerByJSON()
 	{
+		if (myFile.exists())
+			try
+			{
 
+				fileContent = readFile(myFile);
+			} catch (final IOException e)
+			{
+				e.printStackTrace();
+			}
 	}
 
 	private String readFile(File file) throws IOException
@@ -50,7 +58,7 @@ public class DataHandlerByJSON implements IDataHandler
 	{
 		if (!myFile.exists())
 			return new HashMap<>();
-		fileContent = readFile(myFile);
+
 		final Map<String, ITweet> myMap = new HashMap<String, ITweet>();
 		final JSONObject jsonObject = new JSONObject(fileContent);
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
@@ -107,6 +115,6 @@ public class DataHandlerByJSON implements IDataHandler
 		myFileWriter.write(result.toString());
 		myFileWriter.flush();
 		myFileWriter.close();
-
+		fileContent = result.toString();
 	}
 }
