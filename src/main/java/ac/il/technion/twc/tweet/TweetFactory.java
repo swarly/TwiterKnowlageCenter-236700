@@ -6,7 +6,9 @@ import org.json.JSONObject;
 
 public class TweetFactory
 {
+
 	public static ITweet getTweetFromLine(String line)
+			throws IllegalArgumentException
 	{
 		return new RawTweet(line);
 	}
@@ -22,14 +24,17 @@ public class TweetFactory
 	{
 		return new StoreAbleTweet(jsonObject.getString(ITweet.idName),
 				new Date(jsonObject.getLong(ITweet.timeName)), jsonObject
-						.optString(ITweet.originalName).isEmpty(), jsonObject
-						.optString(ITweet.originalName).isEmpty() ? null
+				.optString(ITweet.originalName).isEmpty(), jsonObject
+				.optString(ITweet.originalName).isEmpty() ? null
 						: jsonObject.optString(ITweet.originalName),
-						jsonObject.getLong(ITweet.liftimeName));
+				jsonObject.getLong(ITweet.liftimeName));
 	}
 
-	public static ITweet getTweetPersistable(ITweet tweet, long tweetLifeTime)
+	public static ITweet getTweetPersistable(ITweet tweet, long twittLifeTime)
 	{
-		return new StoreAbleTweet(tweet, tweetLifeTime);
+		if (twittLifeTime < 0)
+			throw new IllegalArgumentException(
+					"do you have a time machine because retweet is before twitt");
+		return new StoreAbleTweet(tweet, twittLifeTime);
 	}
 }

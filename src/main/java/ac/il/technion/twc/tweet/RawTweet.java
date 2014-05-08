@@ -7,7 +7,7 @@ public class RawTweet extends AbstractTweet
 {
 
 	// TODO check if tweet can be declared twice
-	RawTweet(String line)
+	RawTweet(String line) throws IllegalArgumentException
 	{
 		super();
 		final String[] args = line.split(",");
@@ -18,12 +18,15 @@ public class RawTweet extends AbstractTweet
 			this.originalDate = dateFormat.parse(args[0]);
 		} catch (final ParseException e)
 		{
+			e.printStackTrace();
 		}
 		this.id = args[1].replace(" ", "");
 		if (args.length == 3)
 			originalTweetID = args[2].replace(" ", "");
 		this.isOriginal = args.length != 3;
-
+		if (originalTweetID != null && originalTweetID.equals(this.id))
+			throw new IllegalArgumentException(
+					"original twitt id cann not be same as self");
 	}
 
 	@Override

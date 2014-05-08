@@ -50,7 +50,8 @@ public class TwitterKnowledgeCenter
 	public void importData(String[] lines) throws Exception
 	{
 		// load from DB
-
+		if (lines == null)
+			throw new IllegalArgumentException("input cannot be null");
 		finalTweets.putAll(dataHandler.loadFromFromData());
 		// no previous data available on disc.
 
@@ -70,6 +71,11 @@ public class TwitterKnowledgeCenter
 					tweet.getId(),
 					TweetFactory.getTweetPersistable(tweet,
 							lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
+		for (final ITweet tweet : tweets)
+			if (tweet.getOriginalTweetID() != null
+			&& !finalTweets.containsKey(tweet.getOriginalTweetID()))
+				throw new IllegalArgumentException(
+						"twitt reference does not exist");
 
 		// save to DB
 		dataHandler.saveToData(finalTweets, weekHistogram);
