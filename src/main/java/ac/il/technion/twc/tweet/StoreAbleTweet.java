@@ -2,8 +2,6 @@ package ac.il.technion.twc.tweet;
 
 import java.util.Date;
 
-import org.json.JSONObject;
-
 public class StoreAbleTweet extends AbstractTweet
 {
 	/**
@@ -36,17 +34,6 @@ public class StoreAbleTweet extends AbstractTweet
 	public long getLifeTime()
 	{
 		return lifeTime;
-	}
-
-	public JSONObject getAsJSON()
-	{
-		final JSONObject object = new JSONObject();
-		object.put("id", getId());
-		object.put("isOriginal", isOriginal());
-		object.put("originalTweetID", getOriginalTweetID());
-		object.put("originalDate", getOriginalDate().getTime());
-		object.put("lifeTime", getLifeTime());
-		return object;
 	}
 
 }

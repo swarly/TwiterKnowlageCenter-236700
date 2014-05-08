@@ -20,7 +20,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -35,6 +35,7 @@ public abstract class AbstractTweet implements ITweet
 	{
 		final JSONObject object = new JSONObject();
 		object.put(idName, getId());
+		object.put("isOriginal", isOriginal());
 		object.put(timeName, getOriginalDate().getTime());
 		object.put(originalName, getOriginalTweetID());
 		object.put(liftimeName, getLifeTime());
@@ -43,7 +44,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	@Override
@@ -54,7 +55,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	@Override
@@ -65,7 +66,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	@Override
@@ -76,7 +77,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	@Override
@@ -87,7 +88,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	@Override
