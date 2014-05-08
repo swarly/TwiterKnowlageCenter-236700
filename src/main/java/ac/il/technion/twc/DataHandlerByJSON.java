@@ -22,6 +22,7 @@ public class DataHandlerByJSON implements IDataHandler
 	private static final String TWEETS = "tweets";
 	private final File myFile = new File("src/main/resources/myMap.json");
 	private FileWriter myFileWriter;
+
 	private String fileContent = "";
 
 	public DataHandlerByJSON()
@@ -29,7 +30,6 @@ public class DataHandlerByJSON implements IDataHandler
 		if (myFile.exists())
 			try
 			{
-
 				fileContent = readFile(myFile);
 			} catch (final IOException e)
 			{
@@ -96,9 +96,10 @@ public class DataHandlerByJSON implements IDataHandler
 	{
 		try
 		{
-			myFileWriter = new FileWriter(myFile.getPath());
 			clearData();
 			myFile.getParentFile().mkdirs();
+			myFileWriter = new FileWriter(myFile.getPath());
+
 		} catch (final IOException e)
 		{
 			e.printStackTrace();

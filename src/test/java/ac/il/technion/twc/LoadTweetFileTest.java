@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.tweet.TweetFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -75,14 +77,29 @@ public class LoadTweetFileTest
 	@Test
 	public void loadTweetFileLineByLineTest() throws Exception
 	{
+		clearData(); // clear data at beginning of the test.
+		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
+
+		final BufferedReader br = new BufferedReader(new FileReader(smallFile));
+		String currentLine;
+		String[] lines;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines = new String[] { currentLine };
+			$.importData(lines);
+			final ITweet tweet = TweetFactory.getTweetFromLine(currentLine);
+			tweetsMapFromFile.put(tweet.getId(), tweet);
+		}
+		br.close();
 
 		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
 
-		// compare original file data to new Map created and loaded from disc.
-		final BufferedReader br = new BufferedReader(new FileReader(smallFile));
-
-		// compare StoreAbleTweet - currently not working. storeabletweets are
-		// empty.
+		// compare maps
+		for (final ITweet curr : finalTweetsCopy.values())
+		{
+			final ITweet tweet = tweetsMapFromFile.get(curr.getId());
+			assertTrue(tweet.equals(curr));
+		}
 
 		/*
 		 * 
@@ -104,7 +121,6 @@ public class LoadTweetFileTest
 		final Collection<String> alltweetsIDs = finalTweetsCopy.keySet();
 
 		String currentLindID;
-		String currentLine;
 		for (final String currTweetID : alltweetsIDs)
 			if ((currentLine = br.readLine()) != null)
 			{
@@ -113,6 +129,7 @@ public class LoadTweetFileTest
 			} else
 				assertEquals("0", "1");
 
+		br.close();
 	}
 
 	// @Test
