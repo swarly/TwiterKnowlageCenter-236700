@@ -21,10 +21,11 @@ public class TweetFactory
 	public static ITweet getTweetFromJSON(JSONObject jsonObject)
 	{
 		return new StoreAbleTweet(jsonObject.getString(ITweet.idName),
-				new Date(jsonObject.getLong(ITweet.timeName)), !jsonObject
-						.optString(ITweet.originalName).isEmpty(),
-				jsonObject.optString(ITweet.originalName),
-				jsonObject.getLong(ITweet.liftimeName));
+				new Date(jsonObject.getLong(ITweet.timeName)), jsonObject
+						.optString(ITweet.originalName).isEmpty(), jsonObject
+						.optString(ITweet.originalName).isEmpty() ? null
+						: jsonObject.optString(ITweet.originalName),
+						jsonObject.getLong(ITweet.liftimeName));
 	}
 
 	public static ITweet getTweetPersistable(ITweet tweet, long tweetLifeTime)

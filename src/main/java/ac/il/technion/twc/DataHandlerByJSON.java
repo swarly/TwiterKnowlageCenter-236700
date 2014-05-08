@@ -28,13 +28,13 @@ public class DataHandlerByJSON implements IDataHandler
 	{
 		if (myFile.exists())
 			try
-			{
+		{
 
 				fileContent = readFile(myFile);
-			} catch (final IOException e)
-			{
-				e.printStackTrace();
-			}
+		} catch (final IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private String readFile(File file) throws IOException

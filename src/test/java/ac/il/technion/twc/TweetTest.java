@@ -1,6 +1,7 @@
 package ac.il.technion.twc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,4 +60,35 @@ public class TweetTest
 		assertEquals(tweet.getTweetedDay(), 1);
 	}
 
+	@Test
+	public void testToJsonBasic()
+	{
+		final SimpleDateFormat format = new SimpleDateFormat(
+				"dd/MM/yyyy hh:mm:ss");
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.DAY_OF_WEEK, 1);
+		final ITweet tweet = TweetFactory.getTweetFromLine(format
+				.format(calendar.getTime()) + ", 123");
+		assertTrue(tweet.toJson().toString().contains("\"isOriginal\":true"));
+
+	}
+
+	@Test
+	public void testToJsonTestOriginalNotChanged()
+	{
+		final SimpleDateFormat format = new SimpleDateFormat(
+				"dd/MM/yyyy hh:mm:ss");
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.DAY_OF_WEEK, 1);
+		final ITweet tweet = TweetFactory.getTweetFromLine(format
+				.format(calendar.getTime()) + ", 123");
+		final ITweet restoredTwitt = TweetFactory.getTweetFromJSON(tweet
+				.toJson());
+		assertTrue(restoredTwitt.isOriginal());
+		assertTrue(!restoredTwitt.toJson().toString()
+				.contains(ITweet.originalName));
+
+	}
 }
