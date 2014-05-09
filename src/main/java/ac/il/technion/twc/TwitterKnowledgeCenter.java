@@ -2,7 +2,6 @@ package ac.il.technion.twc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +13,14 @@ import ac.il.technion.twc.tweet.TweetFactory;
  * This class is meant to act as a wrapper to test your functionality. You
  * should implement all its methods and not change any of their signatures. You
  * can also implement an argumentless constructor if you wish.
- * 
+ *
  * @author Gal Lalouche
  */
 public class TwitterKnowledgeCenter
 {
 	/**
 	 * Loads the data from an array of lines
-	 * 
+	 *
 	 * @param lines
 	 *            An array of lines, each line formatted as <time (dd/MM/yyyy
 	 *            HH:mm:ss)>,<tweet id>[,original tweet]
@@ -53,24 +52,31 @@ public class TwitterKnowledgeCenter
 		if (lines == null)
 			throw new IllegalArgumentException("input cannot be null");
 		finalTweets.putAll(dataHandler.loadFromFromData());
-		// no previous data available on disc.
 
-		final List<ITweet> tweets = new LinkedList<ITweet>();
+		final Map<String, ITweet> tweets = new HashMap<String, ITweet>();
 		for (final ITweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
 
 		for (final String line : lines)
 		{
 			final ITweet tweet = TweetFactory.getTweetFromLine(line);
-			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
-			lifeTimeProccesor.addTweet(tweet);
-			tweets.add(tweet);
+			if (!tweets.containsKey(tweet.getId()))
+			{
+				weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
+				lifeTimeProccesor.addTweet(tweet);
+				tweets.put(tweet.getId(), tweet);
+			}
 		}
-		for (final ITweet tweet : tweets)
+		for (final ITweet tweet : tweets.values())
+		{
+			if (!tweet.isOriginal()
+					&& tweets.containsKey(tweet.getOriginalTweetID())
+					&& tweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
+							.getTime())
+				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
 					TweetFactory.getTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
-
-		// save to DB
+		}
 		dataHandler.saveToData(finalTweets, weekHistogram);
 	}
 
@@ -78,7 +84,7 @@ public class TwitterKnowledgeCenter
 	 * Loads the index, allowing for queries on the data that was imported using
 	 * {@link TwitterKnowledgeCenter#importData(String[])}. setupIndex will be
 	 * called before any queries can be run on the system
-	 * 
+	 *
 	 * @throws Exception
 	 *             If for any reason, loading the index failed
 	 */
@@ -96,7 +102,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the lifetime of the tweet, in milliseconds.
-	 * 
+	 *
 	 * @param tweetId
 	 *            The tweet's identifier
 	 * @return A string, counting the number of milliseconds between the tweet's
@@ -106,12 +112,14 @@ public class TwitterKnowledgeCenter
 	 */
 	public String getLifetimeOfTweets(String tweetId) throws Exception
 	{
+		if (!finalTweets.containsKey(tweetId))
+			throw new IllegalArgumentException("tweet does not exist");
 		return String.valueOf(((StoreAbleTweet) finalTweets.get(tweetId)).getLifeTime());
 	}
 
 	/**
 	 * Gets the weekly histogram of all tweet data
-	 * 
+	 *
 	 * @return An array of strings, each string in the format of
 	 *         ("<number of tweets (including retweets), number of retweets only>"
 	 *         ), for example: ["100, 10","250,20",...,"587,0"]. The 0th index

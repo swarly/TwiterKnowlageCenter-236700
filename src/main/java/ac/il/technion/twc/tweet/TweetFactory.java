@@ -7,34 +7,28 @@ import org.json.JSONObject;
 public class TweetFactory
 {
 
-	public static ITweet getTweetFromLine(String line)
-			throws IllegalArgumentException
+	public static ITweet getTweetFromLine(String line) throws IllegalArgumentException
 	{
 		return new RawTweet(line);
 	}
 
-	public static ITweet getTweetPersistable(String id, Date originalDate,
-			boolean isOriginal, String originalTweet, long lifeTime)
+	public static ITweet getTweetPersistable(String id, Date originalDate, boolean isOriginal, String originalTweet,
+			long lifeTime)
 	{
-		return new StoreAbleTweet(id, originalDate, isOriginal, originalTweet,
-				lifeTime);
+		return new StoreAbleTweet(id, originalDate, isOriginal, originalTweet, lifeTime);
 	}
 
 	public static ITweet getTweetFromJSON(JSONObject jsonObject)
 	{
-		return new StoreAbleTweet(jsonObject.getString(ITweet.idName),
-				new Date(jsonObject.getLong(ITweet.timeName)), jsonObject
-				.optString(ITweet.originalName).isEmpty(), jsonObject
-				.optString(ITweet.originalName).isEmpty() ? null
-						: jsonObject.optString(ITweet.originalName),
+		return new StoreAbleTweet(jsonObject.getString(ITweet.idName), new Date(jsonObject.getLong(ITweet.timeName)),
+				jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject.optString(ITweet.originalName)
+				.isEmpty() ? null : jsonObject.optString(ITweet.originalName),
 				jsonObject.getLong(ITweet.liftimeName));
 	}
 
 	public static ITweet getTweetPersistable(ITweet tweet, long twittLifeTime)
 	{
-		if (twittLifeTime < 0)
-			throw new IllegalArgumentException(
-					"do you have a time machine because retweet is before twitt");
+
 		return new StoreAbleTweet(tweet, twittLifeTime);
 	}
 }
