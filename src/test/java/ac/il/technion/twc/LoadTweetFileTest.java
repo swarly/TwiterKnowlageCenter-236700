@@ -1,14 +1,13 @@
 package ac.il.technion.twc;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,21 +42,15 @@ public class LoadTweetFileTest
 	@Before
 	public void initFiles() throws IOException
 	{
-		assertNotNull("file " + SMALL_TEST_FILE
-				+ " does not exist in the right location ", getClass()
-				.getClassLoader().getResource(SMALL_TEST_FILE));
-		assertNotNull("file " + LARGE_TEST_FILE
-				+ " does not exist in the right location ", getClass()
-				.getClassLoader().getResource(LARGE_TEST_FILE));
-		smallFile = new File(getClass().getClassLoader()
-				.getResource(SMALL_TEST_FILE).getFile());
-		largeFile = new File(getClass().getClassLoader()
-				.getResource(LARGE_TEST_FILE).getFile());
-		final List<String> linesListSmall = Files.readLines(smallFile,
-				Charsets.UTF_8);
+		assertNotNull("file " + SMALL_TEST_FILE + " does not exist in the right location ", getClass().getClassLoader()
+				.getResource(SMALL_TEST_FILE));
+		assertNotNull("file " + LARGE_TEST_FILE + " does not exist in the right location ", getClass().getClassLoader()
+				.getResource(LARGE_TEST_FILE));
+		smallFile = new File(getClass().getClassLoader().getResource(SMALL_TEST_FILE).getFile());
+		largeFile = new File(getClass().getClassLoader().getResource(LARGE_TEST_FILE).getFile());
+		final List<String> linesListSmall = Files.readLines(smallFile, Charsets.UTF_8);
 		linesSmall = linesListSmall.toArray(new String[linesListSmall.size()]);
-		final List<String> linesListLarge = Files.readLines(largeFile,
-				Charsets.UTF_8);
+		final List<String> linesListLarge = Files.readLines(largeFile, Charsets.UTF_8);
 		linesLarge = linesListLarge.toArray(new String[linesListLarge.size()]);
 
 	}
@@ -95,56 +88,21 @@ public class LoadTweetFileTest
 		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
 
 		// compare maps
-		for (final ITweet curr : finalTweetsCopy.values())
-		{
-			final ITweet tweet = tweetsMapFromFile.get(curr.getId());
-			assertTrue(tweet.equals(curr));
-		}
-
-		/*
-		 * 
-		 * 
-		 * final Collection<StoreAbleTweet> alltweets =
-		 * finalTweetsCopy.values(); String buildstr;
-		 * 
-		 * for (final StoreAbleTweet currTweet : alltweets) if ((currentLine =
-		 * br.readLine()) != null) {
-		 * 
-		 * buildstr = currTweet.getOriginalDate() + ", " + currTweet.getId(); if
-		 * (!currTweet.isOriginal()) buildstr = buildstr + ", " +
-		 * currTweet.getOriginalTweet();
-		 * 
-		 * assertEquals(buildstr, currentLine); } else assertEquals("0", "1");
-		 */
-
-		// compare only keys (string of ids)
-		final Collection<String> alltweetsIDs = finalTweetsCopy.keySet();
-
-		String currentLindID;
-		for (final String currTweetID : alltweetsIDs)
-			if ((currentLine = br.readLine()) != null)
-			{
-				currentLindID = currentLine.split(" ")[2].replace(",", "");
-				assertTrue(alltweetsIDs.contains(currentLindID));
-			} else
-				assertEquals("0", "1");
-
-		br.close();
+		compareMaps(finalTweetsCopy, tweetsMapFromFile);
 	}
 
-	// @Test
+	@Test
 	public void loadTweetFileAllLinesTest() throws Exception
 	{
-
-		final File myFile = new File(
-				"D://Technion//Spring2014//236700 Software Design//Hw//Hw 2//samples//small_sample.txt");
-		BufferedReader br = new BufferedReader(new FileReader(myFile));
+		clearData(); // clear data at beginning of the test.
+		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
+		BufferedReader br = new BufferedReader(new FileReader(smallFile));
 		int numOfLines = 0;
 		while (br.readLine() != null)
 			numOfLines++;
 		br.close();
 
-		br = new BufferedReader(new FileReader(myFile));
+		br = new BufferedReader(new FileReader(smallFile));
 
 		String currentLine;
 		final String[] lines = new String[numOfLines];
@@ -153,8 +111,32 @@ public class LoadTweetFileTest
 		{
 			lines[i] = currentLine;
 			i++;
+			final ITweet tweet = TweetFactory.getTweetFromLine(currentLine);
+			tweetsMapFromFile.put(tweet.getId(), tweet);
 		}
 		$.importData(lines);
 		br.close();
+
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
+
+		// compare maps
+		compareMaps(finalTweetsCopy, tweetsMapFromFile);
 	}
+
+	private void compareMaps(Map<String, ITweet> finalTweetsCopy, Map<String, ITweet> tweetsMapFromFile)
+	{
+		for (final ITweet curr : finalTweetsCopy.values())
+		{
+			final ITweet tweet = tweetsMapFromFile.get(curr.getId());
+			assertTrue(tweet.getId().equals(curr.getId()));
+			assertTrue(tweet.getOriginalDate().getTime() == curr.getOriginalDate().getTime());
+			if (tweet.getOriginalTweetID() == null)
+				assertNull(curr.getOriginalTweetID());
+			else
+				assertTrue(tweet.getOriginalTweetID().equals(curr.getOriginalTweetID()));
+			assertTrue(tweet.isOriginal() == curr.isOriginal());
+			tweetsMapFromFile.remove(curr.getId()); // each key is defined once.
+		}
+	}
+
 }
