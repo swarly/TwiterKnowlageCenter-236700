@@ -1,12 +1,15 @@
 package ac.il.technion.twc;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ac.il.technion.twc.tweet.ITweet;
@@ -68,7 +72,7 @@ public class LoadTweetFileTest
 	}
 
 	@Test
-	public void loadTweetFileLineByLineTest() throws Exception
+	public void loadSmallFileLineByLineTest() throws Exception
 	{
 		clearData(); // clear data at beginning of the test.
 		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
@@ -92,7 +96,7 @@ public class LoadTweetFileTest
 	}
 
 	@Test
-	public void loadTweetFileAllLinesTest() throws Exception
+	public void loadSmallFileAllLinesTest() throws Exception
 	{
 		clearData(); // clear data at beginning of the test.
 		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
@@ -122,6 +126,207 @@ public class LoadTweetFileTest
 		// compare maps
 		compareMaps(finalTweetsCopy, tweetsMapFromFile);
 	}
+
+	@Ignore
+	@Test
+	public void loadLargeFileLineByLineTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
+
+		final BufferedReader br = new BufferedReader(new FileReader(largeFile));
+		String currentLine;
+		String[] lines;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines = new String[] { currentLine };
+			$.importData(lines);
+			final ITweet tweet = TweetFactory.getTweetFromLine(currentLine);
+			tweetsMapFromFile.put(tweet.getId(), tweet);
+		}
+		br.close();
+
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
+
+		// compare maps
+		compareMaps(finalTweetsCopy, tweetsMapFromFile);
+	}
+
+	@Test
+	public void loadLargeFileAllLinesTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+		final Map<String, ITweet> tweetsMapFromFile = new HashMap<String, ITweet>();
+		BufferedReader br = new BufferedReader(new FileReader(largeFile));
+		int numOfLines = 0;
+		while (br.readLine() != null)
+			numOfLines++;
+		br.close();
+
+		br = new BufferedReader(new FileReader(largeFile));
+
+		String currentLine;
+		final String[] lines = new String[numOfLines];
+		int i = 0;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines[i] = currentLine;
+			i++;
+			final ITweet tweet = TweetFactory.getTweetFromLine(currentLine);
+			tweetsMapFromFile.put(tweet.getId(), tweet);
+		}
+		$.importData(lines);
+		br.close();
+
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
+
+		// compare maps
+		compareMaps(finalTweetsCopy, tweetsMapFromFile);
+	}
+
+	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// TODO remove all the tests in this block
+	@Ignore
+	@Test
+	public void largeFileLineByLineCompareResultsTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+
+		final BufferedReader br = new BufferedReader(new FileReader(largeFile));
+		String currentLine;
+		String[] lines;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines = new String[] { currentLine };
+			$.importData(lines);
+		}
+		br.close();
+
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
+
+		// compare histogram
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "89794,18467", "0,0", "0,0", "0,0" },
+				$.getDailyHistogram());
+
+		// write output file
+		final File logFile = new File("D:\\output_large_all_lines.txt");
+		if (logFile.exists())
+			logFile.delete();
+
+		final BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
+
+		ITweet tweet;
+
+		// write results to .txt file
+		for (final String curr : finalTweetsCopy.keySet())
+		{
+			tweet = finalTweetsCopy.get(curr);
+			final long lt = tweet.getLifeTime();
+			final String s = String.valueOf(lt);
+			writer.write(curr + ": " + s + "\n");
+		}
+		// Close writer
+		writer.close();
+
+	}
+
+	@Test
+	public void largeFileAllLinesCompareResultsTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+		BufferedReader br = new BufferedReader(new FileReader(largeFile));
+		int numOfLines = 0;
+		while (br.readLine() != null)
+			numOfLines++;
+		br.close();
+
+		br = new BufferedReader(new FileReader(largeFile));
+
+		String currentLine;
+		final String[] lines = new String[numOfLines];
+		int i = 0;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines[i] = currentLine;
+			i++;
+		}
+		$.importData(lines);
+		br.close();
+
+		final Map<String, ITweet> finalTweetsCopy = $.getFinalTweets();
+
+		// compare histogram
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "89794,18467", "0,0", "0,0", "0,0" },
+				$.getDailyHistogram());
+
+		// write output file
+		final File logFile = new File("D:\\output_large_all_lines.txt");
+		if (logFile.exists())
+			logFile.delete();
+
+		final BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
+
+		ITweet tweet;
+
+		// write results to .txt file
+		for (final String curr : finalTweetsCopy.keySet())
+		{
+			tweet = finalTweetsCopy.get(curr);
+			final long lt = tweet.getLifeTime();
+			final String s = String.valueOf(lt);
+			writer.write(curr + ": " + s + "\n");
+		}
+		// Close writer
+		writer.close();
+	}
+
+	@Test
+	public void smallFileLineByLineCompareResultsTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+
+		final BufferedReader br = new BufferedReader(new FileReader(smallFile));
+		String currentLine;
+		String[] lines;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines = new String[] { currentLine };
+			$.importData(lines);
+		}
+		br.close();
+
+		// compare histogram
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "98,16", "0,0", "0,0", "0,0" }, $.getDailyHistogram());
+	}
+
+	@Test
+	public void smallFileAllLinesCompareResultsTest() throws Exception
+	{
+		clearData(); // clear data at beginning of the test.
+		BufferedReader br = new BufferedReader(new FileReader(smallFile));
+		int numOfLines = 0;
+		while (br.readLine() != null)
+			numOfLines++;
+		br.close();
+
+		br = new BufferedReader(new FileReader(smallFile));
+
+		String currentLine;
+		final String[] lines = new String[numOfLines];
+		int i = 0;
+		while ((currentLine = br.readLine()) != null)
+		{
+			lines[i] = currentLine;
+			i++;
+		}
+		$.importData(lines);
+		br.close();
+
+		// compare histogram
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "98,16", "0,0", "0,0", "0,0" }, $.getDailyHistogram());
+	}
+
+	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private void compareMaps(Map<String, ITweet> finalTweetsCopy, Map<String, ITweet> tweetsMapFromFile)
 	{
