@@ -60,9 +60,9 @@ public class TwitterKnowledgeCenter
 		for (final String line : lines)
 		{
 			final ITweet tweet = TweetFactory.getTweetFromLine(line);
+			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			if (!tweets.containsKey(tweet.getId()))
 			{
-				weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 				lifeTimeProccesor.addTweet(tweet);
 				tweets.put(tweet.getId(), tweet);
 			}
