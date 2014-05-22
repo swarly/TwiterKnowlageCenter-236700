@@ -54,6 +54,7 @@ public class TwitterKnowledgeCenter
 		finalTweets.putAll(dataHandler.loadFromFromData());
 
 		final Map<String, ITweet> tweets = new HashMap<String, ITweet>();
+		tweets.putAll(finalTweets);
 		for (final ITweet storeAbleTweet : finalTweets.values())
 			lifeTimeProccesor.addTweet(storeAbleTweet);
 
@@ -141,6 +142,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public void cleanPersistentData()
 	{
+
 		dataHandler.clearData();
 	}
 
