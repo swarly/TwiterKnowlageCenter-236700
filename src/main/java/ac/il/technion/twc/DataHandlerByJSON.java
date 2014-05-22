@@ -1,8 +1,8 @@
 package ac.il.technion.twc;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,24 +15,26 @@ import ac.il.technion.twc.tweet.ITweet;
 import ac.il.technion.twc.tweet.TweetFactory;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
 public class DataHandlerByJSON implements IDataHandler
 {
 	private static final String HISTOGRAM = "histogram";
 	private static final String TWEETS = "tweets";
-	private final File myFile = new File("src/main/resources/myMap.json");
-	private FileWriter myFileWriter;
+	private File myFile;
 
 	private String fileContent = "";
 
 	public DataHandlerByJSON()
 	{
-		if (myFile.exists())
-			try
+		try
 		{
-				fileContent = readFile(myFile);
-		} catch (final IOException e)
+			myFile = new File(getClass().getResource("myMap.json").toURI());
+			if (!myFile.exists())
+				myFile.createNewFile();
+			fileContent = readFile(myFile);
+		} catch (final IOException | URISyntaxException e)
 		{
 			e.printStackTrace();
 		}
@@ -40,6 +42,7 @@ public class DataHandlerByJSON implements IDataHandler
 
 	private String readFile(File file) throws IOException
 	{
+
 		final List<String> lines = Files.readLines(file, Charsets.UTF_8);
 		final StringBuilder builder = new StringBuilder();
 		for (final String line : lines)
@@ -65,7 +68,7 @@ public class DataHandlerByJSON implements IDataHandler
 		if (!myFile.exists() || fileContent.isEmpty())
 			return new HashMap<>();
 
-		final Map<String, ITweet> myMap = new HashMap<String, ITweet>();
+		final Map<String, ITweet> myMap = Maps.newHashMap();
 		final JSONObject jsonObject = new JSONObject(fileContent);
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
 		for (int i = 0; i < tweetArray.length(); i++)
@@ -79,8 +82,13 @@ public class DataHandlerByJSON implements IDataHandler
 	@Override
 	public void clearData()
 	{
-		if (myFile.exists())
-			myFile.delete();
+		try
+		{
+			Files.write("", myFile, Charsets.UTF_8);
+		} catch (final IOException e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
@@ -107,16 +115,9 @@ public class DataHandlerByJSON implements IDataHandler
 	@Override
 	public void saveToData(Map<String, ITweet> myMap, List<DailyTweetData> histogram) throws IOException
 	{
-		try
-		{
-			clearData();
-			myFile.getParentFile().mkdirs();
-			myFileWriter = new FileWriter(myFile.getPath());
+		clearData();
+		myFile.getParentFile().mkdirs();
 
-		} catch (final IOException e)
-		{
-			e.printStackTrace();
-		}
 		final JSONObject result = new JSONObject();
 		final JSONArray jsonHistogram = new JSONArray();
 		for (final DailyTweetData dailyTweetData : histogram)
@@ -126,9 +127,7 @@ public class DataHandlerByJSON implements IDataHandler
 		for (final ITweet currTweet : myMap.values())
 			jsonTweets.put(currTweet.toJson());
 		result.put(TWEETS, jsonTweets);
-		myFileWriter.write(result != null ? result.toString() : "");
-		myFileWriter.flush();
-		myFileWriter.close();
+		Files.write(result.toString(), myFile, Charsets.UTF_8);
 		fileContent = result.toString();
 	}
 }

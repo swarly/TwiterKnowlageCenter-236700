@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,9 +13,14 @@ public class LogicTests
 {
 	TwitterKnowledgeCenter $ = new TwitterKnowledgeCenter();
 
-	@Test
 	@Before
 	public void clean()
+	{
+		$.cleanPersistentData();
+	}
+
+	@After
+	public void cleanAfter()
 	{
 		$.cleanPersistentData();
 	}
@@ -101,14 +107,6 @@ public class LogicTests
 		$.importData(lines);
 		$.setupIndex();
 		lines = new String[] { "05/03/2014, tweet3, tweet2" };
-		$.importData(lines);
-		$.setupIndex();
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void illegalDate3() throws Exception
-	{
-		final String[] lines = new String[] { "01/04/2014 12:00:00, tweet1", "05/03/2014 12:00:00, tweet2, tweet1" };
 		$.importData(lines);
 		$.setupIndex();
 	}

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.base.Charsets;
@@ -52,18 +53,21 @@ public class LoadTweetFileTest
 		linesListLargeResults = Files.readLines(largeFileRes, Charsets.UTF_8);
 	}
 
+	@Ignore
 	@Test(timeout = 196)
 	public void testSmallFileTimeout() throws Exception
 	{
 		$.importData(linesSmall);
 	}
 
+	@Ignore
 	@Test(timeout = 179588)
 	public void testLargeFileTimeout() throws Exception
 	{
 		$.importData(linesLarge);
 	}
 
+	@Ignore
 	@Test
 	public void testLargeFileHistogramLarge() throws Exception
 	{
@@ -72,6 +76,7 @@ public class LoadTweetFileTest
 				new String[] { "0,0", "0,0", "0,0", "89794,18467", "0,0", "0,0", "0,0" });
 	}
 
+	@Ignore
 	@Test
 	public void testLifeTimesLarge() throws Exception
 	{
