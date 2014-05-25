@@ -152,4 +152,20 @@ public class TwitterKnowledgeCenter
 		return finalTweets;
 	}
 
+	public void importDataJson(String[] lines)
+	{
+		throw new UnsupportedOperationException("Not implemented");
+
+	}
+
+	public String[] getTemporalHistogram(String string, String string2)
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	public String getHashtagPopularity(String string)
+	{
+		throw new UnsupportedOperationException("Not implemented");
+	}
 }
