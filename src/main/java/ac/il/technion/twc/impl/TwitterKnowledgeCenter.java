@@ -1,13 +1,21 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ac.il.technion.twc.tweet.ITweet;
-import ac.il.technion.twc.tweet.StoreAbleTweet;
-import ac.il.technion.twc.tweet.TweetFactory;
+import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.StoreAbleTweet;
+import ac.il.technion.twc.impl.tweet.TweetFactory;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 /**
  * This class is meant to act as a wrapper to test your functionality. You
@@ -73,7 +81,7 @@ public class TwitterKnowledgeCenter
 			if (!tweet.isOriginal()
 					&& tweets.containsKey(tweet.getOriginalTweetID())
 					&& tweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-							.getTime())
+					.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
 					TweetFactory.getTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
@@ -136,6 +144,17 @@ public class TwitterKnowledgeCenter
 		return histogram;
 	}
 
+	public String[] getTemporalHistogram(Date from, Date to)
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	public void importDataJson(String json)
+	{
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
 	/**
 	 * Cleans up all persistent data from the system; this method will be called
 	 * before every test, to ensure that all tests are independent.
@@ -154,14 +173,23 @@ public class TwitterKnowledgeCenter
 
 	public void importDataJson(String[] lines)
 	{
-		throw new UnsupportedOperationException("Not implemented");
-
+		final StringBuilder builder = new StringBuilder();
+		for (final String line : lines)
+			builder.append(line);
+		importDataJson(builder.toString());
 	}
 
-	public String[] getTemporalHistogram(String string, String string2)
+	public void importDataJson(File file) throws IOException
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented");
+		final List<String> lines = Files.readLines(file, Charsets.UTF_8);
+		importDataJson(lines.toArray(new String[lines.size()]));
+	}
+
+	public String[] getTemporalHistogram(String string, String string2) throws ParseException
+	{
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return getTemporalHistogram(dateFormat.parse(string), dateFormat.parse(string2));
+
 	}
 
 	public String getHashtagPopularity(String string)

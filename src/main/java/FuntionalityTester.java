@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+
 
 /**
  * This class is meant to act as a wrapper to test your functionality. You should implement all its methods

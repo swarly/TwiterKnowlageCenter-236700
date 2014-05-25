@@ -1,4 +1,4 @@
-package ac.il.technion.twc.tweet;
+package ac.il.technion.twc.impl.tweet;
 
 import java.util.Date;
 

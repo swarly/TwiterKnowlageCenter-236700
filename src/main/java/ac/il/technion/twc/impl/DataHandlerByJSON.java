@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import ac.il.technion.twc.tweet.ITweet;
-import ac.il.technion.twc.tweet.TweetFactory;
+import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;

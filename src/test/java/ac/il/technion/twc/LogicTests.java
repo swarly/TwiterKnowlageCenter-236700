@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+
 public class LogicTests
 {
 	TwitterKnowledgeCenter $ = new TwitterKnowledgeCenter();

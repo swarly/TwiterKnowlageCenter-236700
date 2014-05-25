@@ -1,4 +1,4 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.ITweet;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
@@ -25,7 +25,7 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * ac.il.technion.twc.TweetLifeTimeProccesor#addTweet(ac.il.technion.twc
 	 * .Tweet)
@@ -40,7 +40,7 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * ac.il.technion.twc.TweetLifeTimeProccesor#getTweetLifeTime(ac.il.technion
 	 * .twc.Tweet)
@@ -50,8 +50,7 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 	{
 		if (!map.containsKey(tweetid))
 			return 0;
-		return getLatestRetweetedTime(idToTweet.get(tweetid))
-				- idToTweet.get(tweetid).getOriginalDate().getTime();
+		return getLatestRetweetedTime(idToTweet.get(tweetid)) - idToTweet.get(tweetid).getOriginalDate().getTime();
 	}
 
 	private long getLatestRetweetedTime(ITweet tweet)
@@ -61,14 +60,14 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 		final Collection<ITweet> childs = map.get(tweet.getId());
 
 		final ITweet max = Collections.max(childs, new Comparator<ITweet>()
-				{
+		{
 
 			@Override
 			public int compare(ITweet o1, ITweet o2)
 			{
 				return (int) (getLatestRetweetedTime(o1) - getLatestRetweetedTime(o2));
 			}
-				});
+		});
 		return getLatestRetweetedTime(max);
 
 	}

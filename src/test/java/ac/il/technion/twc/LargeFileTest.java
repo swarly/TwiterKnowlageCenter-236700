@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+
 public class LargeFileTest
 {
 	TwitterKnowledgeCenter tkc;
@@ -18,8 +20,7 @@ public class LargeFileTest
 	{
 		tkc = new TwitterKnowledgeCenter();
 		lines = new String[1000000];
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"dd/MM/yyyy hh:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		for (int i = 0; i < 1000000; i++)
 			lines[i] = dateFormat.format(new Date(i * 1000)) + ", " + i;
 	}

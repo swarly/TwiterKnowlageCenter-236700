@@ -1,6 +1,6 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
-import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.ITweet;
 
 public interface TweetLifeTimeProccesor
 {

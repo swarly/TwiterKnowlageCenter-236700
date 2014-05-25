@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Test;
 
+import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+
 public class SampleTest
 {
 	TwitterKnowledgeCenter $ = new TwitterKnowledgeCenter();

@@ -1,8 +1,8 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
 import org.json.JSONObject;
 
-import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.ITweet;
 
 public class DailyTweetData
 {
@@ -21,8 +21,7 @@ public class DailyTweetData
 	{
 		super();
 		if (totalTweets < retweeted)
-			throw new RuntimeException(
-					"Total tweets is less then retweeted, this is a paradox");
+			throw new RuntimeException("Total tweets is less then retweeted, this is a paradox");
 		this.totalTweets = totalTweets;
 		this.retweeted = retweeted;
 	}
@@ -34,8 +33,7 @@ public class DailyTweetData
 		this.totalTweets = object.getInt(totalTweetsName);
 		this.retweeted = object.getInt(retweetedName);
 		if (this.totalTweets < this.retweeted)
-			throw new RuntimeException(
-					"Total tweets is less then retweeted, this is a paradox");
+			throw new RuntimeException("Total tweets is less then retweeted, this is a paradox");
 
 	}
 

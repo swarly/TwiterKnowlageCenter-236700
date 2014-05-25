@@ -1,15 +1,14 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.impl;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import ac.il.technion.twc.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.ITweet;
 
 public interface IDataHandler
 {
-	public void saveToData(Map<String, ITweet> myMap,
-			List<DailyTweetData> histogram) throws IOException;
+	public void saveToData(Map<String, ITweet> myMap, List<DailyTweetData> histogram) throws IOException;
 
 	/*
 	 * Returns: The map that was saved to disc. null if no map exists.
