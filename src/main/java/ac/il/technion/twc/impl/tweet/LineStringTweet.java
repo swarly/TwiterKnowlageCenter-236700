@@ -4,11 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
-public class RawTweet extends AbstractTweet
+public class LineStringTweet extends AbstractTweet implements IRawTweet
 {
 
 	// TODO check if tweet can be declared twice
-	RawTweet(String line) throws IllegalArgumentException
+	LineStringTweet(String line) throws IllegalArgumentException
 	{
 		super();
 		final String[] args = line.split(",");

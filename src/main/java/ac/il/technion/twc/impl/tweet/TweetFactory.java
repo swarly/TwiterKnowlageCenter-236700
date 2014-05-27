@@ -9,36 +9,36 @@ public class TweetFactory
 
 	public static ITweet getTweetFromLine(String line) throws IllegalArgumentException
 	{
-		return new RawTweet(line);
+		return new LineStringTweet(line);
 	}
 
 	public static ITweet getTweetPersistable(String id, Date originalDate, boolean isOriginal, String originalTweet,
 			long lifeTime)
 	{
-		return new StoreAbleTweet(id, originalDate, isOriginal, originalTweet, lifeTime);
+		return new StringLineCompleteTweet(id, originalDate, isOriginal, originalTweet, lifeTime);
 	}
 
 	public static ITweet getTweetFromJSON(JSONObject jsonObject)
 	{
-		return new StoreAbleTweet(jsonObject.getString(ITweet.idName), new Date(jsonObject.getLong(ITweet.timeName)),
+		return new StringLineCompleteTweet(jsonObject.getString(ITweet.idName), new Date(jsonObject.getLong(ITweet.timeName)),
 				jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject.optString(ITweet.originalName)
-				.isEmpty() ? null : jsonObject.optString(ITweet.originalName),
-				jsonObject.getLong(ITweet.liftimeName));
+						.isEmpty() ? null : jsonObject.optString(ITweet.originalName),
+						jsonObject.getLong(ITweet.liftimeName));
 	}
 
 	public static ITweet getTweetPersistable(ITweet tweet, long twittLifeTime)
 	{
 
-		return new StoreAbleTweet(tweet, twittLifeTime);
+		return new StringLineCompleteTweet(tweet, twittLifeTime);
 	}
 
 	public static ITweet getCompareDummy(Date date)
 	{
-		return new StoreAbleTweet("", date, false, "", 0);
+		return new StringLineCompleteTweet("", date, false, "", 0);
 	}
 
 	public static ITweet[] newArray(int i)
 	{
-		return new StoreAbleTweet[i];
+		return new StringLineCompleteTweet[i];
 	}
 }

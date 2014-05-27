@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import ac.il.technion.twc.impl.tweet.ITweet;
-import ac.il.technion.twc.impl.tweet.StoreAbleTweet;
+import ac.il.technion.twc.impl.tweet.StringLineCompleteTweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 import com.google.common.base.Charsets;
@@ -133,7 +133,7 @@ public class TwitterKnowledgeCenter
 	{
 		if (!finalTweets.containsKey(tweetId))
 			throw new IllegalArgumentException("tweet does not exist");
-		return String.valueOf(((StoreAbleTweet) finalTweets.get(tweetId)).getLifeTime());
+		return String.valueOf(((StringLineCompleteTweet) finalTweets.get(tweetId)).getLifeTime());
 	}
 
 	/**

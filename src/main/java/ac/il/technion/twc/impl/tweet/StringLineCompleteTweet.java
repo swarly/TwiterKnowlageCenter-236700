@@ -3,14 +3,14 @@ package ac.il.technion.twc.impl.tweet;
 import java.util.Collection;
 import java.util.Date;
 
-public class StoreAbleTweet extends AbstractTweet
+public class StringLineCompleteTweet extends AbstractTweet implements ICompleteTweet
 {
 	/**
 	 *
 	 */
 	private final long lifeTime;
 
-	StoreAbleTweet(ITweet tweet, long lifeTime)
+	StringLineCompleteTweet(ITweet tweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
@@ -20,7 +20,7 @@ public class StoreAbleTweet extends AbstractTweet
 		this.originalTweetID = tweet.getOriginalTweetID();
 	}
 
-	public StoreAbleTweet(String id, Date originalDate, boolean isOriginal, String originalTweet, long lifeTime)
+	public StringLineCompleteTweet(String id, Date originalDate, boolean isOriginal, String originalTweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
