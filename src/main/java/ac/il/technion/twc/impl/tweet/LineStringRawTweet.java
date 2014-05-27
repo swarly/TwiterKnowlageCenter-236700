@@ -4,11 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
-public class LineStringTweet extends AbstractTweet implements IRawTweet
+import org.json.JSONObject;
+
+import ac.il.technion.twc.impl.IHashTag;
+
+public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 {
 
 	// TODO check if tweet can be declared twice
-	LineStringTweet(String line) throws IllegalArgumentException
+	LineStringRawTweet(String line) throws IllegalArgumentException
 	{
 		super();
 		final String[] args = line.split(",");
@@ -35,10 +39,30 @@ public class LineStringTweet extends AbstractTweet implements IRawTweet
 	}
 
 	@Override
-	public Collection<String> getHashTags()
+	public String getText()
+	{
+		throw new UnsupportedOperationException(
+				"You are tring to make an action that is not supportted for this type Tweet");
+	}
+
+	@Override
+	public Collection<IHashTag> getHashTags()
+	{
+		throw new UnsupportedOperationException(
+				"You are tring to make an action that is not supportted for this type Tweet");
+	}
+
+	@Override
+	public JSONObject toJson()
+	{
+		return super.toJsonObject();
+	}
+
+	@Override
+	public TweetType getType()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return TweetType.TypeStringLine;
 	}
 
 }

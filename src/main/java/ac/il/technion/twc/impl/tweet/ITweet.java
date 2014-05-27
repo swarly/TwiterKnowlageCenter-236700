@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import ac.il.technion.twc.impl.IHashTag;
 
-public interface ITweet
+public interface ITweet extends Comparable<ITweet>
 {
 
 	static String idName = "id";
@@ -36,4 +36,5 @@ public interface ITweet
 
 	public String getText();
 
+	public TweetType getType();
 }

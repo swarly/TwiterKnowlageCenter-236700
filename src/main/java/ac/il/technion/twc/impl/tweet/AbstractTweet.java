@@ -5,12 +5,14 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-public abstract class AbstractTweet implements ITweet
+public abstract class AbstractTweet implements Comparable<ITweet>
 {
 
 	protected String id;
 	protected Date originalDate;
 	protected boolean isOriginal;
+
+	protected abstract long getLifeTime();
 
 	@Override
 	public int compareTo(ITweet o)
@@ -27,7 +29,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -36,24 +38,22 @@ public abstract class AbstractTweet implements ITweet
 		return "Tweet [id=" + id + ", originalDate=" + originalDate + ", originalTweet=" + originalTweetID + "]";
 	}
 
-	@Override
-	public JSONObject toJson()
+	public JSONObject toJsonObject()
 	{
 		final JSONObject object = new JSONObject();
-		object.put(idName, getId());
+		object.put(ITweet.idName, getId());
 		object.put("isOriginal", isOriginal());
-		object.put(timeName, getOriginalDate().getTime());
-		object.put(originalName, getOriginalTweetID());
-		object.put(liftimeName, getLifeTime());
+		object.put(ITweet.timeName, getOriginalDate().getTime());
+		object.put(ITweet.originalName, getOriginalTweetID());
+		object.put(ITweet.liftimeName, getLifeTime());
 		return object;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
-	@Override
 	public String getId()
 	{
 		return id;
@@ -61,10 +61,9 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
-	@Override
 	public Date getOriginalDate()
 	{
 		return originalDate;
@@ -72,10 +71,9 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
-	@Override
 	public boolean isOriginal()
 	{
 		return isOriginal;
@@ -83,10 +81,9 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
-	@Override
 	public String getOriginalTweetID()
 	{
 		return originalTweetID;
@@ -94,10 +91,9 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
-	@Override
 	public int getTweetedDay()
 	{
 		final Calendar calendar = Calendar.getInstance();

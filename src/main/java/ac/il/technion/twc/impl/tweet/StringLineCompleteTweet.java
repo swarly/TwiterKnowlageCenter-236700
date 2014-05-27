@@ -3,16 +3,18 @@ package ac.il.technion.twc.impl.tweet;
 import java.util.Collection;
 import java.util.Date;
 
+import org.json.JSONObject;
+
 import ac.il.technion.twc.impl.IHashTag;
 
-public class StoreAbleTweet extends AbstractTweet
+public class StringLineCompleteTweet extends AbstractTweet implements ICompleteTweet
 {
 	/**
 	 *
 	 */
 	private final long lifeTime;
 
-	StoreAbleTweet(ITweet tweet, long lifeTime)
+	StringLineCompleteTweet(ITweet tweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
@@ -22,7 +24,7 @@ public class StoreAbleTweet extends AbstractTweet
 		this.originalTweetID = tweet.getOriginalTweetID();
 	}
 
-	public StoreAbleTweet(String id, Date originalDate, boolean isOriginal, String originalTweet, long lifeTime)
+	public StringLineCompleteTweet(String id, Date originalDate, boolean isOriginal, String originalTweet, long lifeTime)
 	{
 		super();
 		this.lifeTime = lifeTime;
@@ -42,14 +44,28 @@ public class StoreAbleTweet extends AbstractTweet
 	public Collection<IHashTag> getHashTags()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException(
+				"You are tring to make an action that is not supportted for this type Tweet");
 	}
 
 	@Override
 	public String getText()
 	{
+		throw new UnsupportedOperationException(
+				"You are tring to make an action that is not supportted for this type Tweet");
+	}
+
+	@Override
+	public JSONObject toJson()
+	{
+		return super.toJsonObject();
+	}
+
+	@Override
+	public TweetType getType()
+	{
 		// TODO Auto-generated method stub
-		return null;
+		return TweetType.TypeStringLine;
 	}
 
 }

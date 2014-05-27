@@ -1,6 +1,6 @@
 package ac.il.technion.twc.impl.tweet;
 
-public interface IRawTweet
+public interface IRawTweet extends ITweet
 {
 
 }

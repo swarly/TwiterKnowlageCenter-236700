@@ -1,6 +1,6 @@
 package ac.il.technion.twc.impl.tweet;
 
-public interface ICompleteTweet
+public interface ICompleteTweet extends ITweet
 {
 
 }
