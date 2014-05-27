@@ -5,7 +5,9 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-public interface ITweet extends Comparable<ITweet>
+import ac.il.technion.twc.impl.IHashTag;
+
+public interface ITweet
 {
 
 	static String idName = "id";
@@ -30,5 +32,8 @@ public interface ITweet extends Comparable<ITweet>
 
 	public abstract JSONObject toJson();
 
-	public Collection<String> getHashTags();
+	public Collection<IHashTag> getHashTags();
+
+	public String getText();
+
 }
