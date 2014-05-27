@@ -31,4 +31,14 @@ public class TweetFactory
 
 		return new StoreAbleTweet(tweet, twittLifeTime);
 	}
+
+	public static ITweet getCompareDummy(Date date)
+	{
+		return new StoreAbleTweet("", date, false, "", 0);
+	}
+
+	public static ITweet[] newArray(int i)
+	{
+		return new StoreAbleTweet[i];
+	}
 }

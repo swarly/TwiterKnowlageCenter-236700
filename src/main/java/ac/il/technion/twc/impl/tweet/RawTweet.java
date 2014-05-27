@@ -2,6 +2,7 @@ package ac.il.technion.twc.impl.tweet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
 public class RawTweet extends AbstractTweet
 {
@@ -32,4 +33,12 @@ public class RawTweet extends AbstractTweet
 	{
 		return 0;
 	}
+
+	@Override
+	public Collection<String> getHashTags()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

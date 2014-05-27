@@ -15,6 +15,9 @@ import ac.il.technion.twc.impl.tweet.StoreAbleTweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.BoundType;
+import com.google.common.collect.SortedMultiset;
+import com.google.common.collect.TreeMultiset;
 import com.google.common.io.Files;
 
 /**
@@ -35,7 +38,7 @@ public class TwitterKnowledgeCenter
 	 * @throws Exception
 	 *             If for any reason, handling the data failed
 	 */
-
+	private final SortedMultiset<ITweet> sortedMultiset;
 	private final List<DailyTweetData> weekHistogram;
 	private final TweetLifeTimeProccesor lifeTimeProccesor;
 
@@ -46,10 +49,12 @@ public class TwitterKnowledgeCenter
 	{
 		super();
 		// implementation for NON persistent
+		sortedMultiset = TreeMultiset.create();
 		finalTweets = new HashMap<String, ITweet>();
 		finalTweets = new HashMap<String, ITweet>();
 		weekHistogram = new ArrayList<DailyTweetData>();
 		lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
+
 		for (int i = 0; i < 8; i++)
 			weekHistogram.add(new DailyTweetData());
 	}
@@ -81,10 +86,11 @@ public class TwitterKnowledgeCenter
 			if (!tweet.isOriginal()
 					&& tweets.containsKey(tweet.getOriginalTweetID())
 					&& tweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-					.getTime())
+							.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
 					TweetFactory.getTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
+			sortedMultiset.add(tweet);
 		}
 		dataHandler.saveToData(finalTweets, weekHistogram);
 	}
@@ -101,7 +107,11 @@ public class TwitterKnowledgeCenter
 	{
 		// load from DB
 		if (finalTweets.isEmpty())
-			finalTweets.putAll(dataHandler.loadFromFromData());
+		{
+			final Map<String, ITweet> tweets = dataHandler.loadFromFromData();
+			finalTweets.putAll(tweets);
+			sortedMultiset.addAll(tweets.values());
+		}
 		weekHistogram.clear();
 		weekHistogram.addAll(dataHandler.getHistogramFromFile());
 		if (finalTweets == null)
@@ -146,8 +156,22 @@ public class TwitterKnowledgeCenter
 
 	public String[] getTemporalHistogram(Date from, Date to)
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented");
+		final ITweet lower = TweetFactory.getCompareDummy(from);
+		final ITweet upper = TweetFactory.getCompareDummy(to);
+		final int[] tweets = new int[8];
+		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
+			tweets[tweet.getTweetedDay()]++;
+		final String[] histogram = new String[7];
+		for (int i = 1; i < tweets.length; i++)
+			histogram[i - 1] = String.valueOf(tweets[i]);
+		return histogram;
+	}
+
+	public String[] getTemporalHistogram(String string, String string2) throws ParseException
+	{
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return getTemporalHistogram(dateFormat.parse(string), dateFormat.parse(string2));
+
 	}
 
 	public void importDataJson(String json)
@@ -185,15 +209,11 @@ public class TwitterKnowledgeCenter
 		importDataJson(lines.toArray(new String[lines.size()]));
 	}
 
-	public String[] getTemporalHistogram(String string, String string2) throws ParseException
-	{
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		return getTemporalHistogram(dateFormat.parse(string), dateFormat.parse(string2));
-
-	}
-
 	public String getHashtagPopularity(String string)
 	{
+		// for each tweet that contain hashtag
+		// Itweet.isOroginal()
+		// ITweet.getNumRetweeted
 		throw new UnsupportedOperationException("Not implemented");
 	}
 }

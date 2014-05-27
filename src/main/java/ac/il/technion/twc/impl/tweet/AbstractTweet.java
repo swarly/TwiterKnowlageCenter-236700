@@ -11,6 +11,13 @@ public abstract class AbstractTweet implements ITweet
 	protected String id;
 	protected Date originalDate;
 	protected boolean isOriginal;
+
+	@Override
+	public int compareTo(ITweet o)
+	{
+		return originalDate.compareTo(o.getOriginalDate());
+	}
+
 	protected String originalTweetID;
 
 	AbstractTweet()
@@ -20,14 +27,13 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
 	public String toString()
 	{
-		return "Tweet [id=" + id + ", originalDate=" + originalDate
-				+ ", originalTweet=" + originalTweetID + "]";
+		return "Tweet [id=" + id + ", originalDate=" + originalDate + ", originalTweet=" + originalTweetID + "]";
 	}
 
 	@Override
@@ -44,7 +50,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	@Override
@@ -55,7 +61,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	@Override
@@ -66,7 +72,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	@Override
@@ -77,7 +83,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	@Override
@@ -88,7 +94,7 @@ public abstract class AbstractTweet implements ITweet
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	@Override

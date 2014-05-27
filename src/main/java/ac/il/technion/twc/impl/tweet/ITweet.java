@@ -1,10 +1,11 @@
 package ac.il.technion.twc.impl.tweet;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.json.JSONObject;
 
-public interface ITweet
+public interface ITweet extends Comparable<ITweet>
 {
 
 	static String idName = "id";
@@ -29,4 +30,5 @@ public interface ITweet
 
 	public abstract JSONObject toJson();
 
+	public Collection<String> getHashTags();
 }

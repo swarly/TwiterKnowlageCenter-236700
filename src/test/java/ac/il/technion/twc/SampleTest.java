@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
@@ -18,6 +19,7 @@ public class SampleTest
 		$.cleanPersistentData();
 	}
 
+	@Ignore
 	@Test
 	public void sampleTest() throws Exception
 	{
