@@ -1,8 +1,11 @@
 package ac.il.technion.twc.impl.tweet;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.json.JSONObject;
+
+import ac.il.technion.twc.impl.IHashTag;
 
 public interface ITweet
 {
@@ -28,5 +31,9 @@ public interface ITweet
 	public abstract long getLifeTime();
 
 	public abstract JSONObject toJson();
+
+	public Collection<IHashTag> getHashTags();
+
+	public String getText();
 
 }

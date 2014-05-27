@@ -9,7 +9,7 @@ public class TweetFactory
 
 	public static ITweet getTweetFromLine(String line) throws IllegalArgumentException
 	{
-		return new RawTweet(line);
+		return new LineStringTweet(line);
 	}
 
 	public static ITweet getTweetPersistable(String id, Date originalDate, boolean isOriginal, String originalTweet,

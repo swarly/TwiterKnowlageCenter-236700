@@ -2,12 +2,15 @@ package ac.il.technion.twc.impl.tweet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
-public class RawTweet extends AbstractTweet
+import ac.il.technion.twc.impl.IHashTag;
+
+public class LineStringTweet extends AbstractTweet
 {
 
 	// TODO check if tweet can be declared twice
-	RawTweet(String line) throws IllegalArgumentException
+	LineStringTweet(String line) throws IllegalArgumentException
 	{
 		super();
 		final String[] args = line.split(",");
@@ -31,5 +34,19 @@ public class RawTweet extends AbstractTweet
 	public long getLifeTime()
 	{
 		return 0;
+	}
+
+	@Override
+	public Collection<IHashTag> getHashTags()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
