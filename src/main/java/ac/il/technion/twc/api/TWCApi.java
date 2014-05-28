@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 
+import ac.il.technion.twc.impl.IHashTag;
+
 public interface TWCApi
 {
 	public abstract IHistogram getHistogram();
@@ -17,11 +19,9 @@ public interface TWCApi
 
 		public Collection<Integer> getHistogram();
 
-		public String[] getTemporalHistogram(String t1, String t2);
+		public Collection<Integer> getTemporalHistogram(String from, String to);
 
-		public String[] getTemporalHistogramAsStrings(Date t1, Date t2);
-
-		public Collection<Integer> getTemporalHistogram(Date t1, Date t2);
+		public Collection<Integer> getTemporalHistogram(Date from, Date to);
 
 	}
 
@@ -63,7 +63,7 @@ public interface TWCApi
 		 * @param hashtag
 		 * @return
 		 */
-		public int getHashtagPopularity(String hashtag);
+		public int getHashtagPopularity(IHashTag hashtag);
 
 		/**
 		 * return the time between the tweet and it last retweet

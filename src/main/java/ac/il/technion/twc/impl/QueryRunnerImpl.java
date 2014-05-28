@@ -35,10 +35,14 @@ public class QueryRunnerImpl implements QueryRunner
 	}
 
 	@Override
-	public int getHashtagPopularity(String hashtag)
+	public int getHashtagPopularity(IHashTag hashtag)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if (!tweetsByHash.containsKey(hashtag))
+			return 0;
+		int popularity = 0;
+		for (final ITweet tweet : tweetsByHash.get(hashtag))
+			popularity += reverseTree.size(tweet);
+		return popularity;
 	}
 
 	/*
@@ -57,7 +61,7 @@ public class QueryRunnerImpl implements QueryRunner
 
 	/**
 	 * add collection of tweets to query runner
-	 * 
+	 *
 	 * @param tweet
 	 *            to add
 	 */
@@ -72,7 +76,7 @@ public class QueryRunnerImpl implements QueryRunner
 
 	/**
 	 * add collection of tweets to query runner
-	 * 
+	 *
 	 * @param tweets
 	 *            to add
 	 */
