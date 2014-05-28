@@ -58,12 +58,17 @@ public interface TWCApi
 	public interface QueryRunner
 	{
 		/**
-		 * return number of retweets to original tweet that contain the hash tag
-		 *
 		 * @param hashtag
-		 * @return
+		 * @return number of retweets to original tweet that contain the hash tag
 		 */
 		public int getHashtagPopularity(IHashTag hashtag);
+
+		/**
+		 *
+		 * @param hashtag
+		 * @return number of retweets to original tweet that contain the hash tag
+		 */
+		public int getHashtagPopularity(String hashtag);
 
 		/**
 		 * return the time between the tweet and it last retweet

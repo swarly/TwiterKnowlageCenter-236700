@@ -77,4 +77,34 @@ public class TweetTest
 		assertTrue(!restoredTwitt.toJson().toString().contains(ITweet.originalName));
 
 	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testHashTagsRawTweet()
+	{
+		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
+		tweet.getHashTags();
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testgetTextRawTweet()
+	{
+		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
+		tweet.getText();
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testHashTagsCompleteTweet()
+	{
+		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
+		TweetFactory.newTweetPersistable(tweet, 0).getHashTags();
+
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testgetTextCompleteTweet()
+	{
+		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
+		TweetFactory.newTweetPersistable(tweet, 0).getText();
+	}
+
 }

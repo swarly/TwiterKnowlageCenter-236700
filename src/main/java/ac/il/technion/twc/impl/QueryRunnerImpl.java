@@ -86,4 +86,11 @@ public class QueryRunnerImpl implements QueryRunner
 			addTweet(tweet);
 	}
 
+	@Override
+	public int getHashtagPopularity(String hashtag)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
