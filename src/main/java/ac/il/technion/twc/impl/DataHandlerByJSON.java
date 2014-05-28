@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class DataHandlerByJSON implements IDataHandler
 	private File myFile;
 
 	private String fileContent = "";
+	private HashMap<String, ITweet> myMap;
 
 	public DataHandlerByJSON()
 	{
@@ -63,12 +65,12 @@ public class DataHandlerByJSON implements IDataHandler
 	}
 
 	@Override
-	public Map<String, ITweet> loadFromFromData() throws IOException
+	public void load() throws IOException
 	{
+		myMap = Maps.newHashMap();
 		if (!myFile.exists() || fileContent.isEmpty())
-			return new HashMap<>();
+			return;
 
-		final Map<String, ITweet> myMap = Maps.newHashMap();
 		final JSONObject jsonObject = new JSONObject(fileContent);
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
 		for (int i = 0; i < tweetArray.length(); i++)
@@ -76,7 +78,7 @@ public class DataHandlerByJSON implements IDataHandler
 			final ITweet tweet = TweetFactory.newTweetFromJSON(tweetArray.getJSONObject(i));
 			myMap.put(tweet.getId(), tweet);
 		}
-		return myMap;
+		return;
 	}
 
 	@Override
@@ -113,7 +115,7 @@ public class DataHandlerByJSON implements IDataHandler
 	}
 
 	@Override
-	public void saveToData(Map<String, ITweet> myMap, List<DailyTweetData> histogram) throws IOException
+	public void saveToData(Collection<ITweet> tweets, List<DailyTweetData> histogram) throws IOException
 	{
 		clearData();
 		myFile.getParentFile().mkdirs();
@@ -124,10 +126,17 @@ public class DataHandlerByJSON implements IDataHandler
 			jsonHistogram.put(dailyTweetData.toJson());
 		result.put(HISTOGRAM, jsonHistogram);
 		final JSONArray jsonTweets = new JSONArray();
-		for (final ITweet currTweet : myMap.values())
+		for (final ITweet currTweet : tweets)
 			jsonTweets.put(currTweet.toJson());
 		result.put(TWEETS, jsonTweets);
 		Files.write(result.toString(), myFile, Charsets.UTF_8);
 		fileContent = result.toString();
+	}
+
+	@Override
+	public Map<String, ITweet> getTweets()
+	{
+
+		return myMap;
 	}
 }

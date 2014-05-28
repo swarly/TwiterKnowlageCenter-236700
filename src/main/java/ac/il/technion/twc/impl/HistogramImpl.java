@@ -7,15 +7,26 @@ import ac.il.technion.twc.api.TWCApi.IHistogram;
 import ac.il.technion.twc.impl.tweet.ITweet;
 
 import com.google.common.collect.SortedMultiset;
+import com.google.common.collect.TreeMultiset;
 
 public class HistogramImpl implements IHistogram
 {
 
-	private final SortedMultiset<ITweet> sortedMultiSet;
+	private final SortedMultiset<ITweet> sortedMultiset;
 
-	public HistogramImpl(SortedMultiset<ITweet> sortedMultiset)
+	public void addTweet(ITweet tweet)
 	{
-		this.sortedMultiSet = sortedMultiset;
+
+	}
+
+	public void addAll(Collection<ITweet> tweets)
+	{
+
+	}
+
+	public HistogramImpl()
+	{
+		sortedMultiset = TreeMultiset.create();
 	}
 
 	@Override

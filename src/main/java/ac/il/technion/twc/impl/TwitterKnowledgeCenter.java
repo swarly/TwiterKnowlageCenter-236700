@@ -65,7 +65,8 @@ public class TwitterKnowledgeCenter
 			throw new IllegalArgumentException("input cannot be null");
 
 		// load existing stored data, if there is any, and add to it all new tweets.
-		finalTweets.putAll(dataHandler.loadFromFromData());
+		dataHandler.load();
+		finalTweets.putAll(dataHandler.getTweets());
 
 		final Map<String, ITweet> tweets = new HashMap<String, ITweet>();
 		tweets.putAll(finalTweets);
@@ -88,7 +89,7 @@ public class TwitterKnowledgeCenter
 			if (!tweet.isOriginal()
 					&& tweets.containsKey(tweet.getOriginalTweetID())
 					&& tweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-					.getTime())
+							.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
 					TweetFactory.newTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
@@ -96,7 +97,7 @@ public class TwitterKnowledgeCenter
 		}
 
 		// save to database
-		dataHandler.saveToData(finalTweets, weekHistogram);
+		dataHandler.saveToData(finalTweets.values(), weekHistogram);
 	}
 
 	/**
@@ -112,7 +113,8 @@ public class TwitterKnowledgeCenter
 		// load existing stored data
 		if (finalTweets.isEmpty())
 		{
-			final Map<String, ITweet> tweets = dataHandler.loadFromFromData();
+			dataHandler.load();
+			final Map<String, ITweet> tweets = dataHandler.getTweets();
 			finalTweets.putAll(tweets);
 			sortedMultiset.addAll(tweets.values());
 		}
