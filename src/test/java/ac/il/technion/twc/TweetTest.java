@@ -20,7 +20,7 @@ public class TweetTest
 	{
 		final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		final Date date = new Date(1000 * (System.currentTimeMillis() / 1000));
-		final ITweet tweet = TweetFactory.getTweetFromLine(format.format(date) + ", 123");
+		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(date) + ", 123");
 		final Calendar now = Calendar.getInstance();
 		now.setTime(date);
 		final Calendar recievedDate = Calendar.getInstance();
@@ -37,7 +37,7 @@ public class TweetTest
 	@Test
 	public void testGetOriginalTweet()
 	{
-		final ITweet tweet = TweetFactory.getTweetFromLine("01/01/2014 00:00:00,123,234");
+		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
 		assertEquals(tweet.getOriginalTweetID(), "234");
 	}
 
@@ -48,7 +48,7 @@ public class TweetTest
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
-		final ITweet tweet = TweetFactory.getTweetFromLine(format.format(calendar.getTime()) + ", 123");
+		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(calendar.getTime()) + ", 123");
 		assertEquals(tweet.getTweetedDay(), 1);
 	}
 
@@ -59,7 +59,7 @@ public class TweetTest
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
-		final ITweet tweet = TweetFactory.getTweetFromLine(format.format(calendar.getTime()) + ", 123");
+		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(calendar.getTime()) + ", 123");
 		assertTrue(tweet.toJson().toString().contains("\"isOriginal\":true"));
 
 	}
@@ -71,8 +71,8 @@ public class TweetTest
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
-		final ITweet tweet = TweetFactory.getTweetFromLine(format.format(calendar.getTime()) + ", 123");
-		final ITweet restoredTwitt = TweetFactory.getTweetFromJSON(tweet.toJson());
+		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(calendar.getTime()) + ", 123");
+		final ITweet restoredTwitt = TweetFactory.newTweetFromJSON(tweet.toJson());
 		assertTrue(restoredTwitt.isOriginal());
 		assertTrue(!restoredTwitt.toJson().toString().contains(ITweet.originalName));
 

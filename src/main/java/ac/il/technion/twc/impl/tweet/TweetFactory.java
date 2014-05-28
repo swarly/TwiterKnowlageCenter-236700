@@ -7,12 +7,12 @@ import org.json.JSONObject;
 public class TweetFactory
 {
 
-	public static ITweet getTweetFromLine(String line) throws IllegalArgumentException
+	public static ITweet newTweetFromLine(String line) throws IllegalArgumentException
 	{
 		return new LineStringRawTweet(line);
 	}
 
-	public static ITweet getTweetPersistable(String id, Date originalDate, boolean isOriginal, String originalTweet,
+	public static ITweet newTweetPersistable(String id, Date originalDate, boolean isOriginal, String originalTweet,
 			long lifeTime)
 	{
 		return new StringLineCompleteTweet(id, originalDate, isOriginal, originalTweet, lifeTime);
@@ -24,32 +24,23 @@ public class TweetFactory
 	 * @param jsonObject
 	 * @return
 	 */
-	public static ITweet getTweetFromJSON(JSONObject jsonObject)
+	public static ITweet newTweetFromJSON(JSONObject jsonObject)
 	{
 		return new StringLineCompleteTweet(jsonObject.getString(ITweet.idName), new Date(
 				jsonObject.getLong(ITweet.timeName)), jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject
 				.optString(ITweet.originalName).isEmpty() ? null : jsonObject.optString(ITweet.originalName),
-				jsonObject.getLong(ITweet.liftimeName));
+						jsonObject.getLong(ITweet.liftimeName));
 	}
 
-	public static ITweet getTweetPersistable(ITweet tweet, long twittLifeTime)
+	public static ITweet newTweetPersistable(ITweet tweet, long twittLifeTime)
 	{
 
 		return new StringLineCompleteTweet(tweet, twittLifeTime);
 	}
 
-	public static ITweet getCompareDummy(Date date)
+	public static ITweet newCompareDummy(Date date)
 	{
 		return new StringLineCompleteTweet("", date, false, "", 0);
-	}
-
-	/**
-	 * @param i
-	 * @return
-	 */
-	public static ITweet[] newArray(int i)
-	{
-		return new StringLineCompleteTweet[i];
 	}
 
 	/**

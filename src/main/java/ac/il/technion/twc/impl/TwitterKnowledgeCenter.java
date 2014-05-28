@@ -75,7 +75,7 @@ public class TwitterKnowledgeCenter
 
 		for (final String line : lines)
 		{
-			final ITweet tweet = TweetFactory.getTweetFromLine(line);
+			final ITweet tweet = TweetFactory.newTweetFromLine(line);
 			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 			if (!tweets.containsKey(tweet.getId()))
 			{
@@ -91,7 +91,7 @@ public class TwitterKnowledgeCenter
 					.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
-					TweetFactory.getTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
+					TweetFactory.newTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 			sortedMultiset.add(tweet);
 		}
 
@@ -223,8 +223,8 @@ public class TwitterKnowledgeCenter
 
 	public String[] getTemporalHistogram(Date from, Date to)
 	{
-		final ITweet lower = TweetFactory.getCompareDummy(from);
-		final ITweet upper = TweetFactory.getCompareDummy(to);
+		final ITweet lower = TweetFactory.newCompareDummy(from);
+		final ITweet upper = TweetFactory.newCompareDummy(to);
 		final int[] tweets = new int[8];
 		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
 			tweets[tweet.getTweetedDay()]++;
