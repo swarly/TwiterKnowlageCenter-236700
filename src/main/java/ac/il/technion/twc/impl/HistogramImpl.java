@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import ac.il.technion.twc.api.TWCApi.IHistogram;
@@ -22,12 +23,12 @@ public class HistogramImpl implements IHistogram
 
 	public void addTweet(ITweet tweet)
 	{
-
+		sortedMultiset.add(tweet);
 	}
 
 	public void addAll(Collection<ITweet> tweets)
 	{
-
+		sortedMultiset.addAll(tweets);
 	}
 
 	public HistogramImpl()
@@ -35,33 +36,58 @@ public class HistogramImpl implements IHistogram
 		sortedMultiset = TreeMultiset.create();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogramAsString()
+	 */
 	@Override
 	public String[] getHistogramAsString()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		final String[] stringHistogram = new String[8];
+		int i = 0;
+		for (final Integer day : getHistogram())
+			stringHistogram[i++] = String.valueOf(day);
+		return Arrays.copyOfRange(stringHistogram, 1, stringHistogram.length);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogram()
+	 */
 	@Override
 	public Collection<Integer> getHistogram()
 	{
 		final Integer[] tweets = new Integer[8];
+		Arrays.fill(tweets, 0);
 		for (final ITweet tweet : sortedMultiset)
 			tweets[tweet.getTweetedDay()]++;
 		return Arrays.asList(tweets);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.util.Date, java.util.Date)
+	 */
 	@Override
 	public Collection<Integer> getTemporalHistogram(Date from, Date to)
 	{
-		final ITweet lower = TweetFactory.newCompareDummy(from);
-		final ITweet upper = TweetFactory.newCompareDummy(to);
+		final ITweet lower = TweetFactory.newCompareAbleDummy(from);
+		final ITweet upper = TweetFactory.newCompareAbleDummy(to);
 		final Integer[] tweets = new Integer[8];
+		Arrays.fill(tweets, 0);
 		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
 			tweets[tweet.getTweetedDay()]++;
-		return Arrays.asList(tweets);
+		return Collections.unmodifiableCollection(Arrays.asList(tweets).subList(1, tweets.length));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Collection<Integer> getTemporalHistogram(String t1, String t2)
 	{
@@ -77,4 +103,8 @@ public class HistogramImpl implements IHistogram
 
 	}
 
+	public int size()
+	{
+		return sortedMultiset.size();
+	}
 }

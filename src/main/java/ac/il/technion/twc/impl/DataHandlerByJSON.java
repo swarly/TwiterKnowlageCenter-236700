@@ -65,11 +65,11 @@ public class DataHandlerByJSON implements IDataHandler
 	}
 
 	@Override
-	public void load() throws IOException
+	public IDataHandler load() throws IOException
 	{
 		myMap = Maps.newHashMap();
 		if (!myFile.exists() || fileContent.isEmpty())
-			return;
+			return this;
 
 		final JSONObject jsonObject = new JSONObject(fileContent);
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
@@ -78,7 +78,7 @@ public class DataHandlerByJSON implements IDataHandler
 			final ITweet tweet = TweetFactory.newStringLineTweetFromJSON(tweetArray.getJSONObject(i));
 			myMap.put(tweet.getId(), tweet);
 		}
-		return;
+		return this;
 	}
 
 	@Override

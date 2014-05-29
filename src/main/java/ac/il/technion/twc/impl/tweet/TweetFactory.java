@@ -48,7 +48,7 @@ public class TweetFactory
 		return new StringLineCompleteTweet(tweet, twittLifeTime);
 	}
 
-	public static ITweet newCompareDummy(Date date)
+	public static ITweet newCompareAbleDummy(Date date)
 	{
 		return new StringLineCompleteTweet("", date, false, "", 0);
 	}

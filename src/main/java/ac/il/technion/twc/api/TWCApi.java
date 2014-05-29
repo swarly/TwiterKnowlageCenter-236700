@@ -15,12 +15,32 @@ public interface TWCApi
 
 	public interface IHistogram
 	{
+		/**
+		 * @return string array size 7 represent all the data as strings
+		 */
 		public String[] getHistogramAsString();
 
+		/**
+		 * @return
+		 */
 		public Collection<Integer> getHistogram();
 
+		/**
+		 * @param from
+		 *            string in format dd/MM/yyyy HH:mm:ss that represent from (closed including the time specified)
+		 * @param to
+		 *            string in format dd/MM/yyyy HH:mm:ss that represent to (closed including the time specified)
+		 * @return weekly histogram of the data betweet from and to
+		 */
 		public Collection<Integer> getTemporalHistogram(String from, String to);
 
+		/**
+		 * @param from
+		 *            date object from when (closed including the time specified)
+		 * @param to
+		 *            date object represent end date ( closed including the time specified)
+		 * @return weekly histogram of the data betweet from and to
+		 */
 		public Collection<Integer> getTemporalHistogram(Date from, Date to);
 
 	}
