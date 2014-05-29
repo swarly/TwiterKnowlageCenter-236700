@@ -1,7 +1,6 @@
 package ac.il.technion.twc.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import com.google.common.io.Files;
 /**
  * This class is meant to act as a wrapper to test your functionality. You should implement all its methods and not
  * change any of their signatures. You can also implement an argumentless constructor if you wish.
- *
+ * 
  * @author Gal Lalouche
  */
 public class TwitterKnowledgeCenter
@@ -53,7 +52,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Loads the data from an array of lines
-	 *
+	 * 
 	 * @param lines
 	 *            An array of lines, each line formatted as <time (dd/MM/yyyy HH:mm:ss)>,<tweet id>[,original tweet]
 	 * @throws Exception
@@ -104,7 +103,7 @@ public class TwitterKnowledgeCenter
 	 * Loads the index, allowing for queries on the data that was imported using
 	 * {@link TwitterKnowledgeCenter#importData(String[])}. setupIndex will be called before any queries can be run on
 	 * the system
-	 *
+	 * 
 	 * @throws Exception
 	 *             If for any reason, loading the index failed
 	 */
@@ -126,7 +125,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the lifetime of the tweet, in milliseconds.
-	 *
+	 * 
 	 * @param tweetId
 	 *            The tweet's identifier
 	 * @return A string, counting the number of milliseconds between the tweet's publication and its last retweet
@@ -142,7 +141,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the weekly histogram of all tweet data
-	 *
+	 * 
 	 * @return An array of strings, each string in the format of
 	 *         ("<number of tweets (including retweets), number of retweets only>" ), for example:
 	 *         ["100, 10","250,20",...,"587,0"]. The 0th index of the array is Sunday.
@@ -164,14 +163,21 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Loads the data from an array of JSON lines
-	 *
+	 * 
 	 * @param lines
 	 *            An array of lines, each line is a JSON string
 	 * @throws Exception
 	 *             If for any reason, handling the data failed
 	 */
-	public void importDataJson(String[] lines)
+	public void importDataJson(String[] lines) throws Exception
 	{
+		if (lines == null)
+			throw new IllegalArgumentException("input cannot be null");
+
+		// load existing stored data, if there is any, and add to it all new tweets.
+		dataHandler.load();
+		finalTweets.putAll(dataHandler.getTweets());
+
 		// final StringBuilder builder = new StringBuilder();
 		// for (final String line : lines)
 		// builder.append(line);
@@ -183,7 +189,7 @@ public class TwitterKnowledgeCenter
 		}
 	}
 
-	public void importDataJson(File file) throws IOException
+	public void importDataJson(File file) throws Exception
 	{
 		final List<String> lines = Files.readLines(file, Charsets.UTF_8);
 		importDataJson(lines.toArray(new String[lines.size()]));
@@ -191,7 +197,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the number of (recursive) retweets made to all original tweets made that contain a specific hashtag
-	 *
+	 * 
 	 * @param hashtag
 	 *            The hashtag to check
 	 * @return A string, in the format of a number, contain the number of retweets
@@ -203,7 +209,7 @@ public class TwitterKnowledgeCenter
 
 	/**
 	 * Gets the weekly histogram of all tweet data
-	 *
+	 * 
 	 * @param t1
 	 *            A date string in the format of <b>dd/MM/yyyy HH:mm:ss</b>; all tweets counted in the histogram should
 	 *            have been published <b>after<\b> t1.

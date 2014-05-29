@@ -1,9 +1,12 @@
 package ac.il.technion.twc.impl.tweet;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import org.json.JSONObject;
+
+import ac.il.technion.twc.impl.IHashTag;
 
 public abstract class AbstractTweet implements Comparable<ITweet>
 {
@@ -11,6 +14,8 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 	protected String id;
 	protected Date originalDate;
 	protected boolean isOriginal;
+	protected TweetType tweetType;
+	Collection<IHashTag> hashTags;
 
 	protected abstract long getLifeTime();
 
@@ -29,7 +34,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -46,12 +51,14 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 		object.put(ITweet.timeName, getOriginalDate().getTime());
 		object.put(ITweet.originalName, getOriginalTweetID());
 		object.put(ITweet.liftimeName, getLifeTime());
+		object.put("tweetType", getType().toString());
+
 		return object;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	public String getId()
@@ -61,7 +68,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	public Date getOriginalDate()
@@ -71,7 +78,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	public boolean isOriginal()
@@ -81,7 +88,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	public String getOriginalTweetID()
@@ -91,7 +98,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	public int getTweetedDay()
@@ -99,6 +106,11 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(originalDate);
 		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
+
+	public TweetType getType()
+	{
+		return this.tweetType;
 	}
 
 }

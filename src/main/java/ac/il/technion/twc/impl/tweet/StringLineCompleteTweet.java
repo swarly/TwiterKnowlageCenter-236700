@@ -22,6 +22,8 @@ public class StringLineCompleteTweet extends AbstractTweet implements ICompleteT
 		this.originalDate = tweet.getOriginalDate();
 		this.isOriginal = tweet.isOriginal();
 		this.originalTweetID = tweet.getOriginalTweetID();
+		this.tweetType = TweetType.TypeStringLine;
+
 	}
 
 	public StringLineCompleteTweet(String id, Date originalDate, boolean isOriginal, String originalTweet, long lifeTime)
