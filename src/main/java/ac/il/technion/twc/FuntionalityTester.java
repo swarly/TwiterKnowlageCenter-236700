@@ -1,4 +1,6 @@
-package ac.il.technion.twc.impl;
+package ac.il.technion.twc;
+
+import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
 
 /**
  * This class is meant to act as a wrapper to test your functionality. You should implement all its methods and not
@@ -68,7 +70,7 @@ public class FuntionalityTester
 	 * Gets the weekly histogram of all tweet and retweet data
 	 * 
 	 * @return An array of strings, each string in the format of
-	 *         ("<number of tweets (including retweets), number of retweets only>" ), for example:
+	 *         ("<number of tweets (including retweets), number of retweets only>"), for example:
 	 *         ["100, 10","250,20",...,"587,0"]. The 0th index of the array is Sunday.
 	 */
 	public String[] getDailyHistogram()
@@ -98,7 +100,7 @@ public class FuntionalityTester
 	 *            A date string in the format of <b>dd/MM/yyyy HH:mm:ss</b>; all tweets counted in the histogram should
 	 *            have been published <b>before<\b> t2.
 	 * @return An array of strings, each string in the format of
-	 *         ("<number of tweets (including retweets), number of retweets only>" ), for example:
+	 *         ("<number of tweets (including retweets), number of retweets only>"), for example:
 	 *         ["100, 10","250,20",...,"587,0"]. The 0th index of the array is Sunday.
 	 * @throws Exception
 	 *             If it is not possible to complete the operation
@@ -114,6 +116,6 @@ public class FuntionalityTester
 	 */
 	public void cleanPersistentData()
 	{
-		// throw new UnsupportedOperationException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }

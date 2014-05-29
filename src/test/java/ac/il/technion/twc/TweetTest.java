@@ -72,7 +72,7 @@ public class TweetTest
 		calendar.setTime(new Date());
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
 		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(calendar.getTime()) + ", 123");
-		final ITweet restoredTwitt = TweetFactory.newTweetFromJSON(tweet.toJson());
+		final ITweet restoredTwitt = TweetFactory.newStringLineTweetFromJSON(tweet.toJson());
 		assertTrue(restoredTwitt.isOriginal());
 		assertTrue(!restoredTwitt.toJson().toString().contains(ITweet.originalName));
 

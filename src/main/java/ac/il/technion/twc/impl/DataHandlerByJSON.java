@@ -75,7 +75,7 @@ public class DataHandlerByJSON implements IDataHandler
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
 		for (int i = 0; i < tweetArray.length(); i++)
 		{
-			final ITweet tweet = TweetFactory.newTweetFromJSON(tweetArray.getJSONObject(i));
+			final ITweet tweet = TweetFactory.newStringLineTweetFromJSON(tweetArray.getJSONObject(i));
 			myMap.put(tweet.getId(), tweet);
 		}
 		return this;

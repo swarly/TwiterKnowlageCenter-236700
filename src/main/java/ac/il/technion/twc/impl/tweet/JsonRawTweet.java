@@ -10,9 +10,13 @@ import ac.il.technion.twc.impl.IHashTag;
 public class JsonRawTweet extends AbstractTweet implements IRawTweet
 {
 
-	JsonRawTweet(JSONObject jsonObject)
+	public JsonRawTweet(String id, Date originalDate, String originalTweet)
 	{
-		id = jsonObject.getString("id");
+		super();
+		this.id = id;
+		this.originalDate = originalDate;
+		this.isOriginal = (originalTweet == null) ? true : false;
+		this.originalTweetID = originalTweet;
 	}
 
 	@Override
