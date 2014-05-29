@@ -4,7 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+import ac.il.technion.twc.api.TwitterKnowledgeCenter;
 
 public class TWCTest
 {

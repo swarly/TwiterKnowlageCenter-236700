@@ -43,10 +43,15 @@ public interface TWCApi
 		 */
 		public Collection<Integer> getTemporalHistogram(Date from, Date to);
 
+		/**
+		 * @return collection of integers representing
+		 */
+		public Collection<Integer> getRetweetedHistogram();
 	}
 
 	public interface Loader
 	{
+
 		/**
 		 * load data in file to TWC
 		 *
@@ -72,7 +77,12 @@ public interface TWCApi
 		 */
 		public TWCApi fromStringLines(Collection<String> lines);
 
-		TWCApi fromPersistence();
+		/**
+		 * @return
+		 * @throws IOException
+		 *             if error opeing persistent state
+		 */
+		TWCApi fromPersistence() throws IOException;
 	}
 
 	public interface QueryRunner

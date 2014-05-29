@@ -11,7 +11,6 @@ import ac.il.technion.twc.impl.IHashTag;
 public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 {
 
-	// TODO check if tweet can be declared twice
 	LineStringRawTweet(String line) throws IllegalArgumentException
 	{
 		super();

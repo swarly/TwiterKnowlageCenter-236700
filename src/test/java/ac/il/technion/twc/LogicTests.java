@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+import ac.il.technion.twc.api.TwitterKnowledgeCenter;
 
 public class LogicTests
 {
@@ -74,7 +74,6 @@ public class LogicTests
 		}
 	}
 
-	// TODO twitt can be replaced we talked about it I think also please use
 	// expected like this
 	// @Test(expected = IllegalArgumentException.class)
 	@Ignore
@@ -102,7 +101,6 @@ public class LogicTests
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	// TODO what is the problem here?
 	public void illegalDate2() throws Exception
 	{
 		String[] lines = new String[] { "01/04/2014 12:00:00, tweet1", "05/03/2014 12:00:00, tweet2" };

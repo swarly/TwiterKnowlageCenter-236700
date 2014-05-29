@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import ac.il.technion.twc.api.TWCApi.IHistogram;
 import ac.il.technion.twc.impl.tweet.ITweet;
@@ -20,20 +21,25 @@ public class HistogramImpl implements IHistogram
 {
 
 	private final SortedMultiset<ITweet> sortedMultiset;
+	private final List<DailyTweetData> weekHistogram;
+
+	public HistogramImpl()
+	{
+		sortedMultiset = TreeMultiset.create();
+		weekHistogram = Lists.newArrayListWithCapacity(8);
+		for (int i = 0; i < 8; i++)
+			weekHistogram.add(new DailyTweetData());
+	}
 
 	public void addTweet(ITweet tweet)
 	{
 		sortedMultiset.add(tweet);
+		weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 	}
 
 	public void addAll(Collection<ITweet> tweets)
 	{
 		sortedMultiset.addAll(tweets);
-	}
-
-	public HistogramImpl()
-	{
-		sortedMultiset = TreeMultiset.create();
 	}
 
 	/*
@@ -44,11 +50,11 @@ public class HistogramImpl implements IHistogram
 	@Override
 	public String[] getHistogramAsString()
 	{
-		final String[] stringHistogram = new String[8];
+		final String[] stringHistogram = new String[7];
 		int i = 0;
 		for (final Integer day : getHistogram())
 			stringHistogram[i++] = String.valueOf(day);
-		return Arrays.copyOfRange(stringHistogram, 1, stringHistogram.length);
+		return stringHistogram;
 	}
 
 	/*
@@ -63,7 +69,7 @@ public class HistogramImpl implements IHistogram
 		Arrays.fill(tweets, 0);
 		for (final ITweet tweet : sortedMultiset)
 			tweets[tweet.getTweetedDay()]++;
-		return Arrays.asList(tweets);
+		return Arrays.asList(tweets).subList(1, tweets.length);
 	}
 
 	/*
@@ -106,5 +112,14 @@ public class HistogramImpl implements IHistogram
 	public int size()
 	{
 		return sortedMultiset.size();
+	}
+
+	@Override
+	public Collection<Integer> getRetweetedHistogram()
+	{
+		final Collection<Integer> histogram = Lists.newLinkedList();
+		for (int i = 1; i < 8; i++)
+			histogram.add(weekHistogram.get(i).getRetweeted());
+		return histogram;
 	}
 }

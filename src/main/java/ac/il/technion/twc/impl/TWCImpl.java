@@ -30,17 +30,20 @@ public class TWCImpl implements TWCApi
 	{
 
 		final TweetLifeTimeProccesor lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
-		dataHandler = new DataHandlerByJSON();
 
 		histogramHandler = new HistogramImpl();
 		queryRunner = new QueryRunnerImpl();
-		final Map<String, ITweet> tmpTweets = readToTemp(lines, lifeTimeProccesor);
+		dataHandler = new DataHandlerByJSON();
+		dataHandler.load();
+		final Map<String, ITweet> tmpTweets = Maps.newHashMap();
+		tmpTweets.putAll(dataHandler.getTweets());
+		tmpTweets.putAll(readToTemp(lines, lifeTimeProccesor));
 		for (final ITweet tweet : tmpTweets.values())
 		{
 			if (!tweet.isOriginal()
 					&& tmpTweets.containsKey(tweet.getOriginalTweetID())
 					&& tmpTweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-					.getTime())
+							.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			queryRunner.addTweet(TweetFactory.newTweetPersistable(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
@@ -80,13 +83,23 @@ public class TWCImpl implements TWCApi
 		return tmpTweets;
 	}
 
-	public TWCImpl() throws IOException
+	public TWCImpl()
 	{
 		super();
 		dataHandler = new DataHandlerByJSON();
 		histogramHandler = new HistogramImpl();
 		queryRunner = new QueryRunnerImpl();
+		load();
+	}
+
+	/**
+	 *
+	 */
+	private void load()
+	{
 		dataHandler.load();
+		histogramHandler.addAll(dataHandler.getTweets().values());
+		queryRunner.addAll(dataHandler.getTweets().values());
 	}
 
 	@Override

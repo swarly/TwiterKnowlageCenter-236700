@@ -12,7 +12,6 @@ public class HashTagImpl implements IHashTag
 	@Override
 	public String getName()
 	{
-		// TODO Auto-generated method stub
 		return hashTag;
 	}
 

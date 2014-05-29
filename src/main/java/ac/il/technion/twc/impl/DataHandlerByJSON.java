@@ -65,7 +65,7 @@ public class DataHandlerByJSON implements IDataHandler
 	}
 
 	@Override
-	public IDataHandler load() throws IOException
+	public IDataHandler load()
 	{
 		myMap = Maps.newHashMap();
 		if (!myFile.exists() || fileContent.isEmpty())
@@ -122,8 +122,9 @@ public class DataHandlerByJSON implements IDataHandler
 
 		final JSONObject result = new JSONObject();
 		final JSONArray jsonHistogram = new JSONArray();
-		for (final DailyTweetData dailyTweetData : histogram)
-			jsonHistogram.put(dailyTweetData.toJson());
+		if (histogram != null)
+			for (final DailyTweetData dailyTweetData : histogram)
+				jsonHistogram.put(dailyTweetData.toJson());
 		result.put(HISTOGRAM, jsonHistogram);
 		final JSONArray jsonTweets = new JSONArray();
 		for (final ITweet currTweet : tweets)

@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+import ac.il.technion.twc.api.TwitterKnowledgeCenter;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
