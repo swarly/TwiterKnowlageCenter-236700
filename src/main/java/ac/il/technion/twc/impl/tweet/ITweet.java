@@ -15,6 +15,8 @@ public interface ITweet extends Comparable<ITweet>
 	static String originalName = "original";
 	static String liftimeName = "lifetime";
 
+	static String created_at = "created_at";
+
 	@Override
 	public abstract String toString();
 
