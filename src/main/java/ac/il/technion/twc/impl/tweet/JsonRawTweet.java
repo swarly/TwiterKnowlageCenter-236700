@@ -10,13 +10,15 @@ import ac.il.technion.twc.impl.IHashTag;
 public class JsonRawTweet extends AbstractTweet implements IRawTweet
 {
 
-	public JsonRawTweet(String id, Date originalDate, String originalTweet)
+	public JsonRawTweet(String id, Date originalDate, String originalTweet, Collection<IHashTag> hashTags)
 	{
 		super();
 		this.id = id;
 		this.originalDate = originalDate;
 		this.isOriginal = (originalTweet == null) ? true : false;
 		this.originalTweetID = originalTweet;
+		this.hashTags = hashTags;
+		this.tweetType = TweetType.TypeJson;
 	}
 
 	@Override
@@ -45,6 +47,15 @@ public class JsonRawTweet extends AbstractTweet implements IRawTweet
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public JSONObject toJsonObject()
+	{
+		// TODO Auto-generated method stub
+		final JSONObject object = super.toJsonObject();
+
+		return object;
 	}
 
 	@Override
@@ -93,7 +104,7 @@ public class JsonRawTweet extends AbstractTweet implements IRawTweet
 	public TweetType getType()
 	{
 		// TODO Auto-generated method stub
-		return TweetType.TypeJson;
+		return tweetType;
 	}
 
 }

@@ -1,5 +1,7 @@
 package ac.il.technion.twc.impl.tweet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -52,7 +54,7 @@ public class TweetFactory
 	}
 
 	/* Adds all hashtags from 'text' parameter to hashTagsCollection parameter */
-	private static void parseHashTags(Collection<IHashTag> hashTagsCollection, String text)
+	private static void parseHashTags(Collection<IHashTag> hashTags, String text)
 	{
 		final String patternStr = "(?:\\s|\\A)[##]+([A-Za-z0-9-_]+)";
 		final Pattern pattern = Pattern.compile(patternStr);
@@ -65,7 +67,7 @@ public class TweetFactory
 			result = result.replace(" ", "");
 			final String search = result.replace("#", "");
 			final IHashTag currHashTag = new HashTagImpl(search);
-			hashTagsCollection.add(currHashTag);
+			hashTags.add(currHashTag);
 		}
 
 	}
@@ -75,21 +77,43 @@ public class TweetFactory
 	 * 
 	 * @param jsonObject
 	 * @return
+	 * @throws ParseException
 	 */
 	public static ITweet importTweetFromJSON(JSONObject jsonObject)
 	{
-		final int l = 5;
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("ddd mmm dd hh:MM:ss +zzzz yyyy")
-		final String tmp = jsonObject.getString(ITweet.created_at);
-		final Date tmpDate = new Date("Wed May 15 10:08:07 +0000 2013");
-		final String tmptext = new String(
-				"RT @PublishersLunch: #plnws E Ink and Sony Launch Flexible Digital Paper On Plastic #eyalllll (For Oversized Displays) httplyHeBKSHC");
-		final Collection<IHashTag> hashTagsCollection = Lists.newArrayList();
-		parseHashTags(hashTagsCollection, tmptext);
-		final int k = 6;
+		final String dateString = jsonObject.getString("created_at");
 
-		return new JsonRawTweet(jsonObject.getString("id"), new Date(jsonObject.getString("created_at")),
-				jsonObject.getString("in_reply_to_status_id"));
+		final SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		final SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
+		final SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEE");
+		final Date formattedDate = null;
+		final Date parsedDate;
+		try
+		{
+			final Date testDate1 = targetFormat.parse("04/07/2013 13:00:00");
+			// final Date test2 = simpleDateFormat2.parse("Wed May 15 10:08:07 2013");
 
+			// final Date test3 = simpleDateFormat3.parse("Wed");
+			// parsedDate = simpleDateFormat.parse(dateString);
+			// formattedDate = targetFormat.parse(parsedDate.toString());
+
+			final String tmptext = jsonObject.getString("text");
+
+			final Collection<IHashTag> hashTags = Lists.newArrayList();
+			parseHashTags(hashTags, tmptext);
+			final String id = jsonObject.getString("id_str");
+			String original_id;
+			if (jsonObject.isNull("in_reply_to_status_id_str"))
+				original_id = null;
+			else
+				original_id = jsonObject.getString("in_reply_to_status_id_str");
+
+			// TODO: replace test1 with formattedDate
+			return new JsonRawTweet(id, testDate1, original_id, hashTags);
+
+		} catch (final ParseException e)
+		{
+			throw new IllegalArgumentException("date format is illegal");
+		}
 	}
 }

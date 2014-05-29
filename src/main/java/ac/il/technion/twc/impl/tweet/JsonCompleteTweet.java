@@ -7,8 +7,15 @@ import org.json.JSONObject;
 
 import ac.il.technion.twc.impl.IHashTag;
 
-public class JsonCompleteTweet implements ICompleteTweet
+public class JsonCompleteTweet extends AbstractTweet implements ICompleteTweet
 {
+
+	public JsonCompleteTweet()
+	{
+
+		this.tweetType = TweetType.TypeJson;
+
+	}
 
 	@Override
 	public String getId()
@@ -84,7 +91,7 @@ public class JsonCompleteTweet implements ICompleteTweet
 	public TweetType getType()
 	{
 		// TODO Auto-generated method stub
-		return TweetType.TypeJson;
+		return tweetType;
 	}
 
 }

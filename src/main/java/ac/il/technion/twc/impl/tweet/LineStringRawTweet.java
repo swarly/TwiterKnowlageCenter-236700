@@ -18,6 +18,7 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		try
 		{
+
 			this.originalDate = dateFormat.parse(args[0]);
 		} catch (final ParseException e)
 		{
@@ -29,6 +30,9 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 		this.isOriginal = args.length != 3;
 		if (originalTweetID != null && originalTweetID.equals(this.id))
 			throw new IllegalArgumentException("original twitt id cann not be same as self");
+
+		this.tweetType = TweetType.TypeStringLine;
+
 	}
 
 	@Override
