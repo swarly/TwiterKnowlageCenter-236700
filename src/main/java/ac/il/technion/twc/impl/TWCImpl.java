@@ -34,21 +34,7 @@ public class TWCImpl implements TWCApi
 
 		histogramHandler = new HistogramImpl();
 		queryRunner = new QueryRunnerImpl();
-		final Map<String, ITweet> tmpTweets = Maps.newLinkedHashMap();
-		for (final String line : lines)
-		{
-			ITweet rawTweet = null;
-			if (line.startsWith("{") && line.endsWith("}"))
-				rawTweet = TweetFactory.importTweetFromJSON(new JSONObject(line));
-			else
-				rawTweet = TweetFactory.newTweetFromLine(line);
-			if (!tmpTweets.containsKey(rawTweet.getId()))
-			{
-				lifeTimeProccesor.addTweet(rawTweet);
-				tmpTweets.put(rawTweet.getId(), rawTweet);
-			}
-
-		}
+		final Map<String, ITweet> tmpTweets = readToTemp(lines, lifeTimeProccesor);
 		for (final ITweet tweet : tmpTweets.values())
 		{
 			if (!tweet.isOriginal()
@@ -67,6 +53,31 @@ public class TWCImpl implements TWCApi
 		{
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @param lines
+	 * @param lifeTimeProccesor
+	 * @return
+	 */
+	private Map<String, ITweet> readToTemp(Collection<String> lines, final TweetLifeTimeProccesor lifeTimeProccesor)
+	{
+		final Map<String, ITweet> tmpTweets = Maps.newLinkedHashMap();
+		for (final String line : lines)
+		{
+			ITweet rawTweet = null;
+			if (line.startsWith("{") && line.endsWith("}"))
+				rawTweet = TweetFactory.importTweetFromJSON(new JSONObject(line));
+			else
+				rawTweet = TweetFactory.newTweetFromLine(line);
+			if (!tmpTweets.containsKey(rawTweet.getId()))
+			{
+				lifeTimeProccesor.addTweet(rawTweet);
+				tmpTweets.put(rawTweet.getId(), rawTweet);
+			}
+
+		}
+		return tmpTweets;
 	}
 
 	public TWCImpl() throws IOException

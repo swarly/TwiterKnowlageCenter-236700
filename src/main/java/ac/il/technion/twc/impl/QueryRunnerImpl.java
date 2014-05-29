@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ac.il.technion.twc.api.TWCApi.QueryRunner;
 import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.impl.tweet.TweetType;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
@@ -34,6 +35,11 @@ public class QueryRunnerImpl implements QueryRunner
 		return Collections.unmodifiableCollection(tweetById.values());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getHashtagPopularity(ac.il.technion.twc.impl.IHashTag)
+	 */
 	@Override
 	public int getHashtagPopularity(IHashTag hashtag)
 	{
@@ -41,13 +47,18 @@ public class QueryRunnerImpl implements QueryRunner
 			return 0;
 		int popularity = 0;
 		for (final ITweet tweet : tweetsByHash.get(hashtag))
-			popularity += reverseTree.size(tweet);
+			try
+		{
+				popularity += reverseTree.size(tweet);
+		} catch (final UnsupportedOperationException e)
+		{// if tweet is old version it is not supported and will no be counted
+		}
 		return popularity;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getLifetimeOfTweets(java.lang.String)
 	 */
 	@Override
@@ -70,8 +81,9 @@ public class QueryRunnerImpl implements QueryRunner
 		tweetById.put(tweet.getId(), tweet);
 		if (!tweet.isOriginal())
 			reverseTree.put(tweetById.get(tweet.getOriginalTweetID()), tweet);
-		for (final IHashTag hashTag : tweet.getHashTags())
-			tweetsByHash.put(hashTag, tweet);
+		if (tweet.getType() == TweetType.TypeJson)
+			for (final IHashTag hashTag : tweet.getHashTags())
+				tweetsByHash.put(hashTag, tweet);
 	}
 
 	/**
@@ -89,8 +101,7 @@ public class QueryRunnerImpl implements QueryRunner
 	@Override
 	public int getHashtagPopularity(String hashtag)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getHashtagPopularity(new HashTagImpl(hashtag));
 	}
 
 }

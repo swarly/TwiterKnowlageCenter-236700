@@ -60,4 +60,17 @@ public class ReverseTree<K>
 
 		return 0;
 	}
+
+	public void optimize()
+	{
+		for (final K child : fatherByChild.keySet())
+		{
+			if (!fatherByChild.containsKey(fatherByChild.get(child)))
+				continue;
+			K origianlFather = fatherByChild.get(child);
+			while (fatherByChild.containsKey(origianlFather))
+				origianlFather = fatherByChild.get(origianlFather);
+			fatherByChild.put(child, origianlFather);
+		}
+	}
 }

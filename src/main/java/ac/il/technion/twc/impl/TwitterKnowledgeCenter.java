@@ -65,8 +65,8 @@ public class TwitterKnowledgeCenter
 			throw new IllegalArgumentException("input cannot be null");
 
 		// load existing stored data, if there is any, and add to it all new tweets.
-		dataHandler.load();
-		finalTweets.putAll(dataHandler.getTweets());
+
+		finalTweets.putAll(dataHandler.load().getTweets());
 
 		final Map<String, ITweet> tweets = new HashMap<String, ITweet>();
 		tweets.putAll(finalTweets);
@@ -89,7 +89,7 @@ public class TwitterKnowledgeCenter
 			if (!tweet.isOriginal()
 					&& tweets.containsKey(tweet.getOriginalTweetID())
 					&& tweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-							.getTime())
+					.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.put(tweet.getId(),
 					TweetFactory.newTweetPersistable(tweet, lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
@@ -113,8 +113,8 @@ public class TwitterKnowledgeCenter
 		// load existing stored data
 		if (finalTweets.isEmpty())
 		{
-			dataHandler.load();
-			final Map<String, ITweet> tweets = dataHandler.getTweets();
+
+			final Map<String, ITweet> tweets = dataHandler.load().getTweets();
 			finalTweets.putAll(tweets);
 			sortedMultiset.addAll(tweets.values());
 		}
@@ -225,8 +225,8 @@ public class TwitterKnowledgeCenter
 
 	public String[] getTemporalHistogram(Date from, Date to)
 	{
-		final ITweet lower = TweetFactory.newCompareDummy(from);
-		final ITweet upper = TweetFactory.newCompareDummy(to);
+		final ITweet lower = TweetFactory.newCompareAbleDummy(from);
+		final ITweet upper = TweetFactory.newCompareAbleDummy(to);
 		final int[] tweets = new int[8];
 		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
 			tweets[tweet.getTweetedDay()]++;
