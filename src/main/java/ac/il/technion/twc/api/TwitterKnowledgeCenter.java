@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import ac.il.technion.twc.impl.DailyTweetData;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -147,21 +149,18 @@ public class TwitterKnowledgeCenter
 
 	}
 
+	/**
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public String[] getTemporalHistogram(Date from, Date to)
 	{
-		// final ITweet lower = TweetFactory.newCompareAbleDummy(from);
-		// final ITweet upper = TweetFactory.newCompareAbleDummy(to);
-		// final int[] tweets = new int[8];
-		// for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
-		// tweets[tweet.getTweetedDay()]++;
-		// final String[] histogram = new String[7];
-		// for (int i = 1; i < tweets.length; i++)
-		// histogram[i - 1] = String.valueOf(tweets[i]);
-		// return histogram;
+
 		int i = 0;
 		final String[] days = new String[7];
-		for (final Integer day : api.getHistogram().getTemporalHistogram(from, to))
-			days[i++] = String.valueOf(day);
+		for (final DailyTweetData day : api.getHistogram().getTemporalHistogram(from, to))
+			days[i++] = day.toString();
 		return days;
 	}
 

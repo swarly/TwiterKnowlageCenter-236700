@@ -77,14 +77,16 @@ public class HistogramImpl implements IHistogram
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.util.Date, java.util.Date)
 	 */
 	@Override
-	public Collection<Integer> getTemporalHistogram(Date from, Date to)
+	public Collection<DailyTweetData> getTemporalHistogram(Date from, Date to)
 	{
 		final ITweet lower = TweetFactory.newCompareAbleDummy(from);
 		final ITweet upper = TweetFactory.newCompareAbleDummy(to);
-		final Integer[] tweets = new Integer[8];
-		Arrays.fill(tweets, 0);
+		final DailyTweetData[] tweets = new DailyTweetData[8];
+		for (int i = 0; i < tweets.length; i++)
+			tweets[i] = new DailyTweetData();
 		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
-			tweets[tweet.getTweetedDay()]++;
+			tweets[tweet.getTweetedDay()].addTweet(tweet);
+
 		return Collections.unmodifiableCollection(Arrays.asList(tweets).subList(1, tweets.length));
 	}
 
@@ -94,7 +96,7 @@ public class HistogramImpl implements IHistogram
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Collection<Integer> getTemporalHistogram(String t1, String t2)
+	public Collection<DailyTweetData> getTemporalHistogram(String t1, String t2)
 	{
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		try

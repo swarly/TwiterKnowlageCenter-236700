@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import ac.il.technion.twc.impl.DailyTweetData;
 import ac.il.technion.twc.impl.HistogramImpl;
 import ac.il.technion.twc.impl.tweet.ITweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
@@ -69,24 +70,27 @@ public class HistogramTest
 	public void testGetEmptyTemporalHistogramDateDate()
 	{
 		$.addTweet(TweetFactory.newTweetFromLine("29/05/2014 00:00:02,123"));
-		assertEquals(Arrays.asList(0, 0, 0, 0, 0, 0, 0),
-				new ArrayList<Integer>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:01")));
+		assertEquals(Arrays.asList(new DailyTweetData(), new DailyTweetData(), new DailyTweetData(),
+				new DailyTweetData(), new DailyTweetData(), new DailyTweetData(), new DailyTweetData()),
+				new ArrayList<DailyTweetData>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:01")));
 	}
 
 	@Test
 	public void testGetOneTemporalHistogramDateDate()
 	{
 		$.addTweet(TweetFactory.newTweetFromLine("29/05/2014 00:00:02,123"));
-		assertEquals(Arrays.asList(0, 0, 0, 0, 1, 0, 0),
-				new ArrayList<Integer>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:03")));
+		assertEquals(Arrays.asList(new DailyTweetData(), new DailyTweetData(), new DailyTweetData(),
+				new DailyTweetData(), new DailyTweetData(1, 0), new DailyTweetData(), new DailyTweetData()),
+				new ArrayList<DailyTweetData>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:03")));
 	}
 
 	@Test
 	public void testGetOneClosedEdgeTemporalHistogramDateDate()
 	{
 		$.addTweet(TweetFactory.newTweetFromLine("29/05/2014 00:00:02,123"));
-		assertEquals(Arrays.asList(0, 0, 0, 0, 1, 0, 0),
-				new ArrayList<Integer>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:02")));
+		assertEquals(Arrays.asList(new DailyTweetData(), new DailyTweetData(), new DailyTweetData(),
+				new DailyTweetData(), new DailyTweetData(1, 0), new DailyTweetData(), new DailyTweetData()),
+				new ArrayList<DailyTweetData>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:02")));
 	}
 
 	@Test
@@ -94,8 +98,9 @@ public class HistogramTest
 	{
 		$.addTweet(TweetFactory.newTweetFromLine("29/05/2014 00:00:02,123"));
 		$.addTweet(TweetFactory.newTweetFromLine("29/05/2014 00:00:05,1234"));
-		assertEquals(Arrays.asList(0, 0, 0, 0, 1, 0, 0),
-				new ArrayList<Integer>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:02")));
+		assertEquals(Arrays.asList(new DailyTweetData(), new DailyTweetData(), new DailyTweetData(),
+				new DailyTweetData(), new DailyTweetData(1, 0), new DailyTweetData(), new DailyTweetData()),
+				new ArrayList<DailyTweetData>($.getTemporalHistogram("29/5/2014 00:00:00", "29/5/2014 00:00:02")));
 	}
 
 }

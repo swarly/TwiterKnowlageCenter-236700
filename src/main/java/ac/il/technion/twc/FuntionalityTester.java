@@ -125,7 +125,7 @@ public class FuntionalityTester
 	 */
 	public String[] getTemporalHistogram(String t1, String t2) throws Exception
 	{
-		throw new UnsupportedOperationException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
 	/**
@@ -134,6 +134,6 @@ public class FuntionalityTester
 	 */
 	public void cleanPersistentData()
 	{
-		throw new UnsupportedOperationException("Not implemented");
+		$.clear();
 	}
 }

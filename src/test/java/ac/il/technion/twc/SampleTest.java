@@ -36,7 +36,7 @@ public class SampleTest
 		$.setupIndex();
 		assertArrayEquals(new String[] { "2,1", "0,0", "0,0", "0,0", "0,0", "1,0", "1,1" }, $.getDailyHistogram());
 		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "0,0", "0,0", "1,0", "1,1" },
-				$.getTemporalHistogram("04/04/2014 12:00:00", "05/04/2014 12:00:00"));
+				$.getTemporalHistogram("04/04/2014 00:00:00", "05/04/2014 00:00:00"));
 		assertEquals("1", $.getHashtagPopularity("yolo"));
 		assertEquals("0", $.getHashtagPopularity("matam"));
 	}

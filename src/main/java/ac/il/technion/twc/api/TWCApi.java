@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 
+import ac.il.technion.twc.impl.DailyTweetData;
 import ac.il.technion.twc.impl.IHashTag;
 
 public interface TWCApi
@@ -32,7 +33,7 @@ public interface TWCApi
 		 *            string in format dd/MM/yyyy HH:mm:ss that represent to (closed including the time specified)
 		 * @return weekly histogram of the data betweet from and to
 		 */
-		public Collection<Integer> getTemporalHistogram(String from, String to);
+		public Collection<DailyTweetData> getTemporalHistogram(String from, String to);
 
 		/**
 		 * @param from
@@ -41,7 +42,7 @@ public interface TWCApi
 		 *            date object represent end date ( closed including the time specified)
 		 * @return weekly histogram of the data betweet from and to
 		 */
-		public Collection<Integer> getTemporalHistogram(Date from, Date to);
+		public Collection<DailyTweetData> getTemporalHistogram(Date from, Date to);
 
 		/**
 		 * @return collection of integers representing

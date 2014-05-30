@@ -17,11 +17,11 @@ public class TWCTest
 		final TwitterKnowledgeCenter $ = new TwitterKnowledgeCenter();
 		$.cleanPersistentData();
 		$.importData(lines);
-		assertArrayEquals(new String[] { "0", "0", "0", "1", "1", "0", "0" },
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "1,0", "1,0", "0,0", "0,0" },
 				$.getTemporalHistogram("01/04/2014 01:01:00", "03/04/2014 01:50:00"));
-		assertArrayEquals(new String[] { "0", "0", "0", "1", "0", "0", "0" },
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "1,0", "0,0", "0,0", "0,0" },
 				$.getTemporalHistogram("01/04/2014 01:01:00", "02/04/2014 2:00:00"));
-		assertArrayEquals(new String[] { "0", "0", "0", "1", "1", "1", "0" },
+		assertArrayEquals(new String[] { "0,0", "0,0", "0,0", "1,0", "1,0", "1,0", "0,0" },
 				$.getTemporalHistogram("01/04/2014 01:01:00", "04/04/2014 13:00:00"));
 	}
 }
