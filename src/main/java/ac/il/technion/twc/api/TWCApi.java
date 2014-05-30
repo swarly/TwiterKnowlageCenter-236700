@@ -109,4 +109,6 @@ public interface TWCApi
 		 */
 		public long getLifetimeOfTweets(String id);
 	}
+
+	public abstract void clear();
 }

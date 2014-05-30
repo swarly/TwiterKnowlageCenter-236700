@@ -44,7 +44,7 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogramAsString()
 	 */
 	@Override
@@ -59,22 +59,21 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogram()
 	 */
 	@Override
 	public Collection<Integer> getHistogram()
 	{
-		final Integer[] tweets = new Integer[8];
-		Arrays.fill(tweets, 0);
-		for (final ITweet tweet : sortedMultiset)
-			tweets[tweet.getTweetedDay()]++;
-		return Arrays.asList(tweets).subList(1, tweets.length);
+		final Collection<Integer> histogram = Lists.newLinkedList();
+		for (int i = 1; i < 8; i++)
+			histogram.add(weekHistogram.get(i).getTotalTweets());
+		return histogram;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.util.Date, java.util.Date)
 	 */
 	@Override
@@ -91,7 +90,7 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.lang.String, java.lang.String)
 	 */
 	@Override

@@ -37,15 +37,16 @@ public class TWCImpl implements TWCApi
 		dataHandler.load();
 		final Map<String, ITweet> tmpTweets = Maps.newHashMap();
 		tmpTweets.putAll(dataHandler.getTweets());
-		tmpTweets.putAll(readToTemp(lines, lifeTimeProccesor));
+		lifeTimeProccesor.addAll(dataHandler.getTweets().values());
+		updateTempTweets(lines, lifeTimeProccesor, tmpTweets);
 		for (final ITweet tweet : tmpTweets.values())
 		{
 			if (!tweet.isOriginal()
 					&& tmpTweets.containsKey(tweet.getOriginalTweetID())
 					&& tmpTweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-							.getTime())
+					.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
-			queryRunner.addTweet(TweetFactory.newTweetPersistable(tweet,
+			queryRunner.addTweet(tweet.getType().getpersistableTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 			histogramHandler.addTweet(tweet);
 		}
@@ -61,11 +62,14 @@ public class TWCImpl implements TWCApi
 	/**
 	 * @param lines
 	 * @param lifeTimeProccesor
+	 * @param tmpTweet
+	 *            TODO
 	 * @return
 	 */
-	private Map<String, ITweet> readToTemp(Collection<String> lines, final TweetLifeTimeProccesor lifeTimeProccesor)
-	{
-		final Map<String, ITweet> tmpTweets = Maps.newLinkedHashMap();
+	private Map<String, ITweet> updateTempTweets(Collection<String> lines,
+			final TweetLifeTimeProccesor lifeTimeProccesor, Map<String, ITweet> tmpTweets)
+			{
+
 		for (final String line : lines)
 		{
 			ITweet rawTweet = null;
@@ -81,7 +85,7 @@ public class TWCImpl implements TWCApi
 
 		}
 		return tmpTweets;
-	}
+			}
 
 	public TWCImpl()
 	{
@@ -112,6 +116,13 @@ public class TWCImpl implements TWCApi
 	public QueryRunner getQueryRunner()
 	{
 		return queryRunner;
+	}
+
+	@Override
+	public void clear()
+	{
+		dataHandler.clearData();
+
 	}
 
 }

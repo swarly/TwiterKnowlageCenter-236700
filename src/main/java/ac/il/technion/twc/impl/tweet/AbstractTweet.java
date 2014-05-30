@@ -34,7 +34,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#toString()
 	 */
 	@Override
@@ -51,14 +51,14 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 		object.put(ITweet.timeName, getOriginalDate().getTime());
 		object.put(ITweet.originalName, getOriginalTweetID());
 		object.put(ITweet.liftimeName, getLifeTime());
-		object.put("tweetType", getType().toString());
+		object.put(ITweet.TWEET_TYPE, getType().ordinal());
 
 		return object;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getId()
 	 */
 	public String getId()
@@ -68,7 +68,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
 	public Date getOriginalDate()
@@ -78,7 +78,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#isOriginal()
 	 */
 	public boolean isOriginal()
@@ -88,7 +88,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalTweet()
 	 */
 	public String getOriginalTweetID()
@@ -98,7 +98,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.Tweet#getTweetedDay()
 	 */
 	public int getTweetedDay()
@@ -111,6 +111,34 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 	public TweetType getType()
 	{
 		return this.tweetType;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final AbstractTweet other = (AbstractTweet) obj;
+		if (id == null)
+		{
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

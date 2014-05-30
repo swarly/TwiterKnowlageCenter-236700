@@ -45,7 +45,6 @@ public class StringLineCompleteTweet extends AbstractTweet implements ICompleteT
 	@Override
 	public Collection<IHashTag> getHashTags()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"You are tring to make an action that is not supportted for this type Tweet");
 	}
@@ -66,7 +65,6 @@ public class StringLineCompleteTweet extends AbstractTweet implements ICompleteT
 	@Override
 	public TweetType getType()
 	{
-		// TODO Auto-generated method stub
 		return TweetType.TypeStringLine;
 	}
 

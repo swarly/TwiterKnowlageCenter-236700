@@ -9,11 +9,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.JSONObject;
-
-import ac.il.technion.twc.impl.tweet.ITweet;
-import ac.il.technion.twc.impl.tweet.TweetFactory;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -109,11 +104,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public void importDataJson(String[] lines)
 	{
-		for (final String line : lines)
-		{
-			final ITweet tweet = TweetFactory.importTweetFromJSON(new JSONObject(line));
-			tweet.toString();
-		}
+		api = TWCFactory.fromStringLines(Arrays.asList(lines));
 	}
 
 	public void importDataJson(File file) throws IOException
@@ -131,7 +122,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public String getHashtagPopularity(String hashtag)
 	{
-		throw new UnsupportedOperationException("Not implemented");
+		return String.valueOf(api.getQueryRunner().getHashtagPopularity(hashtag));
 	}
 
 	/**
@@ -180,7 +171,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public void cleanPersistentData()
 	{
-		// dataHandler.clearData();
+		api.clear();
 	}
 
 }

@@ -64,7 +64,6 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 	@Override
 	public TweetType getType()
 	{
-		// TODO Auto-generated method stub
 		return TweetType.TypeStringLine;
 	}
 

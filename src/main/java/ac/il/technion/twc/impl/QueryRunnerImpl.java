@@ -37,7 +37,7 @@ public class QueryRunnerImpl implements QueryRunner
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getHashtagPopularity(ac.il.technion.twc.impl.IHashTag)
 	 */
 	@Override
@@ -48,17 +48,17 @@ public class QueryRunnerImpl implements QueryRunner
 		int popularity = 0;
 		for (final ITweet tweet : tweetsByHash.get(hashtag))
 			try
-		{
+			{
 				popularity += reverseTree.size(tweet);
-		} catch (final UnsupportedOperationException e)
-		{// if tweet is old version it is not supported and will no be counted
-		}
+			} catch (final UnsupportedOperationException e)
+			{// if tweet is old version it is not supported and will no be counted
+			}
 		return popularity;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getLifetimeOfTweets(java.lang.String)
 	 */
 	@Override
@@ -79,11 +79,23 @@ public class QueryRunnerImpl implements QueryRunner
 	public void addTweet(ITweet tweet)
 	{
 		tweetById.put(tweet.getId(), tweet);
-		if (!tweet.isOriginal())
-			reverseTree.put(tweetById.get(tweet.getOriginalTweetID()), tweet);
-		if (tweet.getType() == TweetType.TypeJson)
-			for (final IHashTag hashTag : tweet.getHashTags())
-				tweetsByHash.put(hashTag, tweet);
+		updateTree();
+	}
+
+	/**
+	 * @param tweet
+	 */
+	private void updateTree()
+	{
+		reverseTree.clear();
+		for (final ITweet tweet : tweetById.values())
+		{
+			if (!tweet.isOriginal())
+				reverseTree.put(tweetById.get(tweet.getOriginalTweetID()), tweet);
+			if (tweet.getType() == TweetType.TypeJson)
+				for (final IHashTag hashTag : tweet.getHashTags())
+					tweetsByHash.put(hashTag, tweet);
+		}
 	}
 
 	/**
@@ -95,7 +107,8 @@ public class QueryRunnerImpl implements QueryRunner
 	public void addAll(Collection<ITweet> tweets)
 	{
 		for (final ITweet tweet : tweets)
-			addTweet(tweet);
+			tweetById.put(tweet.getId(), tweet);
+		updateTree();
 	}
 
 	@Override
