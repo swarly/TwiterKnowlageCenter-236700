@@ -39,7 +39,7 @@ public class TwitterKnowledgeCenter
 	 * @throws Exception
 	 *             If for any reason, handling the data failed
 	 */
-	public void importData(String[] lines) throws Exception
+	public void importData(String[] lines)
 	{
 		if (lines == null)
 			throw new IllegalArgumentException("lines array is null");

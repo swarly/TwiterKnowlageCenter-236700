@@ -15,7 +15,7 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 	{
 		super();
 		final String[] args = line.split(",");
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		try
 		{
 
