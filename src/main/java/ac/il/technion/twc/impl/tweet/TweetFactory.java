@@ -30,7 +30,7 @@ public class TweetFactory
 
 	/**
 	 * use for creating tweet from the Json dataHandler
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 */
@@ -39,10 +39,10 @@ public class TweetFactory
 		return new StringLineCompleteTweet(jsonObject.getString(ITweet.idName), new Date(
 				jsonObject.getLong(ITweet.timeName)), jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject
 				.optString(ITweet.originalName).isEmpty() ? null : jsonObject.optString(ITweet.originalName),
-				jsonObject.getLong(ITweet.liftimeName));
+						jsonObject.getLong(ITweet.liftimeName));
 	}
 
-	public static ITweet newTweetPersistable(ITweet tweet, long twittLifeTime)
+	public static ITweet newPersistableStringLineTweet(ITweet tweet, long twittLifeTime)
 	{
 
 		return new StringLineCompleteTweet(tweet, twittLifeTime);
@@ -74,7 +74,7 @@ public class TweetFactory
 
 	/**
 	 * use for importing tweet from Tweeter Json format
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 * @throws ParseException
@@ -83,37 +83,36 @@ public class TweetFactory
 	{
 		final String dateString = jsonObject.getString("created_at");
 
-		final SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		final SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
-		final SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEE");
-		final Date formattedDate = null;
+		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 		final Date parsedDate;
 		try
 		{
-			final Date testDate1 = targetFormat.parse("04/07/2013 13:00:00");
-			// final Date test2 = simpleDateFormat2.parse("Wed May 15 10:08:07 2013");
-
-			// final Date test3 = simpleDateFormat3.parse("Wed");
-			// parsedDate = simpleDateFormat.parse(dateString);
-			// formattedDate = targetFormat.parse(parsedDate.toString());
-
-			final String tmptext = jsonObject.getString("text");
-
+			parsedDate = simpleDateFormat.parse(dateString);
+			final String text = jsonObject.getString("text");
 			final Collection<IHashTag> hashTags = Lists.newArrayList();
-			parseHashTags(hashTags, tmptext);
+			parseHashTags(hashTags, text);
 			final String id = jsonObject.getString("id_str");
 			String original_id;
-			if (jsonObject.isNull("in_reply_to_status_id_str"))
+			if (jsonObject.isNull("retweeted_status"))
 				original_id = null;
 			else
-				original_id = jsonObject.getString("in_reply_to_status_id_str");
+				original_id = String.valueOf(jsonObject.getJSONObject("retweeted_status").getInt("id"));
 
-			// TODO: replace test1 with formattedDate
-			return new JsonRawTweet(id, testDate1, original_id, hashTags);
+			return new JsonRawTweet(id, parsedDate, original_id, hashTags, text);
 
 		} catch (final ParseException e)
 		{
 			throw new IllegalArgumentException("date format is illegal");
 		}
+	}
+
+	public static ITweet newPersistableJsonTweet(ITweet tweet, long lifeTime)
+	{
+		return new JsonCompleteTweet(tweet, lifeTime);
+	}
+
+	public static ITweet newJsonTweetFrompersistentJson(JSONObject jsonObject)
+	{
+		return new JsonCompleteTweet(jsonObject);
 	}
 }

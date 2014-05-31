@@ -73,4 +73,10 @@ public class ReverseTree<K>
 			fatherByChild.put(child, origianlFather);
 		}
 	}
+
+	public void clear()
+	{
+		fatherByChild.clear();
+		childsByFather.clear();
+	}
 }

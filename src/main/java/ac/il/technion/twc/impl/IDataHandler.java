@@ -16,11 +16,12 @@ public interface IDataHandler
 	 */
 	/**
 	 * load data from persistence state
-	 * @return TODO
-	 * 
+	 *
+	 * @return self for chaining
+	 *
 	 * @throws IOException
 	 */
-	public IDataHandler load() throws IOException;
+	public IDataHandler load();
 
 	/**
 	 * @return map of tweet id to Itweet object

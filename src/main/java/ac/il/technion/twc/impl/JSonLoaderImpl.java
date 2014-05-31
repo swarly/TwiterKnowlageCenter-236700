@@ -35,8 +35,7 @@ public class JSonLoaderImpl implements Loader
 	@Override
 	public TWCApi fromPersistence()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new TWCImpl();
 	}
 
 }

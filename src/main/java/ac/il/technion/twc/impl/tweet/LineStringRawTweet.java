@@ -11,12 +11,11 @@ import ac.il.technion.twc.impl.IHashTag;
 public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 {
 
-	// TODO check if tweet can be declared twice
 	LineStringRawTweet(String line) throws IllegalArgumentException
 	{
 		super();
 		final String[] args = line.split(",");
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		try
 		{
 
@@ -65,7 +64,6 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 	@Override
 	public TweetType getType()
 	{
-		// TODO Auto-generated method stub
 		return TweetType.TypeStringLine;
 	}
 

@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ac.il.technion.twc.impl.tweet.ITweet;
-import ac.il.technion.twc.impl.tweet.TweetFactory;
+import ac.il.technion.twc.impl.tweet.TweetType;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
@@ -65,7 +65,7 @@ public class DataHandlerByJSON implements IDataHandler
 	}
 
 	@Override
-	public IDataHandler load() throws IOException
+	public IDataHandler load()
 	{
 		myMap = Maps.newHashMap();
 		if (!myFile.exists() || fileContent.isEmpty())
@@ -75,7 +75,9 @@ public class DataHandlerByJSON implements IDataHandler
 		final JSONArray tweetArray = jsonObject.getJSONArray(TWEETS);
 		for (int i = 0; i < tweetArray.length(); i++)
 		{
-			final ITweet tweet = TweetFactory.newStringLineTweetFromJSON(tweetArray.getJSONObject(i));
+
+			final ITweet tweet = TweetType.values()[tweetArray.getJSONObject(i).getInt("tweetType")]
+					.getTweetFromPersistent(tweetArray.getJSONObject(i));
 			myMap.put(tweet.getId(), tweet);
 		}
 		return this;
@@ -94,6 +96,11 @@ public class DataHandlerByJSON implements IDataHandler
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.impl.IDataHandler#getHistogramFromFile()
+	 */
 	@Override
 	public List<DailyTweetData> getHistogramFromFile()
 	{
@@ -107,6 +114,13 @@ public class DataHandlerByJSON implements IDataHandler
 		return histogram;
 	}
 
+	/**
+	 * clear a given histogram
+	 *
+	 * @param histogram
+	 *            histogram to clear
+	 * @return
+	 */
 	private List<DailyTweetData> getEmptyHistogram(List<DailyTweetData> histogram2)
 	{
 		for (int i = 0; i < 8; i++)
@@ -114,6 +128,11 @@ public class DataHandlerByJSON implements IDataHandler
 		return histogram2;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ac.il.technion.twc.impl.IDataHandler#saveToData(java.util.Collection, java.util.List)
+	 */
 	@Override
 	public void saveToData(Collection<ITweet> tweets, List<DailyTweetData> histogram) throws IOException
 	{
@@ -122,8 +141,9 @@ public class DataHandlerByJSON implements IDataHandler
 
 		final JSONObject result = new JSONObject();
 		final JSONArray jsonHistogram = new JSONArray();
-		for (final DailyTweetData dailyTweetData : histogram)
-			jsonHistogram.put(dailyTweetData.toJson());
+		if (histogram != null)
+			for (final DailyTweetData dailyTweetData : histogram)
+				jsonHistogram.put(dailyTweetData.toJson());
 		result.put(HISTOGRAM, jsonHistogram);
 		final JSONArray jsonTweets = new JSONArray();
 		for (final ITweet currTweet : tweets)

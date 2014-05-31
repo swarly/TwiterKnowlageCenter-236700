@@ -24,7 +24,7 @@ public class TWCFactory
 		return new JSonLoaderImpl().fromStringLines(lines);
 	}
 
-	public static TWCApi fromPersistence()
+	public static TWCApi newTWCApi()
 	{
 		return new JSonLoaderImpl().fromPersistence();
 	}

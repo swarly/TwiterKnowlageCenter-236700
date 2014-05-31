@@ -1,5 +1,7 @@
 package ac.il.technion.twc.impl;
 
+import ac.il.technion.twc.api.TwitterKnowledgeCenter;
+
 /**
  * This class is meant to act as a wrapper to test your functionality. You should implement all its methods and not
  * change any of their signatures. You can also implement an argumentless constructor if you wish, and any number of new

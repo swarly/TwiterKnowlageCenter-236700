@@ -14,6 +14,8 @@ public interface ITweet extends Comparable<ITweet>
 	static String timeName = "time";
 	static String originalName = "original";
 	static String liftimeName = "lifetime";
+	static final String TWEET_TYPE = "tweetType";
+	static final String TEXTName = "text";
 
 	@Override
 	public abstract String toString();

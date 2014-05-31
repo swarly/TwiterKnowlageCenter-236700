@@ -62,4 +62,36 @@ public class DailyTweetData
 			this.retweeted++;
 	}
 
+	@Override
+	public String toString()
+	{
+		return totalTweets + "," + retweeted;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + retweeted;
+		result = prime * result + totalTweets;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final DailyTweetData other = (DailyTweetData) obj;
+		if (retweeted != other.retweeted)
+			return false;
+		if (totalTweets != other.totalTweets)
+			return false;
+		return true;
+	}
 }

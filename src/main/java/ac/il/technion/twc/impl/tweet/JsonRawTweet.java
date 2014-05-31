@@ -10,7 +10,9 @@ import ac.il.technion.twc.impl.IHashTag;
 public class JsonRawTweet extends AbstractTweet implements IRawTweet
 {
 
-	public JsonRawTweet(String id, Date originalDate, String originalTweet, Collection<IHashTag> hashTags)
+	private final String text;
+
+	public JsonRawTweet(String id, Date originalDate, String originalTweet, Collection<IHashTag> hashTags, String text)
 	{
 		super();
 		this.id = id;
@@ -19,92 +21,52 @@ public class JsonRawTweet extends AbstractTweet implements IRawTweet
 		this.originalTweetID = originalTweet;
 		this.hashTags = hashTags;
 		this.tweetType = TweetType.TypeJson;
+		this.text = text;
+
 	}
 
 	@Override
 	public String getId()
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Date getOriginalDate()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isOriginal()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getOriginalTweetID()
-	{
-		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
 
 	@Override
 	public JSONObject toJsonObject()
 	{
-		// TODO Auto-generated method stub
 		final JSONObject object = super.toJsonObject();
 
 		return object;
 	}
 
 	@Override
-	public int getTweetedDay()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public long getLifeTime()
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public JSONObject toJson()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Collection<IHashTag> getHashTags()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return hashTags;
 	}
 
 	@Override
 	public String getText()
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int compareTo(ITweet arg0)
-	{
-		// TODO Auto-generated method stub
-		return 0;
+		return text;
 	}
 
 	@Override
 	public TweetType getType()
 	{
-		// TODO Auto-generated method stub
-		return tweetType;
+		return TweetType.TypeJson;
 	}
 
 }

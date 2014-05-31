@@ -96,7 +96,7 @@ public class TweetTest
 	public void testHashTagsCompleteTweet()
 	{
 		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
-		TweetFactory.newTweetPersistable(tweet, 0).getHashTags();
+		TweetFactory.newPersistableStringLineTweet(tweet, 0).getHashTags();
 
 	}
 
@@ -104,7 +104,7 @@ public class TweetTest
 	public void testgetTextCompleteTweet()
 	{
 		final ITweet tweet = TweetFactory.newTweetFromLine("01/01/2014 00:00:00,123,234");
-		TweetFactory.newTweetPersistable(tweet, 0).getText();
+		TweetFactory.newPersistableStringLineTweet(tweet, 0).getText();
 	}
 
 }

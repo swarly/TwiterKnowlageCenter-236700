@@ -30,11 +30,15 @@ public class TWCImpl implements TWCApi
 	{
 
 		final TweetLifeTimeProccesor lifeTimeProccesor = new GraphTweetLifeTimeProccesor();
-		dataHandler = new DataHandlerByJSON();
 
 		histogramHandler = new HistogramImpl();
 		queryRunner = new QueryRunnerImpl();
-		final Map<String, ITweet> tmpTweets = readToTemp(lines, lifeTimeProccesor);
+		dataHandler = new DataHandlerByJSON();
+		dataHandler.load();
+		final Map<String, ITweet> tmpTweets = Maps.newHashMap();
+		tmpTweets.putAll(dataHandler.getTweets());
+		lifeTimeProccesor.addAll(dataHandler.getTweets().values());
+		updateTempTweets(lines, lifeTimeProccesor, tmpTweets);
 		for (final ITweet tweet : tmpTweets.values())
 		{
 			if (!tweet.isOriginal()
@@ -42,7 +46,7 @@ public class TWCImpl implements TWCApi
 					&& tmpTweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
 					.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
-			queryRunner.addTweet(TweetFactory.newTweetPersistable(tweet,
+			queryRunner.addTweet(tweet.getType().getpersistableTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
 			histogramHandler.addTweet(tweet);
 		}
@@ -58,11 +62,14 @@ public class TWCImpl implements TWCApi
 	/**
 	 * @param lines
 	 * @param lifeTimeProccesor
+	 * @param tmpTweet
+	 *            TODO
 	 * @return
 	 */
-	private Map<String, ITweet> readToTemp(Collection<String> lines, final TweetLifeTimeProccesor lifeTimeProccesor)
-	{
-		final Map<String, ITweet> tmpTweets = Maps.newLinkedHashMap();
+	private Map<String, ITweet> updateTempTweets(Collection<String> lines,
+			final TweetLifeTimeProccesor lifeTimeProccesor, Map<String, ITweet> tmpTweets)
+			{
+
 		for (final String line : lines)
 		{
 			ITweet rawTweet = null;
@@ -78,15 +85,25 @@ public class TWCImpl implements TWCApi
 
 		}
 		return tmpTweets;
-	}
+			}
 
-	public TWCImpl() throws IOException
+	public TWCImpl()
 	{
 		super();
 		dataHandler = new DataHandlerByJSON();
 		histogramHandler = new HistogramImpl();
 		queryRunner = new QueryRunnerImpl();
+		load();
+	}
+
+	/**
+	 *
+	 */
+	private void load()
+	{
 		dataHandler.load();
+		histogramHandler.addAll(dataHandler.getTweets().values());
+		queryRunner.addAll(dataHandler.getTweets().values());
 	}
 
 	@Override
@@ -99,6 +116,13 @@ public class TWCImpl implements TWCApi
 	public QueryRunner getQueryRunner()
 	{
 		return queryRunner;
+	}
+
+	@Override
+	public void clear()
+	{
+		dataHandler.clearData();
+
 	}
 
 }

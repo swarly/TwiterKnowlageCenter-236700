@@ -1,5 +1,6 @@
 package ac.il.technion.twc;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.TwitterKnowledgeCenter;
+import ac.il.technion.twc.api.TwitterKnowledgeCenter;
 
 public class LargeFileTest
 {
@@ -39,4 +40,23 @@ public class LargeFileTest
 		tkc.cleanPersistentData();
 	}
 
+	@Test
+	public void testDate()
+	{
+		final SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		final SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
+		final SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEE");
+		final Date formattedDate;
+		final Date parsedDate;
+		try
+		{
+			final Date test1 = targetFormat.parse("11/12/2014 08:07:22");
+			final Date test2 = simpleDateFormat2.parse("Wed May 15 10:08:07 2013");
+			test2.toString();
+		} catch (final ParseException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
 }

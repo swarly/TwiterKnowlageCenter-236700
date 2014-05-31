@@ -1,27 +1,34 @@
-package ac.il.technion.twc;
+package ac.il.technion.twc.api;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
-import ac.il.technion.twc.api.TWCApi;
-import ac.il.technion.twc.api.TWCFactory;
-import ac.il.technion.twc.api.TwitterKnowledgeCenter;
+import ac.il.technion.twc.impl.DailyTweetData;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 /**
  * This class is meant to act as a wrapper to test your functionality. You should implement all its methods and not
- * change any of their signatures. You can also implement an argumentless constructor if you wish, and any number of new
- * public methods
+ * change any of their signatures. You can also implement an argumentless constructor if you wish.
  *
  * @author Gal Lalouche
  */
-public class FuntionalityTester
+public class TwitterKnowledgeCenter
 {
-	private TWCApi $;
+	private TWCApi api;
 
-	public FuntionalityTester()
+	public TwitterKnowledgeCenter()
 	{
 		super();
-		$ = TWCFactory.newTWCApi();
+
+		api = TWCFactory.newTWCApi();
 	}
 
 	/**
@@ -32,22 +39,11 @@ public class FuntionalityTester
 	 * @throws Exception
 	 *             If for any reason, handling the data failed
 	 */
-	public void importData(String[] lines) throws Exception
+	public void importData(String[] lines)
 	{
-		$ = TWCFactory.fromStringLines(Arrays.asList(lines));
-	}
-
-	/**
-	 * Loads the data from an array of JSON lines
-	 *
-	 * @param lines
-	 *            An array of lines, each line is a JSON string
-	 * @throws Exception
-	 *             If for any reason, handling the data failed
-	 */
-	public void importDataJson(String[] lines) throws Exception
-	{
-		$ = TWCFactory.fromStringLines(Arrays.asList(lines));
+		if (lines == null)
+			throw new IllegalArgumentException("lines array is null");
+		api = TWCFactory.fromStringLines(Arrays.asList(lines));
 	}
 
 	/**
@@ -60,40 +56,63 @@ public class FuntionalityTester
 	 */
 	public void setupIndex() throws Exception
 	{
-
 	}
 
 	/**
-	 * Gets the lifetime of the tweet, in milliseconds. You may assume we will ask about the lifetime of a retweet, but
-	 * only about the lifetime of an original tweet.
+	 * Gets the lifetime of the tweet, in milliseconds.
 	 *
 	 * @param tweetId
 	 *            The tweet's identifier
 	 * @return A string, counting the number of milliseconds between the tweet's publication and its last retweet
-	 *         (recursive)
 	 * @throws Exception
 	 *             If it is not possible to complete the operation
 	 */
 	public String getLifetimeOfTweets(String tweetId) throws Exception
 	{
-		return String.valueOf($.getQueryRunner().getLifetimeOfTweets(tweetId));
+		return String.valueOf(api.getQueryRunner().getLifetimeOfTweets(tweetId));
 	}
 
 	/**
-	 * Gets the weekly histogram of all tweet and retweet data
+	 * Gets the weekly histogram of all tweet data
 	 *
 	 * @return An array of strings, each string in the format of
-	 *         ("<number of tweets (including retweets), number of retweets only>"), for example:
+	 *         ("<number of tweets (including retweets), number of retweets only>" ), for example:
 	 *         ["100, 10","250,20",...,"587,0"]. The 0th index of the array is Sunday.
+	 * @throws Exception
+	 *             If it is not possible to complete the operation
 	 */
 	public String[] getDailyHistogram()
 	{
 		final String[] histogram = new String[7];
-		final Iterator<Integer> iteratorTotal = $.getHistogram().getHistogram().iterator();
-		final Iterator<Integer> iteratorRet = $.getHistogram().getRetweetedHistogram().iterator();
+		final Iterator<Integer> iteratorTotal = api.getHistogram().getHistogram().iterator();
+		final Iterator<Integer> iteratorRet = api.getHistogram().getRetweetedHistogram().iterator();
 		for (int i = 0; i < histogram.length; i++)
 			histogram[i] = String.valueOf(iteratorTotal.next()) + "," + iteratorRet.next();
 		return histogram;
+	}
+
+	public void importDataJson(String json)
+	{
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	/**
+	 * Loads the data from an array of JSON lines
+	 *
+	 * @param lines
+	 *            An array of lines, each line is a JSON string
+	 * @throws Exception
+	 *             If for any reason, handling the data failed
+	 */
+	public void importDataJson(String[] lines)
+	{
+		api = TWCFactory.fromStringLines(Arrays.asList(lines));
+	}
+
+	public void importDataJson(File file) throws IOException
+	{
+		final List<String> lines = Files.readLines(file, Charsets.UTF_8);
+		importDataJson(lines.toArray(new String[lines.size()]));
 	}
 
 	/**
@@ -105,7 +124,7 @@ public class FuntionalityTester
 	 */
 	public String getHashtagPopularity(String hashtag)
 	{
-		return String.valueOf($.getQueryRunner().getHashtagPopularity(hashtag));
+		return String.valueOf(api.getQueryRunner().getHashtagPopularity(hashtag));
 	}
 
 	/**
@@ -118,14 +137,31 @@ public class FuntionalityTester
 	 *            A date string in the format of <b>dd/MM/yyyy HH:mm:ss</b>; all tweets counted in the histogram should
 	 *            have been published <b>before<\b> t2.
 	 * @return An array of strings, each string in the format of
-	 *         ("<number of tweets (including retweets), number of retweets only>"), for example:
+	 *         ("<number of tweets (including retweets), number of retweets only>" ), for example:
 	 *         ["100, 10","250,20",...,"587,0"]. The 0th index of the array is Sunday.
 	 * @throws Exception
 	 *             If it is not possible to complete the operation
 	 */
-	public String[] getTemporalHistogram(String t1, String t2) throws Exception
+	public String[] getTemporalHistogram(String t1, String t2) throws ParseException
 	{
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return getTemporalHistogram(dateFormat.parse(t1), dateFormat.parse(t2));
+
+	}
+
+	/**
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public String[] getTemporalHistogram(Date from, Date to)
+	{
+
+		int i = 0;
+		final String[] days = new String[7];
+		for (final DailyTweetData day : api.getHistogram().getTemporalHistogram(from, to))
+			days[i++] = day.toString();
+		return days;
 	}
 
 	/**
@@ -134,6 +170,7 @@ public class FuntionalityTester
 	 */
 	public void cleanPersistentData()
 	{
-		$.clear();
+		api.clear();
 	}
+
 }
