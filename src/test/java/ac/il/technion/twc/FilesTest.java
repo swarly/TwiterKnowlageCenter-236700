@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ac.il.technion.twc.api.TwitterKnowledgeCenter;
@@ -18,6 +19,7 @@ import com.google.common.io.Files;
 
 public class FilesTest
 {
+
 	private static final String SMALL_TEST_FILE = "small_sample.json";
 	private static final String LARGE_TEST_FILE = "large_sample.json";
 	private File smallFile;
@@ -48,12 +50,14 @@ public class FilesTest
 		$.cleanPersistentData();
 	}
 
+	@Ignore
 	@Test
 	public void test1()
 	{
 		$.importData(linesSmall);
 	}
 
+	// TODO remove before submisssion
 	@Test
 	public void testlarge()
 	{
@@ -61,6 +65,6 @@ public class FilesTest
 		$.importData(linesLarge);
 		final long duration = System.currentTimeMillis() - start;
 		final Date d = new Date(duration);
-		d.toString();
+		// d.toString();
 	}
 }
