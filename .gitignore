@@ -1,2 +1,5 @@
 /target
 src/main/resources/myMap.json
+src/test/java/ac/il/technion/twc/small_sample.json
+src/test/resources/large_sample.json
+src/test/resources/small_sample.json

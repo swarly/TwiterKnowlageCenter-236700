@@ -40,6 +40,8 @@ public class HistogramImpl implements IHistogram
 	public void addAll(Collection<ITweet> tweets)
 	{
 		sortedMultiset.addAll(tweets);
+		for (final ITweet tweet : tweets)
+			weekHistogram.get(tweet.getTweetedDay()).addTweet(tweet);
 	}
 
 	/*

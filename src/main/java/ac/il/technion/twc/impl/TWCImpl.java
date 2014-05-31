@@ -2,6 +2,7 @@ package ac.il.technion.twc.impl;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -10,6 +11,7 @@ import ac.il.technion.twc.api.TWCApi;
 import ac.il.technion.twc.impl.tweet.ITweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class TWCImpl implements TWCApi
@@ -39,17 +41,20 @@ public class TWCImpl implements TWCApi
 		tmpTweets.putAll(dataHandler.getTweets());
 		lifeTimeProccesor.addAll(dataHandler.getTweets().values());
 		updateTempTweets(lines, lifeTimeProccesor, tmpTweets);
+		final List<ITweet> finalTweets = Lists.newArrayList();
 		for (final ITweet tweet : tmpTweets.values())
 		{
 			if (!tweet.isOriginal()
 					&& tmpTweets.containsKey(tweet.getOriginalTweetID())
 					&& tmpTweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
-					.getTime())
+							.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
-			queryRunner.addTweet(tweet.getType().getpersistableTweet(tweet,
+			finalTweets.add(tweet.getType().getpersistableTweet(tweet,
 					lifeTimeProccesor.getTweetLifeTime(tweet.getId())));
-			histogramHandler.addTweet(tweet);
+
 		}
+		queryRunner.addAll(finalTweets);
+		histogramHandler.addAll(finalTweets);
 		try
 		{
 			dataHandler.saveToData(queryRunner.getAllTweets(), null);
@@ -68,7 +73,7 @@ public class TWCImpl implements TWCApi
 	 */
 	private Map<String, ITweet> updateTempTweets(Collection<String> lines,
 			final TweetLifeTimeProccesor lifeTimeProccesor, Map<String, ITweet> tmpTweets)
-			{
+	{
 
 		for (final String line : lines)
 		{
@@ -85,7 +90,7 @@ public class TWCImpl implements TWCApi
 
 		}
 		return tmpTweets;
-			}
+	}
 
 	public TWCImpl()
 	{

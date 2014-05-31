@@ -33,8 +33,6 @@ public class DataHandlerByJSON implements IDataHandler
 		try
 		{
 			myFile = new File(getClass().getResource("myMap.json").toURI());
-			if (!myFile.exists())
-				myFile.createNewFile();
 			fileContent = readFile(myFile);
 		} catch (final IOException | URISyntaxException e)
 		{
@@ -98,7 +96,7 @@ public class DataHandlerByJSON implements IDataHandler
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.impl.IDataHandler#getHistogramFromFile()
 	 */
 	@Override
@@ -130,7 +128,7 @@ public class DataHandlerByJSON implements IDataHandler
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.impl.IDataHandler#saveToData(java.util.Collection, java.util.List)
 	 */
 	@Override
