@@ -3,6 +3,7 @@ package ac.il.technion.twc.impl.tweet;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.json.JSONObject;
 
@@ -103,7 +104,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 	 */
 	public int getTweetedDay()
 	{
-		final Calendar calendar = Calendar.getInstance();
+		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		calendar.setTime(originalDate);
 		return calendar.get(Calendar.DAY_OF_WEEK);
 	}

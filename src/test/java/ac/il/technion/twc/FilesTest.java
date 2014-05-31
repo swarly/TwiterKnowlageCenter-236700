@@ -58,6 +58,7 @@ public class FilesTest
 	}
 
 	// TODO remove before submisssion
+	@Ignore
 	@Test
 	public void testlarge()
 	{

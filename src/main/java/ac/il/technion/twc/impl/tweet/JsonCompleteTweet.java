@@ -27,6 +27,7 @@ public class JsonCompleteTweet extends AbstractTweet implements ICompleteTweet
 
 	public JsonCompleteTweet(JSONObject jsonObject)
 	{
+
 		this.id = jsonObject.getString(ITweet.idName);
 		this.isOriginal = jsonObject.optString(ITweet.originalName).isEmpty();
 		this.originalDate = new Date(jsonObject.getLong(ITweet.timeName));

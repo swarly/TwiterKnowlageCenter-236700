@@ -2,6 +2,8 @@ package ac.il.technion.twc;
 
 import static org.junit.Assert.assertEquals;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -88,6 +90,33 @@ public class QueryTest
 		Mockito.verify(tweet, Mockito.times(2)).getId();
 		Mockito.verify(tweet, Mockito.times(2)).isOriginal();
 		assertEquals(1, $.getAllTweets().size());
+	}
+
+	@Test
+	public void testTweetAndRetweetWithHashTag()
+	{
+		final JSONObject object1 = new JSONObject();
+		object1.put(ITweet.idName, "1");
+		object1.put(ITweet.timeName, System.currentTimeMillis());
+		object1.put(ITweet.liftimeName, 50000);
+		object1.put(ITweet.TEXTName, "bla");
+		final JSONArray ht = new JSONArray();
+		final JSONObject o = new JSONObject();
+		o.put("name", "technion");
+		ht.put(o);
+		object1.put("hashTags", ht);
+		final JSONObject object2 = new JSONObject();
+		object2.put(ITweet.idName, "2");
+		object2.put(ITweet.timeName, System.currentTimeMillis() + 50000);
+		object2.put(ITweet.originalName, "1");
+		object2.put(ITweet.TEXTName, "bla");
+		object2.put(ITweet.liftimeName, 0);
+		object2.put("hashTags", ht);
+		final ITweet tweet1 = TweetFactory.newJsonTweetFrompersistentJson(object1);
+		final ITweet tweet2 = TweetFactory.newJsonTweetFrompersistentJson(object2);
+		$.addAll(Lists.newArrayList(tweet1, tweet2));
+		assertEquals($.getHashtagPopularity("technion"), 1);
+		assertEquals($.getHashtagPopularity("2"), 0);
 	}
 
 }

@@ -100,7 +100,7 @@ public class TweetFactory
 			if (jsonObject.isNull("retweeted_status"))
 				original_id = null;
 			else
-				original_id = String.valueOf(jsonObject.getJSONObject("retweeted_status").getInt("id"));
+				original_id = String.valueOf(jsonObject.getJSONObject("retweeted_status").getLong("id"));
 
 			return new JsonRawTweet(id, parsedDate, original_id, hashTags, text);
 

@@ -35,7 +35,7 @@ public class ReverseTree<K>
 		fatherByChild.put(child, origianlFather);
 
 		K currentFather = father;
-		while (fatherByChild.containsKey(currentFather))
+		while (fatherByChild.containsKey(currentFather) && !fatherByChild.get(currentFather).equals(currentFather))
 		{
 			final K tmp = fatherByChild.get(origianlFather);
 			fatherByChild.put(currentFather, origianlFather);
