@@ -39,7 +39,7 @@ public class TweetFactory
 		return new StringLineCompleteTweet(jsonObject.getString(ITweet.idName), new Date(
 				jsonObject.getLong(ITweet.timeName)), jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject
 				.optString(ITweet.originalName).isEmpty() ? null : jsonObject.optString(ITweet.originalName),
-						jsonObject.getLong(ITweet.liftimeName));
+				jsonObject.getLong(ITweet.liftimeName));
 	}
 
 	public static ITweet newPersistableStringLineTweet(ITweet tweet, long twittLifeTime)
@@ -96,7 +96,7 @@ public class TweetFactory
 			if (jsonObject.isNull("retweeted_status"))
 				original_id = null;
 			else
-				original_id = String.valueOf(jsonObject.getJSONObject("retweeted_status").getInt("id"));
+				original_id = String.valueOf(jsonObject.getJSONObject("retweeted_status").getLong("id"));
 
 			return new JsonRawTweet(id, parsedDate, original_id, hashTags, text);
 

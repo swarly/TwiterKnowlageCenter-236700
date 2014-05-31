@@ -37,7 +37,7 @@ public class QueryRunnerImpl implements QueryRunner
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getHashtagPopularity(ac.il.technion.twc.impl.IHashTag)
 	 */
 	@Override
@@ -47,18 +47,19 @@ public class QueryRunnerImpl implements QueryRunner
 			return 0;
 		int popularity = 0;
 		for (final ITweet tweet : tweetsByHash.get(hashtag))
-			try
-			{
-				popularity += reverseTree.size(tweet);
-			} catch (final UnsupportedOperationException e)
-			{// if tweet is old version it is not supported and will no be counted
-			}
+			if (tweet.isOriginal())
+				try
+		{
+					popularity += reverseTree.size(tweet);
+		} catch (final UnsupportedOperationException e)
+		{// if tweet is old version it is not supported and will no be counted
+		}
 		return popularity;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see ac.il.technion.twc.api.TWCApi.QueryRunner#getLifetimeOfTweets(java.lang.String)
 	 */
 	@Override
