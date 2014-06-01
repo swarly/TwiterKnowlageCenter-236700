@@ -2,22 +2,27 @@ package ac.il.technion.twc.impl;
 
 import org.json.JSONObject;
 
-import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.api.DailyTweetData;
+import ac.il.technion.twc.api.ITweet;
 
-public class DailyTweetData
+/**
+ * @author Arik
+ *
+ */
+public class DailyTweetDataImpl implements DailyTweetData
 {
 	protected int totalTweets;
 	protected int retweeted;
 	protected static String totalTweetsName = "totalTweets";
 	protected static String retweetedName = "retweeted";
 
-	public DailyTweetData()
+	public DailyTweetDataImpl()
 	{
 		this.retweeted = 0;
 		this.totalTweets = 0;
 	}
 
-	public DailyTweetData(int totalTweets, int retweeted)
+	public DailyTweetDataImpl(int totalTweets, int retweeted)
 	{
 		super();
 		if (totalTweets < retweeted)
@@ -26,7 +31,7 @@ public class DailyTweetData
 		this.retweeted = retweeted;
 	}
 
-	public DailyTweetData(JSONObject object)
+	public DailyTweetDataImpl(JSONObject object)
 	{
 
 		super();
@@ -37,11 +42,19 @@ public class DailyTweetData
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ac.il.technion.twc.api.DailyTweetData#getTotalTweets()
+	 */
+	@Override
 	public int getTotalTweets()
 	{
 		return totalTweets;
 	}
 
+	/* (non-Javadoc)
+	 * @see ac.il.technion.twc.api.DailyTweetData#getRetweeted()
+	 */
+	@Override
 	public int getRetweeted()
 	{
 		return retweeted;
@@ -55,6 +68,10 @@ public class DailyTweetData
 		return object;
 	}
 
+	/* (non-Javadoc)
+	 * @see ac.il.technion.twc.api.DailyTweetData#addTweet(ac.il.technion.twc.api.ITweet)
+	 */
+	@Override
 	public void addTweet(ITweet tweet)
 	{
 		this.totalTweets++;
@@ -87,7 +104,7 @@ public class DailyTweetData
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final DailyTweetData other = (DailyTweetData) obj;
+		final DailyTweetDataImpl other = (DailyTweetDataImpl) obj;
 		if (retweeted != other.retweeted)
 			return false;
 		if (totalTweets != other.totalTweets)

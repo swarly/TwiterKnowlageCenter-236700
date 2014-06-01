@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.DailyTweetData;
+import ac.il.technion.twc.api.DailyTweetData;
+import ac.il.technion.twc.impl.DailyTweetDataImpl;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 public class DailyTweetDataTest
@@ -13,7 +14,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testDailyTweetData()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final DailyTweetData $ = new DailyTweetDataImpl();
 		assertEquals(0, $.getRetweeted());
 		assertEquals(0, $.getTotalTweets());
 	}
@@ -21,7 +22,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testAddRetweeted()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final DailyTweetData $ = new DailyTweetDataImpl();
 		$.addTweet(TweetFactory.newTweetFromLine("06/04/2014 11:00:00, 40624256"));
 		assertEquals(1, $.getTotalTweets());
 		$.addTweet(TweetFactory.newTweetFromLine("06/04/2014 11:05:00, 40624257, 40624256"));
@@ -33,7 +34,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testAddOriginalTweet()
 	{
-		final DailyTweetData $ = new DailyTweetData();
+		final DailyTweetData $ = new DailyTweetDataImpl();
 		assertEquals(0, $.getTotalTweets());
 		$.addTweet(TweetFactory.newTweetFromLine("06/04/2014 11:00:00, 40624256"));
 		$.addTweet(TweetFactory.newTweetFromLine("06/04/2014 11:01:00, 40624257,40624256"));
@@ -44,7 +45,7 @@ public class DailyTweetDataTest
 	@Test
 	public void testImutableDailyData()
 	{
-		final DailyTweetData $ = new DailyTweetData(4, 3);
+		final DailyTweetData $ = new DailyTweetDataImpl(4, 3);
 		assertEquals($.getRetweeted(), 3);
 		assertEquals($.getTotalTweets(), 4);
 
@@ -53,6 +54,6 @@ public class DailyTweetDataTest
 	@Test(expected = RuntimeException.class)
 	public void testInconsistentValues()
 	{
-		new DailyTweetData(2, 3);
+		new DailyTweetDataImpl(2, 3);
 	}
 }

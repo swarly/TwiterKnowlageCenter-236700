@@ -1,5 +1,7 @@
 package ac.il.technion.twc.impl;
 
+import ac.il.technion.twc.api.IHashTag;
+
 public class HashTagImpl implements IHashTag
 {
 	private final String hashTag;

@@ -3,6 +3,7 @@ package ac.il.technion.twc;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import ac.il.technion.twc.api.DailyTweetData;
 import ac.il.technion.twc.api.TWCApi;
 import ac.il.technion.twc.api.TWCFactory;
 import ac.il.technion.twc.api.TwitterKnowledgeCenter;
@@ -125,7 +126,11 @@ public class FuntionalityTester
 	 */
 	public String[] getTemporalHistogram(String t1, String t2) throws Exception
 	{
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		int i = 0;
+		final String[] days = new String[7];
+		for (final DailyTweetData day : $.getHistogram().getTemporalHistogram(t1, t2))
+			days[i++] = day.toString();
+		return days;
 	}
 
 	/**

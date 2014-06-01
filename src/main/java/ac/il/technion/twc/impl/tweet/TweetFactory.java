@@ -8,8 +8,9 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.impl.HashTagImpl;
-import ac.il.technion.twc.impl.IHashTag;
 import ac.il.technion.twc.twitter.Extractor;
 
 import com.google.common.collect.Lists;

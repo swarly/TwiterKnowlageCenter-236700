@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 public class TweetTest
@@ -24,7 +24,7 @@ public class TweetTest
 		final Calendar now = Calendar.getInstance();
 		now.setTime(date);
 		final Calendar recievedDate = Calendar.getInstance();
-		recievedDate.setTime(tweet.getOriginalDate());
+		recievedDate.setTime(tweet.getTweetedDate());
 
 		assertEquals(now.get(Calendar.YEAR), recievedDate.get(Calendar.YEAR));
 		assertEquals(now.get(Calendar.MONTH), recievedDate.get(Calendar.MONTH));

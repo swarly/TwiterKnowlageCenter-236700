@@ -6,7 +6,8 @@ import java.util.Collection;
 
 import org.json.JSONObject;
 
-import ac.il.technion.twc.impl.IHashTag;
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.TweetType;
 
 public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 {

@@ -8,11 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import ac.il.technion.twc.impl.IHashTag;
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 import ac.il.technion.twc.impl.QueryRunnerImpl;
-import ac.il.technion.twc.impl.tweet.ITweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
-import ac.il.technion.twc.impl.tweet.TweetType;
 
 import com.google.common.collect.Lists;
 

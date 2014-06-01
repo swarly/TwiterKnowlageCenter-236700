@@ -12,8 +12,9 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import ac.il.technion.twc.impl.tweet.ITweet;
-import ac.il.technion.twc.impl.tweet.TweetType;
+import ac.il.technion.twc.api.IDataHandler;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
@@ -100,15 +101,15 @@ public class DataHandlerByJSON implements IDataHandler
 	 * @see ac.il.technion.twc.impl.IDataHandler#getHistogramFromFile()
 	 */
 	@Override
-	public List<DailyTweetData> getHistogramFromFile()
+	public List<DailyTweetDataImpl> getHistogramFromFile()
 	{
-		final List<DailyTweetData> histogram = new ArrayList<DailyTweetData>();
+		final List<DailyTweetDataImpl> histogram = new ArrayList<DailyTweetDataImpl>();
 		if (fileContent.isEmpty())
 			return getEmptyHistogram(histogram);
 		final JSONObject jsonObject = new JSONObject(fileContent);
 		final JSONArray tweetArray = jsonObject.getJSONArray(HISTOGRAM);
 		for (int i = 0; i < tweetArray.length(); i++)
-			histogram.add(new DailyTweetData(tweetArray.getJSONObject(i)));
+			histogram.add(new DailyTweetDataImpl(tweetArray.getJSONObject(i)));
 		return histogram;
 	}
 
@@ -119,10 +120,10 @@ public class DataHandlerByJSON implements IDataHandler
 	 *            histogram to clear
 	 * @return
 	 */
-	private List<DailyTweetData> getEmptyHistogram(List<DailyTweetData> histogram2)
+	private List<DailyTweetDataImpl> getEmptyHistogram(List<DailyTweetDataImpl> histogram2)
 	{
 		for (int i = 0; i < 8; i++)
-			histogram2.add(new DailyTweetData());
+			histogram2.add(new DailyTweetDataImpl());
 		return histogram2;
 	}
 
@@ -132,7 +133,7 @@ public class DataHandlerByJSON implements IDataHandler
 	 * @see ac.il.technion.twc.impl.IDataHandler#saveToData(java.util.Collection, java.util.List)
 	 */
 	@Override
-	public void saveToData(Collection<ITweet> tweets, List<DailyTweetData> histogram) throws IOException
+	public void saveToData(Collection<ITweet> tweets, List<DailyTweetDataImpl> histogram) throws IOException
 	{
 		clearData();
 		myFile.getParentFile().mkdirs();
@@ -140,7 +141,7 @@ public class DataHandlerByJSON implements IDataHandler
 		final JSONObject result = new JSONObject();
 		final JSONArray jsonHistogram = new JSONArray();
 		if (histogram != null)
-			for (final DailyTweetData dailyTweetData : histogram)
+			for (final DailyTweetDataImpl dailyTweetData : histogram)
 				jsonHistogram.put(dailyTweetData.toJson());
 		result.put(HISTOGRAM, jsonHistogram);
 		final JSONArray jsonTweets = new JSONArray();

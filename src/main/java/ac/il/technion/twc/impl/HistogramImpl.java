@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.api.TWCApi.IHistogram;
-import ac.il.technion.twc.impl.tweet.ITweet;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 import com.google.common.collect.BoundType;
@@ -21,14 +21,14 @@ public class HistogramImpl implements IHistogram
 {
 
 	private final SortedMultiset<ITweet> sortedMultiset;
-	private final List<DailyTweetData> weekHistogram;
+	private final List<DailyTweetDataImpl> weekHistogram;
 
 	public HistogramImpl()
 	{
 		sortedMultiset = TreeMultiset.create();
 		weekHistogram = Lists.newArrayListWithCapacity(8);
 		for (int i = 0; i < 8; i++)
-			weekHistogram.add(new DailyTweetData());
+			weekHistogram.add(new DailyTweetDataImpl());
 	}
 
 	public void addTweet(ITweet tweet)
@@ -79,13 +79,13 @@ public class HistogramImpl implements IHistogram
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.util.Date, java.util.Date)
 	 */
 	@Override
-	public Collection<DailyTweetData> getTemporalHistogram(Date from, Date to)
+	public Collection<DailyTweetDataImpl> getTemporalHistogram(Date from, Date to)
 	{
 		final ITweet lower = TweetFactory.newCompareAbleDummy(from);
 		final ITweet upper = TweetFactory.newCompareAbleDummy(to);
-		final DailyTweetData[] tweets = new DailyTweetData[8];
+		final DailyTweetDataImpl[] tweets = new DailyTweetDataImpl[8];
 		for (int i = 0; i < tweets.length; i++)
-			tweets[i] = new DailyTweetData();
+			tweets[i] = new DailyTweetDataImpl();
 		for (final ITweet tweet : sortedMultiset.subMultiset(lower, BoundType.CLOSED, upper, BoundType.CLOSED))
 			tweets[tweet.getTweetedDay()].addTweet(tweet);
 
@@ -98,7 +98,7 @@ public class HistogramImpl implements IHistogram
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Collection<DailyTweetData> getTemporalHistogram(String t1, String t2)
+	public Collection<DailyTweetDataImpl> getTemporalHistogram(String t1, String t2)
 	{
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		try

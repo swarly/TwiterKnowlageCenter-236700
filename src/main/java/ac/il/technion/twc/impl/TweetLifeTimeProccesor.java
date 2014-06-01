@@ -2,7 +2,7 @@ package ac.il.technion.twc.impl;
 
 import java.util.Collection;
 
-import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.api.ITweet;
 
 public interface TweetLifeTimeProccesor
 {

@@ -4,9 +4,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 import ac.il.technion.twc.api.TWCApi.QueryRunner;
-import ac.il.technion.twc.impl.tweet.ITweet;
-import ac.il.technion.twc.impl.tweet.TweetType;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;

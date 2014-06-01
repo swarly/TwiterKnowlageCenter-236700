@@ -5,7 +5,9 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-import ac.il.technion.twc.impl.IHashTag;
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 
 public class StringLineCompleteTweet extends AbstractTweet implements ICompleteTweet
 {
@@ -19,7 +21,7 @@ public class StringLineCompleteTweet extends AbstractTweet implements ICompleteT
 		super();
 		this.lifeTime = lifeTime;
 		this.id = tweet.getId();
-		this.originalDate = tweet.getOriginalDate();
+		this.originalDate = tweet.getTweetedDate();
 		this.isOriginal = tweet.isOriginal();
 		this.originalTweetID = tweet.getOriginalTweetID();
 		this.tweetType = TweetType.TypeStringLine;

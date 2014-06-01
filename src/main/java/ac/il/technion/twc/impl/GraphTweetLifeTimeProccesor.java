@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.api.ITweet;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
@@ -46,13 +46,13 @@ public class GraphTweetLifeTimeProccesor implements TweetLifeTimeProccesor
 	{
 		if (!map.containsKey(tweetid))
 			return 0;
-		return getLatestRetweetedTime(idToTweet.get(tweetid)) - idToTweet.get(tweetid).getOriginalDate().getTime();
+		return getLatestRetweetedTime(idToTweet.get(tweetid)) - idToTweet.get(tweetid).getTweetedDate().getTime();
 	}
 
 	private long getLatestRetweetedTime(ITweet tweet)
 	{
 		if (!map.containsKey(tweet.getId()))
-			return tweet.getOriginalDate().getTime();
+			return tweet.getTweetedDate().getTime();
 		final Collection<ITweet> childs = map.get(tweet.getId());
 
 		final ITweet max = Collections.max(childs, new Comparator<ITweet>()

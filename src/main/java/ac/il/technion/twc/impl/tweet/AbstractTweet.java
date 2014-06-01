@@ -7,7 +7,9 @@ import java.util.TimeZone;
 
 import org.json.JSONObject;
 
-import ac.il.technion.twc.impl.IHashTag;
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 
 public abstract class AbstractTweet implements Comparable<ITweet>
 {
@@ -23,7 +25,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 	@Override
 	public int compareTo(ITweet o)
 	{
-		return originalDate.compareTo(o.getOriginalDate());
+		return originalDate.compareTo(o.getTweetedDate());
 	}
 
 	protected String originalTweetID;
@@ -49,7 +51,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 		final JSONObject object = new JSONObject();
 		object.put(ITweet.idName, getId());
 		object.put("isOriginal", isOriginal());
-		object.put(ITweet.timeName, getOriginalDate().getTime());
+		object.put(ITweet.timeName, getTweetedDate().getTime());
 		object.put(ITweet.originalName, getOriginalTweetID());
 		object.put(ITweet.liftimeName, getLifeTime());
 		object.put(ITweet.TWEET_TYPE, getType().ordinal());
@@ -72,7 +74,7 @@ public abstract class AbstractTweet implements Comparable<ITweet>
 	 *
 	 * @see ac.il.technion.twc.Tweet#getOriginalDate()
 	 */
-	public Date getOriginalDate()
+	public Date getTweetedDate()
 	{
 		return originalDate;
 	}

@@ -7,8 +7,10 @@ import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ac.il.technion.twc.api.IHashTag;
+import ac.il.technion.twc.api.ITweet;
+import ac.il.technion.twc.api.TweetType;
 import ac.il.technion.twc.impl.HashTagImpl;
-import ac.il.technion.twc.impl.IHashTag;
 
 import com.google.common.collect.Lists;
 
@@ -46,7 +48,7 @@ public class JsonCompleteTweet extends AbstractTweet implements ICompleteTweet
 		this.id = tweet.getId();
 		this.hashTags = Lists.newArrayList(tweet.getHashTags());
 		this.isOriginal = tweet.isOriginal();
-		this.originalDate = tweet.getOriginalDate();
+		this.originalDate = tweet.getTweetedDate();
 		this.originalTweetID = tweet.getOriginalTweetID();
 		this.lifetime = lifeTime;
 		this.text = tweet.getText();

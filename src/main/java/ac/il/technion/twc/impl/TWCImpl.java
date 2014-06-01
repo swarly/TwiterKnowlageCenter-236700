@@ -7,8 +7,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import ac.il.technion.twc.api.IDataHandler;
+import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.api.TWCApi;
-import ac.il.technion.twc.impl.tweet.ITweet;
+import ac.il.technion.twc.api.TWCApi.IHistogram;
+import ac.il.technion.twc.api.TWCApi.QueryRunner;
 import ac.il.technion.twc.impl.tweet.TweetFactory;
 
 import com.google.common.collect.Lists;
@@ -46,7 +49,7 @@ public class TWCImpl implements TWCApi
 		{
 			if (!tweet.isOriginal()
 					&& tmpTweets.containsKey(tweet.getOriginalTweetID())
-					&& tmpTweets.get(tweet.getOriginalTweetID()).getOriginalDate().getTime() >= tweet.getOriginalDate()
+					&& tmpTweets.get(tweet.getOriginalTweetID()).getTweetedDate().getTime() >= tweet.getTweetedDate()
 							.getTime())
 				throw new IllegalArgumentException("do you have a time machine because retweet is before twitt");
 			finalTweets.add(tweet.getType().getpersistableTweet(tweet,
