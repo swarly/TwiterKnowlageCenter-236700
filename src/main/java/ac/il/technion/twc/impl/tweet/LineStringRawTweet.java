@@ -3,6 +3,7 @@ package ac.il.technion.twc.impl.tweet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
@@ -16,7 +17,7 @@ public class LineStringRawTweet extends AbstractTweet implements IRawTweet
 	{
 		super();
 		final String[] args = line.split(",");
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
 		try
 		{
 

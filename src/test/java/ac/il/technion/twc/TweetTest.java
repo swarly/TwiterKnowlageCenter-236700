@@ -42,17 +42,6 @@ public class TweetTest
 	}
 
 	@Test
-	public void testGetTweetedDay()
-	{
-		final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.set(Calendar.DAY_OF_WEEK, 1);
-		final ITweet tweet = TweetFactory.newTweetFromLine(format.format(calendar.getTime()) + ", 123");
-		assertEquals(tweet.getTweetedDay(), 1);
-	}
-
-	@Test
 	public void testToJsonBasic()
 	{
 		final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");

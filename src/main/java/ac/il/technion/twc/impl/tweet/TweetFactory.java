@@ -5,13 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
 import ac.il.technion.twc.api.IHashTag;
 import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.impl.HashTagImpl;
-import ac.il.technion.twc.twitter.Extractor;
 
 import com.google.common.collect.Lists;
 
@@ -31,7 +31,7 @@ public class TweetFactory
 
 	/**
 	 * use for creating tweet from the Json dataHandler
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 */
@@ -40,7 +40,7 @@ public class TweetFactory
 		return new StringLineCompleteTweet(jsonObject.getString(ITweet.idName), new Date(
 				jsonObject.getLong(ITweet.timeName)), jsonObject.optString(ITweet.originalName).isEmpty(), jsonObject
 				.optString(ITweet.originalName).isEmpty() ? null : jsonObject.optString(ITweet.originalName),
-				jsonObject.getLong(ITweet.liftimeName));
+						jsonObject.getLong(ITweet.liftimeName));
 	}
 
 	public static ITweet newPersistableStringLineTweet(ITweet tweet, long twittLifeTime)
@@ -79,7 +79,7 @@ public class TweetFactory
 
 	/**
 	 * use for importing tweet from Tweeter Json format
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 * @throws ParseException
@@ -88,7 +88,7 @@ public class TweetFactory
 	{
 		final String dateString = jsonObject.getString("created_at");
 
-		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
 		final Date parsedDate;
 		try
 		{

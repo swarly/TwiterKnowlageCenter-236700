@@ -1,6 +1,6 @@
-package ac.il.technion.twc.twitter;
+package ac.il.technion.twc.impl.tweet;
 
-import ac.il.technion.twc.twitter.Extractor.Entity;
+import ac.il.technion.twc.impl.tweet.Extractor.Entity;
 
 import java.util.LinkedHashMap;
 import java.util.List;

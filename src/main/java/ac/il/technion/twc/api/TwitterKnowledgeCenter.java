@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -142,7 +143,7 @@ public class TwitterKnowledgeCenter
 	 */
 	public String[] getTemporalHistogram(String t1, String t2) throws ParseException
 	{
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
 		return getTemporalHistogram(dateFormat.parse(t1), dateFormat.parse(t2));
 
 	}

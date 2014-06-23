@@ -1,4 +1,4 @@
-package ac.il.technion.twc.twitter;
+package ac.il.technion.twc.impl.tweet;
 
 import java.util.regex.Pattern;
 

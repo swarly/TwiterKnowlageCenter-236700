@@ -97,7 +97,7 @@ public class DataHandlerByJSON implements IDataHandler
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.impl.IDataHandler#getHistogramFromFile()
 	 */
 	@Override
@@ -129,7 +129,7 @@ public class DataHandlerByJSON implements IDataHandler
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.impl.IDataHandler#saveToData(java.util.Collection, java.util.List)
 	 */
 	@Override
@@ -149,7 +149,6 @@ public class DataHandlerByJSON implements IDataHandler
 			jsonTweets.put(currTweet.toJson());
 		result.put(TWEETS, jsonTweets);
 		Files.write(result.toString(), myFile, Charsets.UTF_8);
-		fileContent = result.toString();
 	}
 
 	@Override

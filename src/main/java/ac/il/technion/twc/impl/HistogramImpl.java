@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ac.il.technion.twc.api.ITweet;
 import ac.il.technion.twc.api.TWCApi.IHistogram;
@@ -46,7 +47,7 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogramAsString()
 	 */
 	@Override
@@ -61,7 +62,7 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getHistogram()
 	 */
 	@Override
@@ -75,7 +76,7 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.util.Date, java.util.Date)
 	 */
 	@Override
@@ -94,13 +95,13 @@ public class HistogramImpl implements IHistogram
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see ac.il.technion.twc.api.TWCApi.IHistogram#getTemporalHistogram(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Collection<DailyTweetDataImpl> getTemporalHistogram(String t1, String t2)
 	{
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
 		try
 		{
 			return getTemporalHistogram(dateFormat.parse(t1), dateFormat.parse(t2));
